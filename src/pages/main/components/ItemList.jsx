@@ -9,7 +9,6 @@ export const ItemList = ({items, onAddItem, onDeleteItem}) => {
   const [newItemCount, setNewItemCount] = useState(1);
   const [newItemChecked, setNewItemChecked] = useState(false);
   const [newItemCategory, setNewItemCategory] = useState(0);
-  const [showSortModal, setShowSortModal] = useState(false);
   const [sortType, setSortType] = useState('default'); // 'default' or 'category'
 
   const handleAddClick = () => {
@@ -47,7 +46,6 @@ export const ItemList = ({items, onAddItem, onDeleteItem}) => {
 
   const handleSortChange = (type) => {
     setSortType(type);
-    setShowSortModal(false);
   };
 
   // 카테고리별로 그룹화 (원본 인덱스 포함)
@@ -69,26 +67,20 @@ export const ItemList = ({items, onAddItem, onDeleteItem}) => {
     <div className='itemList'>
       <div className='listHeader'>
         <p className='itemName'>장보기 리스트</p>
-        <button className='sortButton' onClick={() => setShowSortModal(!showSortModal)}>
-          ⚙
-        </button>
-        
-        {showSortModal && (
-          <div className='sortModal'>
-            <button 
-              className={`sortOption ${sortType === 'default' ? 'active' : ''}`}
-              onClick={() => handleSortChange('default')}
-            >
-              기본
-            </button>
-            <button 
-              className={`sortOption ${sortType === 'category' ? 'active' : ''}`}
-              onClick={() => handleSortChange('category')}
-            >
-              카테고리
-            </button>
-          </div>
-        )}
+        <div className='sortToggle' data-active={sortType}>
+          <button 
+            className={`sortOption ${sortType === 'default' ? 'active' : ''}`}
+            onClick={() => handleSortChange('default')}
+          >
+            기본
+          </button>
+          <button 
+            className={`sortOption ${sortType === 'category' ? 'active' : ''}`}
+            onClick={() => handleSortChange('category')}
+          >
+            카테고리
+          </button>
+        </div>
       </div>
       <hr/>
       
