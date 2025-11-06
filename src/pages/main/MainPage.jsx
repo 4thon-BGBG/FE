@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ItemList } from './components/ItemList'
+import { AddListButton } from './components/AddListButton'
 import './MainPage.scss'
 
 // 카테고리 목록
@@ -58,6 +59,12 @@ export const MainPage = () => {
     };
     setAllLists(updatedLists);
   };
+
+  // 새 리스트 추가 함수
+  const handleAddList = () => {
+    const newList = [];
+    setAllLists([...allLists, newList]);
+  };
   
   return (
     <div className='mainPage'>
@@ -71,6 +78,7 @@ export const MainPage = () => {
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
           />
         ))}
+        <AddListButton onAddList={handleAddList} />
       </div>
     </div>
   )
