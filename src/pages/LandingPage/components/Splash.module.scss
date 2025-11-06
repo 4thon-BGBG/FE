@@ -1,0 +1,8 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.container {
+  @include flex();
+  height: 100dvh;
+  background-color: $color-primary;
+}
