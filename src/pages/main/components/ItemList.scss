@@ -1,12 +1,103 @@
 .itemList{
   border-radius: 10px;
   background-color: white;
-  padding: 0 1rem;
+  padding: 1rem;
   margin-bottom: 1rem;
 }
 .itemName{
   padding:1rem;
 }
 .item{
-  padding: 0.5rem 1rem ;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.deleteButton {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #cc0000;
+}
+
+.addItemForm {
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.itemNameInput,
+.itemCountInput {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.itemCountInput {
+  width: 100px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.formButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.submitButton,
+.cancelButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.submitButton {
+  background-color: #F56E00;
+  color: white;
+}
+
+.submitButton:hover {
+  background-color: #d45f00;
+}
+
+.cancelButton {
+  background-color: #ddd;
+  color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #ccc;
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ItemList } from './components/ItemList'
 import './MainPage.scss'
 export const MainPage = () => {
@@ -18,14 +18,33 @@ export const MainPage = () => {
   ];
   
   // 리스트들을 배열로 관리 (통신으로 받아올 때 이 배열의 길이가 동적으로 변함)
-  const allLists = [dummyList, dummyList2];
+  const [allLists, setAllLists] = useState([dummyList, dummyList2]);
+  
+  // 특정 리스트에 아이템 추가하는 함수
+  const handleAddItem = (listIndex, newItem) => {
+    const updatedLists = [...allLists];
+    updatedLists[listIndex] = [...updatedLists[listIndex], newItem];
+    setAllLists(updatedLists);
+  };
+
+  // 특정 리스트의 아이템 삭제하는 함수
+  const handleDeleteItem = (listIndex, itemIndex) => {
+    const updatedLists = [...allLists];
+    updatedLists[listIndex] = updatedLists[listIndex].filter((_, index) => index !== itemIndex);
+    setAllLists(updatedLists);
+  };
   
   return (
     <div className='mainPage'>
       <div className='listItem'>
         {allLists.map((list, index) => (
-        <ItemList key={index} items={list} />
-      ))}
+          <ItemList 
+            key={index} 
+            items={list} 
+            onAddItem={(newItem) => handleAddItem(index, newItem)}
+            onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
+          />
+        ))}
       </div>
     </div>
   )
