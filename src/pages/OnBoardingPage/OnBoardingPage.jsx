@@ -4,43 +4,51 @@ import { useNavigate } from 'react-router-dom';
 import { onBoarding1, onBoarding2 } from '@/assets';
 import styles from './OnBoardingPage.module.scss';
 import { useState } from 'react';
+import { useSplash } from '@/hooks/useSplash';
 
 export const OnBoardingPage = () => {
   const [step, setStep] = useState(0);
   const nav = useNavigate();
+  const { isSplash, handleSplash } = useSplash();
 
   return (
-    <div className={styles.container}>
-      {/* <Splash /> */}
-      <div className={styles.content}>
-        <div className={styles.img}>
-          <img src={onBoardingItem[step].img} alt="onBoardingImg" />
+    <>
+      {!isSplash && <Splash closeFn={handleSplash} />}
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <div className={styles.img}>
+            <img src={onBoardingItem[step].img} alt="onBoardingImg" />
+          </div>
+          <div className={styles.caption}>{onBoardingItem[step].caption}</div>
+          {/* 점 인디케이터 */}
+          <div className={styles.dots}>
+            {onBoardingItem.map((_, index) => (
+              <div
+                key={index}
+                // 현재 페이지와 인덱스가 같으면 'active' 클래스 추가
+                className={`${styles.dot} ${
+                  index === step ? styles.active : ''
+                }`}
+              ></div>
+            ))}
+          </div>
         </div>
-        <div className={styles.caption}>{onBoardingItem[step].caption}</div>
-        {/* 점 인디케이터 */}
-        <div className={styles.dots}>
-          {onBoardingItem.map((_, index) => (
-            <div
-              key={index}
-              // 현재 페이지와 인덱스가 같으면 'active' 클래스 추가
-              className={`${styles.dot} ${index === step ? styles.active : ''}`}
-            ></div>
-          ))}
-        </div>
-      </div>
 
-      <Button
-        text={step + 1 !== onBoardingItem.length ? '다음' : '바구바구 시작하기'}
-        isActive={true}
-        onClick={
-          step + 1 !== onBoardingItem.length
-            ? () => setStep((prev) => prev + 1)
-            : () => {
-                nav('/');
-              }
-        }
-      />
-    </div>
+        <Button
+          text={
+            step + 1 !== onBoardingItem.length ? '다음' : '바구바구 시작하기'
+          }
+          isActive={true}
+          onClick={
+            step + 1 !== onBoardingItem.length
+              ? () => setStep((prev) => prev + 1)
+              : () => {
+                  nav('/');
+                }
+          }
+        />
+      </div>
+    </>
   );
 };
 
