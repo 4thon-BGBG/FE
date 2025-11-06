@@ -5,7 +5,7 @@ export const Button = ({ text = 'button', onClick, isActive = false }) => {
     <button
       className={styles.container}
       style={{
-        border: `${isActive ? '1.5px' : '2px'} solid #F56E00 inset`,
+        border: `${isActive ? '1.5px' : '2px'} solid #F56E00`,
         color: isActive ? 'white' : '#F56E00',
         backgroundColor: isActive ? '#F56E00' : 'white',
       }}
