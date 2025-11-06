@@ -48,6 +48,16 @@ export const MainPage = () => {
     updatedLists[listIndex] = updatedLists[listIndex].filter((_, index) => index !== itemIndex);
     setAllLists(updatedLists);
   };
+
+  // 특정 리스트의 아이템 체크 상태 토글 함수
+  const handleToggleCheck = (listIndex, itemIndex) => {
+    const updatedLists = [...allLists];
+    updatedLists[listIndex][itemIndex] = {
+      ...updatedLists[listIndex][itemIndex],
+      isChecked: !updatedLists[listIndex][itemIndex].isChecked
+    };
+    setAllLists(updatedLists);
+  };
   
   return (
     <div className='mainPage'>
@@ -58,6 +68,7 @@ export const MainPage = () => {
             items={list} 
             onAddItem={(newItem) => handleAddItem(index, newItem)}
             onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
+            onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
           />
         ))}
       </div>

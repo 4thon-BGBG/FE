@@ -3,7 +3,7 @@ import "./ItemList.scss"
 import { AddButton } from './AddButton'
 import { CATEGORIES } from '../MainPage'
 
-export const ItemList = ({items, onAddItem, onDeleteItem}) => {
+export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
   const [isAdding, setIsAdding] = useState(false);
   const [newItemName, setNewItemName] = useState('');
   const [newItemCount, setNewItemCount] = useState(1);
@@ -89,7 +89,11 @@ export const ItemList = ({items, onAddItem, onDeleteItem}) => {
         items.map((item, index) => (
           <div key={index} className="item">
             <div className="itemContent">
-              <input type="checkbox" checked={item.isChecked} readOnly />
+              <input 
+                type="checkbox" 
+                checked={item.isChecked} 
+                onChange={() => onToggleCheck(index)}
+              />
               <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
               <span className="count"> {item.count}</span>
             </div>
@@ -108,7 +112,11 @@ export const ItemList = ({items, onAddItem, onDeleteItem}) => {
               {groupedItems[categoryIndex].map((item, itemIndex) => (
                 <div key={`${categoryIndex}-${itemIndex}`} className="item">
                   <div className="itemContent">
-                    <input type="checkbox" checked={item.isChecked} readOnly />
+                    <input 
+                      type="checkbox" 
+                      checked={item.isChecked}
+                      onChange={() => onToggleCheck(item.originalIndex)}
+                    />
                     <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
                     <span className="count"> {item.count}</span>
                   </div>
@@ -157,7 +165,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem}) => {
             <button onClick={handleSubmit} className="submitButton">추가</button>
             <button onClick={handleCancel} className="cancelButton">취소</button>
           </div>
-        </div>
+    </div>
       ) : (
         <AddButton onAddItem={handleAddClick}/>
       )}
