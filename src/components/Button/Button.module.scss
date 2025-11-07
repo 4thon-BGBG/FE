@@ -1,0 +1,16 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.container {
+  @include flex();
+  width: 100%;
+  padding: 17px 0;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 10px;
+
+  cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
