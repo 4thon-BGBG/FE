@@ -12,7 +12,7 @@ export const LoginPage = () => {
     handleSubmit,
     formState: { isValid, errors },
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -36,7 +36,7 @@ export const LoginPage = () => {
               placeholder="아이디를 입력해주세요."
               type="text"
               {...register('id', {
-                required: '* 필수 입력 사항입니다.',
+                required: '필수 입력 사항입니다.',
               })}
             />
             {errors.id && (
@@ -51,7 +51,7 @@ export const LoginPage = () => {
                 placeholder="비밀번호를 입력해주세요."
                 type={showPassword ? 'text' : 'password'}
                 {...register('password', {
-                  required: '* 필수 입력 사항입니다.',
+                  required: '필수 입력 사항입니다.',
                 })}
               />
               <img
