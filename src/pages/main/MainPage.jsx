@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ItemList } from './components/ItemList'
 import { AddListButton } from './components/AddListButton'
 import './MainPage.scss'
+import { AddItems } from './components/AddItems';
 
 // 카테고리 목록
 export const CATEGORIES = [
@@ -32,9 +33,22 @@ export const MainPage = () => {
     {name: "냉동 만두", count : 2, isChecked: true, categoryIndex: 6},
     {name: "양배추", count : 1, isChecked: true, categoryIndex: 0},
   ];
+
+  // 소진된 아이템 관리
+  // TODO: 실제 통신으로 소진된 아이템 정보를 받아올 예정
+  // API 예시: GET /api/exhausted-items
+  // 응답 예시: { name: "귀리햇반", count: 1, categoryIndex: 7, isChecked: false }
+  
+  // 테스트용 - 실제로는 통신에서 받아올 데이터
+  // 테스트하려면 아래 null을 주석 처리하고 그 아래 줄의 주석을 해제하세요
+  //const [exhaustedItem, setExhaustedItem] = useState(null);
+  const [exhaustedItem, setExhaustedItem] = useState({ name: "귀리햇반", count: 1, categoryIndex: 7, isChecked: false });
   
   // 리스트들을 배열로 관리 (통신으로 받아올 때 이 배열의 길이가 동적으로 변함)
   const [allLists, setAllLists] = useState([dummyList, dummyList2]);
+  
+  // 각 리스트의 이름 (실제로는 서버에서 받아올 데이터)
+  const listNames = allLists.map((_, index) => `장보기 리스트 ${index + 1}`);
   
   // 특정 리스트에 아이템 추가하는 함수
   const handleAddItem = (listIndex, newItem) => {
@@ -65,6 +79,27 @@ export const MainPage = () => {
     const newList = [];
     setAllLists([...allLists, newList]);
   };
+
+  // 소진된 아이템을 선택한 리스트에 추가
+  const handleAddExhaustedItem = (listIndex, item) => {
+    const updatedLists = [...allLists];
+    updatedLists[listIndex] = [...updatedLists[listIndex], item];
+    setAllLists(updatedLists);
+    setExhaustedItem(null); // 모달 닫기
+    
+    // TODO: 서버에 소진된 아이템을 리스트에 추가했다고 알림
+    // API 예시: POST /api/lists/${listIndex}/items
+    // body: { itemId: item.id, action: 'add_exhausted' }
+  };
+
+  // 소진된 아이템 추가 모달 닫기
+  const handleCancelExhaustedItem = () => {
+    setExhaustedItem(null);
+    
+    // TODO: 서버에 소진된 아이템 알림을 무시했다고 알림
+    // API 예시: POST /api/exhausted-items/dismiss
+    // body: { itemId: item.id }
+  };
   
   return (
     <div className='mainPage'>
@@ -77,9 +112,20 @@ export const MainPage = () => {
             onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
           />
-        ))}
-        <AddListButton onAddList={handleAddList} />
+          ))}
+          <AddListButton onAddList={handleAddList} />
+          
+          {/* 소진된 아이템이 있을 때 카드 표시 */}
+          {/* TODO: 실제 통신 연결 시 exhaustedItem 상태가 API 응답으로 설정됨 */}
+          {exhaustedItem && (
+            <AddItems 
+              exhaustedItem={exhaustedItem}
+              listNames={listNames}
+              onAddToList={handleAddExhaustedItem}
+              onCancel={handleCancelExhaustedItem}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }

@@ -1,0 +1,96 @@
+.addItemsCard {
+  background-color: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modalTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.itemName {
+  color: #F56E00;
+  font-weight: 700;
+}
+
+.listSelector {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.listSelector label {
+  font-size: 0.9rem;
+  color: #666;
+  white-space: nowrap;
+}
+
+.listSelector select {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: white;
+}
+
+.refreshButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.3rem;
+  transition: transform 0.2s;
+}
+
+.refreshButton:hover {
+  transform: rotate(180deg);
+}
+
+.modalButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.cancelButton,
+.confirmButton {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+}
+
+.cancelButton {
+  background-color: #999;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #777;
+}
+
+.confirmButton {
+  background-color: #F56E00;
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #d45f00;
+}
+
