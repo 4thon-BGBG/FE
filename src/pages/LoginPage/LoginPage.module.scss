@@ -1,0 +1,76 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.container {
+  @include flex(column, $justify-content: flex-start);
+  width: 100%;
+  padding: 0 16px;
+
+  .header {
+    color: $color-black;
+    font-size: $font-size-title1;
+    font-weight: $font-weight-semibold;
+    padding-top: 85px;
+    padding-bottom: 20px;
+  }
+
+  .formContainer {
+    @include flex(column, $gap: 84px);
+    width: 100%;
+    .inputContent {
+      @include flex(column, $gap: 25px);
+      width: 100%;
+      .inputField {
+        @include flex(column, flex-start, $gap: 10px);
+        position: relative;
+        width: 100%;
+        color: $color-black;
+        font-size: $font-size-headline;
+        label {
+        }
+        input {
+          @include flex();
+          width: 100%;
+          border-radius: 10px;
+          padding: 18px 22px;
+          background-color: $color-gray3;
+          border: none;
+          &::placeholder {
+            color: $color-gray1;
+          }
+          &:focus {
+            outline: none;
+          }
+        }
+        .passwordContainer {
+          position: relative;
+          width: 100%;
+          img {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+        .error {
+          position: absolute;
+          bottom: -16px;
+          color: rgb(210, 0, 0);
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .registerButton {
+    @include flex($gap: 10px);
+    padding-top: 28px;
+    width: 100%;
+    color: $color-black;
+    font-size: rem(14px);
+    font-weight: $font-weight-medium;
+    a {
+      @include hoverEvent(0.8);
+      color: $color-primary;
+    }
+  }
+}
