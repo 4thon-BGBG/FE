@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './InventoryPage.module.scss';
 import { blankBubble, glasses } from '@/assets';
 import { Button } from '@/components/Button/Button';
@@ -27,6 +27,34 @@ export const InventoryPage = () => {
   useEffect(() => {
     setAllItems(inventoryData);
   }, []);
+
+  const processedList = useMemo(() => {
+    const filteredItems = allItems
+      .filter((item) => {
+        // 카테고리 필터
+        return selectCategory === '전체'
+          ? true
+          : item.category === selectCategory;
+      })
+      .filter((item) => {
+        // 검색어 필터
+        return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+      });
+
+    // 사본 만들어서 작업
+    const sortedItems = [...filteredItems];
+
+    // 정렬
+    if (sortBy === '등록순') {
+      sortedItems.sort((a, b) => b.id - a.id);
+    } else if (sortBy === '이름순') {
+      sortedItems.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === '재고순') {
+      sortedItems.sort((a, b) => b.count - a.count);
+    }
+
+    return sortedItems;
+  }, [allItems, selectCategory, searchTerm, sortBy]);
 
   return (
     <div className={styles.container}>
@@ -69,7 +97,7 @@ export const InventoryPage = () => {
               <option value="재고순">재고순</option>
             </select>
           </div>
-          {allItems.length === 0 ? (
+          {processedList.length === 0 ? (
             <div className={styles.blankBox}>
               <img src={blankBubble} />
               <span>
@@ -78,7 +106,7 @@ export const InventoryPage = () => {
             </div>
           ) : (
             <div className={styles.itemList}>
-              {allItems.map((item, index) => (
+              {processedList.map((item, index) => (
                 <div key={index} className={styles.itemRow} onClick={() => {}}>
                   <span className={styles.itemName}>{item.name}</span>
                   <span className={styles.itemCount}>{item.count}개</span>
