@@ -1,0 +1,144 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.container {
+  @include flex(column, flex-start, flex-start);
+  width: 100%;
+  height: 100dvh;
+  padding-top: 19px;
+
+  .header {
+    @include flex();
+    position: relative;
+    width: 100%;
+    padding: 0 25px 14px 25px;
+    border-bottom: 1px solid $color-gray2;
+    .searchBar {
+      position: relative;
+      width: 100%;
+      img {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .searchInput {
+        width: 100%;
+        padding: 14px 10px 14px 45px;
+        background-color: $color-gray3;
+        border: none;
+        border-radius: 7px;
+        font-size: $font-size-headline;
+        color: $color-black;
+        &:focus {
+          outline: none;
+        }
+        &::placeholder {
+          color: $color-gray1;
+        }
+      }
+    }
+  }
+
+  .content {
+    @include flex();
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    .categoryList {
+      @include flex(column, flex-start, flex-start, 12px);
+      max-width: 140px;
+      width: 100%;
+      height: 100%;
+      padding: 13px 7px 0 0;
+      background-color: #fae8d4;
+      .category {
+        width: 100%;
+        color: $color-black;
+        font-size: $font-size-headline;
+        font-weight: $font-weight-regular;
+        padding: 12px 0 12px 25px;
+        background-color: #fae8d4;
+        transition: all 0.3s ease;
+        &.active {
+          background-color: #fff9f1;
+          color: $color-primary;
+          font-weight: $font-weight-semibold;
+          border-radius: 0 5px 5px 0;
+        }
+      }
+    }
+
+    .itemListContainer {
+      @include flex(column, $justify-content: flex-start, $gap: 3px);
+      position: relative;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      padding: 15px 20px 0 20px;
+      .itemListHeader {
+        @include flex($justify-content: space-between);
+        width: 100%;
+        .exhaustedListButton {
+          padding: 7px 10px;
+          background-color: $color-primary;
+          font-size: $font-size-caption;
+          font-weight: $font-weight-medium;
+          color: $color-white;
+          border-radius: 7px;
+        }
+        select {
+          option {
+          }
+        }
+      }
+
+      .blankBox {
+        @include flex(column, $gap: 15px);
+        width: 100%;
+        height: 100%;
+        img {
+        }
+        span {
+          color: $color-gray0;
+          text-align: center;
+          font-size: $font-size-headline;
+        }
+      }
+
+      .itemList {
+        @include flex(column, $justify-content: flex-start);
+        width: 100%;
+        overflow-y: auto;
+        padding-bottom: 188px;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        .itemRow {
+          @include flex($justify-content: space-between);
+          width: 100%;
+          padding: 12px 0;
+          border-top: 1px solid $color-gray2;
+          &:first-child {
+            border-top: none;
+          }
+          span {
+            font-size: $font-size-headline;
+            color: $color-black;
+          }
+          .itemCount {
+            color: $color-primary;
+          }
+        }
+      }
+
+      .button {
+        position: absolute;
+        width: 100%;
+        bottom: 114px;
+        padding: 0 20px;
+      }
+    }
+  }
+}
