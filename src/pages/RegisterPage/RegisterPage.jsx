@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import styles from './RegisterPage.module.scss';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { eyeClose, eyeOpen } from '@/assets';
 import { Button } from '@/components/Button/Button';
+import { InputField } from '@/components/form/InputField';
+import { PasswordInputField } from '@/components/form/PasswordInputField';
 
 export const RegisterPage = () => {
   const nav = useNavigate();
@@ -17,8 +18,6 @@ export const RegisterPage = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [step, setStep] = useState(0);
 
   const handleNext = async () => {
@@ -30,6 +29,7 @@ export const RegisterPage = () => {
     }
   };
 
+  // 회원가입 제출
   const onSubmit = (data) => {
     try {
       console.log('회원가입 데이터:', data);
@@ -39,6 +39,7 @@ export const RegisterPage = () => {
     }
   };
 
+  // 비밀번호, 닉네임 실시간 감시
   const passwordValue = watch('password');
   const nicknameValue = watch('nickname');
 
@@ -62,93 +63,54 @@ export const RegisterPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
         <div className={styles.inputContent}>
           {step === 0 ? (
-            <div className={styles.inputField}>
-              <label>닉네임</label>
-              <input
-                key="nickname"
-                placeholder="닉네임 입력"
-                type="text"
-                {...register('nickname', {
-                  required: '필수 입력 사항입니다.',
-                  minLength: {
-                    value: 2,
-                    message: '닉네임은 2자 이상 입력해주세요.',
-                  },
-                })}
-              />
-              {errors.nickname && (
-                <div className={styles.error}>{errors.nickname.message}</div>
-              )}
-            </div>
+            <InputField
+              key="nickname"
+              label="닉네임"
+              placeholder="닉네임 입력 (2자 이상)"
+              registration={register('nickname', {
+                required: '필수 입력 사항입니다.',
+                minLength: {
+                  value: 2,
+                  message: '닉네임은 2자 이상 입력해주세요.',
+                },
+              })}
+              error={errors.nickname}
+            />
           ) : (
             <>
-              <div className={styles.inputField}>
-                <label>아이디</label>
-                <input
-                  key="id"
-                  placeholder="아이디 입력"
-                  type="text"
-                  {...register('id', {
-                    required: '필수 입력 사항입니다.',
-                  })}
-                />
-                {errors.id && (
-                  <div className={styles.error}>{errors.id.message}</div>
-                )}
-              </div>
-              <div className={styles.inputField}>
-                <label>비밀번호</label>
-                <div className={styles.passwordContainer}>
-                  <input
-                    placeholder="비밀번호 입력"
-                    type={showPassword ? 'text' : 'password'}
-                    {...register('password', {
-                      required: '필수 입력 사항입니다.',
-                    })}
-                  />
-                  <img
-                    src={showPassword ? eyeOpen : eyeClose}
-                    onClick={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                  />
-                </div>
-                {errors.password && (
-                  <div className={styles.error}>{errors.password.message}</div>
-                )}
-              </div>
-              <div className={styles.inputField}>
-                <label>비밀번호 재입력</label>
-                <div className={styles.passwordContainer}>
-                  <input
-                    placeholder="비밀번호 입력"
-                    type={showPasswordConfirm ? 'text' : 'password'}
-                    {...register('passwordConfirm', {
-                      required: '필수 입력 사항입니다.',
-                      validate: {
-                        matchesPreviousPassword: (value) => {
-                          const { password } = getValues();
-                          return (
-                            password === value ||
-                            '비밀번호가 일치하지 않습니다.'
-                          );
-                        },
-                      },
-                    })}
-                  />
-                  <img
-                    src={showPasswordConfirm ? eyeOpen : eyeClose}
-                    onClick={() => {
-                      setShowPasswordConfirm(!showPasswordConfirm);
-                    }}
-                  />
-                </div>
-                {errors.passwordConfirm && (
-                  <div className={styles.error}>
-                    {errors.passwordConfirm.message}
-                  </div>
-                )}
-              </div>
+              <InputField
+                key="id"
+                label="아이디"
+                placeholder="아이디 입력"
+                registration={register('id', {
+                  required: '필수 입력 사항입니다.',
+                })}
+                error={errors.id}
+              />
+              <PasswordInputField
+                label="비밀번호"
+                placeholder="비밀번호 입력"
+                registration={register('password', {
+                  required: '필수 입력 사항입니다.',
+                })}
+                error={errors.password}
+              />
+              <PasswordInputField
+                label="비밀번호 재입력"
+                placeholder="비밀번호 입력"
+                registration={register('passwordConfirm', {
+                  required: '필수 입력 사항입니다.',
+                  validate: {
+                    matchesPreviousPassword: (value) => {
+                      const { password } = getValues();
+                      return (
+                        password === value || '비밀번호가 일치하지 않습니다.'
+                      );
+                    },
+                  },
+                })}
+                error={errors.passwordConfirm}
+              />
             </>
           )}
         </div>
