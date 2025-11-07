@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { ItemList } from './components/ItemList'
 import { AddListButton } from './components/AddListButton'
-import './MainPage.scss'
-import { AddItems } from './components/AddItems';
+import { AddItems } from './components/AddItems'
+import { AISuggestion } from './components/AISuggestion'
+import './MainPage.scss';
 
 // 카테고리 목록
 export const CATEGORIES = [
@@ -125,6 +126,9 @@ export const MainPage = () => {
               onCancel={handleCancelExhaustedItem}
             />
           )}
+          
+          {/* AI 추천 컴포넌트 */}
+          <AISuggestion />
         </div>
       </div>
     )
