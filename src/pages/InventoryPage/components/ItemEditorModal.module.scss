@@ -20,6 +20,7 @@
   padding: 0 16px;
   .container {
     @include flex(column, $gap: 20px);
+    position: relative;
     width: 100%;
     background-color: $color-white;
     border-radius: 10px;

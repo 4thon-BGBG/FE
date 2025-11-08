@@ -4,13 +4,18 @@ import { categorys } from '@/data/category';
 import { buttonCancel, buttonCheck, penIcon } from '@/assets';
 import { LuPlus } from 'react-icons/lu';
 import { LuMinus } from 'react-icons/lu';
+import { IoIosWarning } from 'react-icons/io';
+import { FaCheckCircle } from 'react-icons/fa';
+import { ItemEditorToast } from './itemEditorToast';
+
+const TOAST_DELAY = 2000;
 
 export const ItemEditorModal = ({
   title = '보유품목 수동등록',
   placeholder = '추가할 품목 입력',
   initName = '',
   initCount = 1,
-  initCategory = null,
+  initCategory = '',
   initAddDate = '2025-11-08',
   closeModal,
 }) => {
@@ -18,6 +23,9 @@ export const ItemEditorModal = ({
   const [count, setCount] = useState(initCount);
   const [category, setCategory] = useState(initCategory);
   const [addDate, setAddDate] = useState(initAddDate);
+  const [failToastOpen, setFailToastOpen] = useState(false);
+  const [successToastOpen, setSuccessToastOpen] = useState(false);
+
   const dateInputRef = useRef(null);
 
   const handleDateClick = () => {
@@ -26,9 +34,42 @@ export const ItemEditorModal = ({
     }
   };
 
+  const handleSaveClick = () => {
+    if (!itemName || !category || !addDate) {
+      setFailToastOpen(true);
+    } else {
+      setSuccessToastOpen(true);
+      setTimeout(() => closeModal(), TOAST_DELAY + 300);
+    }
+  };
+
   return (
     <div className={styles.backdrop}>
       <div className={styles.container}>
+        {failToastOpen && (
+          <ItemEditorToast
+            Img={
+              <IoIosWarning
+                style={{ width: '30px', height: '30px', color: '#F56E00' }}
+              />
+            }
+            text="필요한 모든 항목을 입력해주세요"
+            setToastOpen={setFailToastOpen}
+            delay={TOAST_DELAY}
+          />
+        )}
+        {successToastOpen && (
+          <ItemEditorToast
+            Img={
+              <FaCheckCircle
+                style={{ width: '30px', height: '30px', color: '#73D7BC' }}
+              />
+            }
+            text="리스트에 항목을 추가했어요"
+            setToastOpen={setSuccessToastOpen}
+            delay={TOAST_DELAY}
+          />
+        )}
         <span className={styles.title}>{title}</span>
         <div className={styles.inputContainer}>
           <input
@@ -87,12 +128,7 @@ export const ItemEditorModal = ({
           <div className={styles.buttonCancel} onClick={closeModal}>
             <img src={buttonCancel} />
           </div>
-          <div
-            className={styles.buttonCheck}
-            onClick={() => {
-              closeModal();
-            }}
-          >
+          <div className={styles.buttonCheck} onClick={handleSaveClick}>
             <img src={buttonCheck} />
           </div>
         </div>
