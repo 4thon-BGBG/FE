@@ -87,7 +87,12 @@ export const ItemEditorModal = ({
             >
               <LuMinus className={styles.pickerImg} />
             </button>
-            <span className={styles.count}>{count}개</span>
+            <span
+              className={styles.count}
+              style={{ color: count === 0 && '#DD2727' }}
+            >
+              {count !== 0 ? `${count}개` : '소진'}
+            </span>
             <button
               className={styles.picker}
               onClick={() => setCount(count + 1)}
