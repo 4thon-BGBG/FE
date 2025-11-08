@@ -4,26 +4,16 @@ import { blankBubble, glasses } from '@/assets';
 import { Button } from '@/components/Button/Button';
 import { inventoryData } from '@/data/inventoryMock';
 import { SortSelect } from './components/SortSelect';
-
-const categorys = [
-  '전체',
-  '채소·과일류',
-  '수산물',
-  '육류',
-  '달걀·유제품류',
-  '곡류·견과류',
-  '조미류·양념류',
-  '냉동식품',
-  '가공식품',
-  '음료·주류',
-  '기타',
-];
+import { categorys } from '@/data/category';
+import { ItemEditorModal } from './components/ItemEditorModal';
 
 export const InventoryPage = () => {
   const [allItems, setAllItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectCategory, setSelectCategory] = useState('전체');
   const [sortBy, setSortBy] = useState('등록순');
+
+  const [isEditorModalOpen, setIsEditorModalOpen] = useState(false);
 
   useEffect(() => {
     setAllItems(inventoryData);
@@ -59,6 +49,9 @@ export const InventoryPage = () => {
 
   return (
     <div className={styles.container}>
+      {isEditorModalOpen && (
+        <ItemEditorModal closeModal={() => setIsEditorModalOpen(false)} />
+      )}
       <div className={styles.header}>
         <div className={styles.searchBar}>
           <img src={glasses} />
@@ -115,7 +108,7 @@ export const InventoryPage = () => {
             <Button
               text="보유품목 수동등록"
               isActive={true}
-              onClick={() => {}}
+              onClick={() => setIsEditorModalOpen(true)}
             />
           </div>
         </div>
