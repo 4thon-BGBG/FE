@@ -80,9 +80,10 @@
         @include flex($justify-content: space-between);
         width: 100%;
         .exhaustedListButton {
-          padding: 7px 10px;
+          @include hoverEvent();
+          padding: 11px 10px;
           background-color: $color-primary;
-          font-size: $font-size-caption;
+          font-size: 14px;
           font-weight: $font-weight-medium;
           color: $color-white;
           border-radius: 7px;

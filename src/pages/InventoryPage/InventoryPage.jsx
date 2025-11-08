@@ -3,6 +3,7 @@ import styles from './InventoryPage.module.scss';
 import { blankBubble, glasses } from '@/assets';
 import { Button } from '@/components/Button/Button';
 import { inventoryData } from '@/data/inventoryMock';
+import { SortSelect } from './components/SortSelect';
 
 const categorys = [
   '전체',
@@ -91,11 +92,7 @@ export const InventoryPage = () => {
             ) : (
               <div></div>
             )}
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              <option value="등록순">등록순</option>
-              <option value="이름순">이름순</option>
-              <option value="재고순">재고순</option>
-            </select>
+            <SortSelect setSelected={setSortBy} />
           </div>
           {processedList.length === 0 ? (
             <div className={styles.blankBox}>
