@@ -3,15 +3,14 @@
 
 .container {
   @include flex(column, flex-start, flex-start);
+  position: relative;
   width: 100%;
   height: 100dvh;
-  padding-top: 19px;
-
   .header {
     @include flex();
     position: relative;
     width: 100%;
-    padding: 0 25px 14px 25px;
+    padding: 14px 25px 14px 25px;
     border-bottom: 1px solid $color-gray2;
     .searchBar {
       position: relative;
