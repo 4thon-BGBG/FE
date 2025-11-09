@@ -1,0 +1,8 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.container {
+  @include flex(column);
+  width: 100%;
+  height: 100%;
+}
