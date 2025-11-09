@@ -6,6 +6,7 @@ import { inventoryData } from '@/data/inventoryMock';
 import { SortSelect } from './components/SortSelect';
 import { categorys } from '@/data/category';
 import { ItemEditorModal } from './components/ItemEditorModal';
+import { ExhaustedListModal } from './components/ExhaustedListModal';
 
 export const InventoryPage = () => {
   const [allItems, setAllItems] = useState([]);
@@ -14,6 +15,8 @@ export const InventoryPage = () => {
   const [sortBy, setSortBy] = useState('등록순');
 
   const [isEditorModalOpen, setIsEditorModalOpen] = useState(false);
+  const [isExhaustedListModalOpen, setIsExhaustedListModalOpen] =
+    useState(false);
 
   useEffect(() => {
     setAllItems(inventoryData);
@@ -52,6 +55,11 @@ export const InventoryPage = () => {
       {isEditorModalOpen && (
         <ItemEditorModal closeModal={() => setIsEditorModalOpen(false)} />
       )}
+      {isExhaustedListModalOpen && (
+        <ExhaustedListModal
+          closeModal={() => setIsExhaustedListModalOpen(false)}
+        />
+      )}
       <div className={styles.header}>
         <div className={styles.searchBar}>
           <img src={glasses} />
@@ -81,7 +89,12 @@ export const InventoryPage = () => {
         <div className={styles.itemListContainer}>
           <div className={styles.itemListHeader}>
             {sortBy === '재고순' ? (
-              <div className={styles.exhaustedListButton}>소진품목 관리</div>
+              <div
+                className={styles.exhaustedListButton}
+                onClick={() => setIsExhaustedListModalOpen(true)}
+              >
+                소진품목 관리
+              </div>
             ) : (
               <div></div>
             )}
