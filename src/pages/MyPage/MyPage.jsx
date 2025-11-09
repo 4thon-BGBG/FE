@@ -7,9 +7,11 @@ import { MdEdit } from 'react-icons/md';
 import { Button } from '@/components/Button/Button';
 import { useState } from 'react';
 import { NicknameEditModal } from './components/NicknameEditModal';
+import { HistoryModal } from './components/HistoryModal';
 
 export const MyPage = () => {
   const [isNicknameModalOpen, setIsNicknameModalOpen] = useState(false);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -18,6 +20,9 @@ export const MyPage = () => {
           nickname={'멋쟁이사자'}
           closeModal={() => setIsNicknameModalOpen(false)}
         />
+      )}
+      {isHistoryModalOpen && (
+        <HistoryModal closeModal={() => setIsHistoryModalOpen(false)} />
       )}
       {/* 프로필 */}
       <div className={styles.profileContent}>
@@ -61,7 +66,12 @@ export const MyPage = () => {
               </div>
             ))}
             {inventoryData.length > 3 && (
-              <RiMore2Fill className={styles.contentIcon} onClick={() => {}} />
+              <RiMore2Fill
+                className={styles.contentIcon}
+                onClick={() => {
+                  setIsHistoryModalOpen(true);
+                }}
+              />
             )}
           </div>
         )}
