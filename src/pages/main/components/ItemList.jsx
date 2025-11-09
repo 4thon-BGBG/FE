@@ -1,51 +1,62 @@
 import React, { useState } from 'react'
 import "./ItemList.scss"
-import { AddButton } from './AddButton'
 import { CATEGORIES } from '../MainPage'
 
 export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
-  const [isAdding, setIsAdding] = useState(false);
-  const [newItemName, setNewItemName] = useState('');
-  const [newItemCount, setNewItemCount] = useState(1);
-  const [newItemChecked, setNewItemChecked] = useState(false);
-  const [newItemCategory, setNewItemCategory] = useState(0);
   const [sortType, setSortType] = useState('default'); // 'default' or 'category'
-
-  const handleAddClick = () => {
-    setIsAdding(true);
-  };
-
-  const handleSubmit = () => {
-    if (newItemName.trim() === '') {
-      alert('항목 이름을 입력해주세요!');
-      return;
-    }
-    
-    onAddItem({
-      name: newItemName,
-      count: newItemCount,
-      isChecked: newItemChecked,
-      categoryIndex: newItemCategory
-    });
-    
-    // 입력 폼 초기화
-    setNewItemName('');
-    setNewItemCount(1);
-    setNewItemChecked(false);
-    setNewItemCategory(0);
-    setIsAdding(false);
-  };
-
-  const handleCancel = () => {
-    setNewItemName('');
-    setNewItemCount(1);
-    setNewItemChecked(false);
-    setNewItemCategory(0);
-    setIsAdding(false);
-  };
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [itemName, setItemName] = useState('');
+  const [itemCount, setItemCount] = useState(1);
 
   const handleSortChange = (type) => {
     setSortType(type);
+  };
+
+  const handleButtonClick = () => {
+    setIsExpanded(true);
+  };
+
+  const handleCategoryClick = (index) => {
+    setSelectedCategory(index);
+  };
+
+  const handleIncrement = () => {
+    setItemCount(prev => prev + 1);
+  };
+
+  const handleDecrement = () => {
+    if (itemCount > 1) {
+      setItemCount(prev => prev - 1);
+    }
+  };
+
+  const handleAdd = () => {
+    if (!itemName.trim()) {
+      alert('품목 이름을 입력해주세요!');
+      return;
+    }
+    if (selectedCategory === null) {
+      alert('카테고리를 선택해주세요!');
+      return;
+    }
+
+    onAddItem({
+      name: itemName,
+      count: itemCount,
+      categoryIndex: selectedCategory,
+      isChecked: false
+    });
+
+    // 초기화
+    handleClose();
+  };
+
+  const handleClose = () => {
+    setIsExpanded(false);
+    setItemName('');
+    setItemCount(1);
+    setSelectedCategory(null);
   };
 
   // 카테고리별로 그룹화 (원본 인덱스 포함)
@@ -126,48 +137,50 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
             </div>
           ))
       )}
-      
-      {isAdding ? (
-        <div className="addItemForm">
-          <select 
-            value={newItemCategory}
-            onChange={(e) => setNewItemCategory(Number(e.target.value))}
-            className="categorySelect"
-          >
-            {CATEGORIES.map((category, index) => (
-              <option key={index} value={index}>{category}</option>
-            ))}
-          </select>
-          <input 
-            type="text" 
-            placeholder="항목 이름" 
-            value={newItemName}
-            onChange={(e) => setNewItemName(e.target.value)}
-            className="itemNameInput"
-          />
-          <input 
-            type="number" 
-            placeholder="수량" 
-            value={newItemCount}
-            onChange={(e) => setNewItemCount(Number(e.target.value))}
-            min="1"
-            className="itemCountInput"
-          />
-          <label className="checkboxLabel">
-            <input 
-              type="checkbox" 
-              checked={newItemChecked}
-              onChange={(e) => setNewItemChecked(e.target.checked)}
-            />
-            <span>완료</span>
-          </label>
-          <div className="formButtons">
-            <button onClick={handleSubmit} className="submitButton">추가</button>
-            <button onClick={handleCancel} className="cancelButton">취소</button>
-          </div>
-    </div>
+
+      {!isExpanded ? (
+        <button className='addButton' onClick={handleButtonClick}>
+          + 항목 추가
+        </button>
       ) : (
-        <AddButton onAddItem={handleAddClick}/>
+        <div className='addButtonExpanded'>
+          
+          <div className='inputWrapper'>
+            <input
+              type='text'
+              placeholder='추가할 품목 입력'
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+              className='expandedInput'
+            />
+            <div className='quantityControl'>
+              <button className='quantityButton' onClick={handleDecrement}>−</button>
+              <span className='quantity'>{itemCount}개</span>
+              <button className='quantityButton' onClick={handleIncrement}>+</button>
+            </div>
+          </div>
+          <hr style={{ border: "1px solid #000" }} />
+          <div className='categoryGrid'>
+            {CATEGORIES.map((category, index) => (
+              <button
+                key={index}
+                className={`categoryButton ${selectedCategory === index ? 'selected' : ''}`}
+                onClick={() => handleCategoryClick(index)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          <div className='actionButtons'>
+            <button className='cancelBtn' onClick={handleClose}>
+              취소
+            </button>
+            <button className='addBtn' onClick={handleAdd}>
+              + 추가
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

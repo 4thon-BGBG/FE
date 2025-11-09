@@ -4,6 +4,175 @@
   padding: 1rem;
   margin-bottom: 1rem;
   position: relative;
+  overflow: visible;
+}
+
+.itemList:has(.addButtonExpanded) {
+  z-index: 999;
+}
+
+.addButton{
+  background-color: #F56E00;
+  border: none;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  margin: 0;
+}
+
+.addButton:hover {
+  background-color: #d45f00;
+}
+
+.addButtonExpanded {
+  position: absolute;
+  top: calc(100% - 1rem);
+  left: 0;
+  right: 0;
+  background-color: #FFF5E6;
+  border-radius: 0 0 15px 15px;
+  // border-top: 1px dashed #ddd;
+  background-image: repeating-linear-gradient(
+    to right,
+    #ddd 0,
+    #ddd 10px,        /* ← 선 길이 */
+    transparent 10px,
+    transparent 20px /* ← 전체 간격 */
+  );
+  background-size: 100% 1px; /* 선 두께 */
+  padding: 1.5rem;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  
+  background-color: #FFF5E6;
+  border: none;
+  padding-right: 0.8rem;
+}
+
+.expandedInput {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: none;
+}
+
+.expandedInput::placeholder {
+  color: #aaa;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #FFE8D6;
+  border-radius: 4px;
+}
+
+.quantityButton {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background-color: #FFE8D6;
+  color: #F56E00;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+
+.quantity {
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 4px;
+  background-color: white;
+  color: #000000;
+  min-width: 35px;
+  text-align: center;
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.categoryButton {
+  padding: 0.75rem 0.5rem;
+  border: 1.5px solid #F56E00;
+  border-radius: 8px;
+  background-color: white;
+  color: #F56E00;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.categoryButton:hover {
+  background-color: #FFF5E6;
+}
+
+.categoryButton.selected {
+  background-color: #F56E00;
+  color: white;
+  border-color: #F56E00;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.cancelBtn,
+.addBtn {
+  flex: 1;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelBtn {
+  background-color: #999;
+  color: white;
+}
+
+.cancelBtn:hover {
+  background-color: #888;
+}
+
+.addBtn {
+  background-color: #F56E00;
+  color: white;
+}
+
+.addBtn:hover {
+  background-color: #d45f00;
 }
 
 .listHeader {

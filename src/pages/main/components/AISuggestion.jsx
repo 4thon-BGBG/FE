@@ -25,7 +25,7 @@ export const AISuggestion = () => {
   };
 
   return (
-    <div className='aiSuggestion'>
+    <div   className='aiSuggestion'>
       <div className='aiHeader'>
         <img src={Icon} alt='AI' className='aiIcon' />
         <h3 className='aiTitle'>오늘은 무슨 요리를 할까요?</h3>
