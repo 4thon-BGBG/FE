@@ -8,10 +8,12 @@ import { Button } from '@/components/Button/Button';
 import { useState } from 'react';
 import { NicknameEditModal } from './components/NicknameEditModal';
 import { HistoryModal } from './components/HistoryModal';
+import { ReportModal } from './components/ReportModal';
 
 export const MyPage = () => {
   const [isNicknameModalOpen, setIsNicknameModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -23,6 +25,9 @@ export const MyPage = () => {
       )}
       {isHistoryModalOpen && (
         <HistoryModal closeModal={() => setIsHistoryModalOpen(false)} />
+      )}
+      {isReportModalOpen && (
+        <ReportModal closeModal={() => setIsReportModalOpen(false)} />
       )}
       {/* 프로필 */}
       <div className={styles.profileContent}>
@@ -66,12 +71,14 @@ export const MyPage = () => {
               </div>
             ))}
             {inventoryData.length > 3 && (
-              <RiMore2Fill
-                className={styles.contentIcon}
+              <div
+                className={styles.iconRow}
                 onClick={() => {
                   setIsHistoryModalOpen(true);
                 }}
-              />
+              >
+                <RiMore2Fill className={styles.contentIcon} />
+              </div>
             )}
           </div>
         )}
@@ -85,7 +92,11 @@ export const MyPage = () => {
           <img src={reportImg} />
         </div>
         <div className={styles.button}>
-          <Button text="분석 시작하기" isActive={true} />
+          <Button
+            text="분석 시작하기"
+            isActive={true}
+            onClick={() => setIsReportModalOpen(true)}
+          />
         </div>
       </div>
     </div>

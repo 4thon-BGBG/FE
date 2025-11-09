@@ -117,12 +117,16 @@
           font-weight: $font-weight-medium;
         }
       }
-      .contentIcon {
+      .iconRow {
+        @include flex();
         @include hoverEvent();
-        margin: 15px 0 10px 0;
-        width: 20px;
-        height: 20px;
-        color: $color-gray0;
+        width: 100%;
+        .contentIcon {
+          margin: 15px 0 10px 0;
+          width: 20px;
+          height: 20px;
+          color: $color-gray0;
+        }
       }
     }
 
