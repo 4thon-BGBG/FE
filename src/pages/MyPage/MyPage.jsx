@@ -5,17 +5,30 @@ import { IoMdSearch } from 'react-icons/io';
 import { RiMore2Fill } from 'react-icons/ri';
 import { MdEdit } from 'react-icons/md';
 import { Button } from '@/components/Button/Button';
+import { useState } from 'react';
+import { NicknameEditModal } from './components/NicknameEditModal';
 
 export const MyPage = () => {
+  const [isNicknameModalOpen, setIsNicknameModalOpen] = useState(false);
+
   return (
     <div className={styles.container}>
+      {isNicknameModalOpen && (
+        <NicknameEditModal
+          nickname={'멋쟁이사자'}
+          closeModal={() => setIsNicknameModalOpen(false)}
+        />
+      )}
       {/* 프로필 */}
       <div className={styles.profileContent}>
         <div className={styles.profile}>
           <img src={profileImg} alt="" />
         </div>
         <div className={styles.info}>
-          <div className={styles.nickname}>
+          <div
+            className={styles.nickname}
+            onClick={() => setIsNicknameModalOpen(true)}
+          >
             <span>멋쟁이사자</span>
             <MdEdit className={styles.nicknameEdit} />
           </div>
