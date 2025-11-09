@@ -3,6 +3,7 @@
 
 .container {
   @include flex();
+  @include hoverEvent();
   width: 100%;
   font-size: 22px;
   font-weight: 700;
