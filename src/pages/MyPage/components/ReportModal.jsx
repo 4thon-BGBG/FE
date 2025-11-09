@@ -3,8 +3,8 @@ import styles from './ReportModal.module.scss';
 import { AnalyzingImg, blankBubble } from '@/assets';
 import { useEffect, useState } from 'react';
 import { reportMockData } from '@/data/reportMock';
-import { BarChart } from './BarChart';
-import { DoughnutChart } from './DoughnutChart';
+import { BarChart } from './charts/BarChart';
+import { DoughnutChart } from './charts/DoughnutChart';
 
 export const ReportModal = ({ closeModal }) => {
   const [reportData, setReportData] = useState(null);
