@@ -3,6 +3,8 @@
 import logoWihte from '@/assets/logo-white.svg';
 import onBoarding1 from '@/assets/onBoarding-icon1.svg';
 import onBoarding2 from '@/assets/onBoarding-icon2.svg';
+import eyeOpen from '@/assets/eye-open-icon.svg';
+import eyeClose from '@/assets/eye-close-icon.svg';
 
 // 임포트한 이미지 및 아이콘 내보내기
-export { logoWihte, onBoarding1, onBoarding2 };
+export { logoWihte, onBoarding1, onBoarding2, eyeOpen, eyeClose };

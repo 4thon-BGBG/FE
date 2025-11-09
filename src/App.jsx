@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { OnBoardingPage } from './pages/OnBoardingPage/OnBoardingPage';
+import { LoginPage } from './pages/auth/LoginPage/LoginPage';
+import { RegisterPage } from './pages/auth/RegisterPage/RegisterPage';
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
         {/* TODO 추후 인증 로직 추가 */}
         <Route element={<Layout />}>
           <Route path="/landing" element={<OnBoardingPage />} />;
+          <Route path="/login" element={<LoginPage />} />;
+          <Route path="/register" element={<RegisterPage />} />;
         </Route>
       </Routes>
     </BrowserRouter>
