@@ -37,14 +37,22 @@
   background-color: #FFF5E6;
   border-radius: 0 0 15px 15px;
   // border-top: 1px dashed #ddd;
-  background-image: repeating-linear-gradient(
-    to right,
-    #ddd 0,
-    #ddd 10px,        /* ← 선 길이 */
-    transparent 10px,
-    transparent 20px /* ← 전체 간격 */
-  );
-  background-size: 100% 1px; /* 선 두께 */
+   &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+
+    background-image: repeating-linear-gradient(
+      to right,
+      #ddd 0,
+      #ddd 10px,       /* ← 선 길이 */
+      transparent 10px,
+      transparent 20px /* ← 공백 포함 전체 간격 */
+    );
+  }
   padding: 1.5rem;
   box-sizing: border-box;
   z-index: 1000;
@@ -101,7 +109,7 @@
 
 .quantity {
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 4px;
   background-color: white;
   color: #000000;
@@ -110,21 +118,21 @@
 }
 
 .categoryGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 1.5rem;
   margin-top: 0.5rem;
 }
 
 .categoryButton {
-  padding: 0.75rem 0.5rem;
   border: 1.5px solid #F56E00;
-  border-radius: 8px;
+  border-radius: 4px;
   background-color: white;
   color: #F56E00;
-  font-size: 0.85rem;
+  font-size: 14px;
   font-weight: 500;
+  padding : 0.3rem;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
