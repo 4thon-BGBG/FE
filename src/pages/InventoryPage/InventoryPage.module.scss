@@ -52,6 +52,7 @@
       padding: 13px 7px 0 0;
       background-color: #fae8d4;
       .category {
+        @include hoverEvent(1.04);
         width: 100%;
         color: $color-black;
         font-size: $font-size-headline;
@@ -59,11 +60,11 @@
         padding: 12px 0 12px 25px;
         background-color: #fae8d4;
         transition: all 0.3s ease;
+        border-radius: 0 5px 5px 0;
         &.active {
           background-color: #fff9f1;
           color: $color-primary;
           font-weight: $font-weight-semibold;
-          border-radius: 0 5px 5px 0;
         }
       }
     }
