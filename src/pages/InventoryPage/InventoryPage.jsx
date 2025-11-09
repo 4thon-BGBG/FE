@@ -14,7 +14,8 @@ export const InventoryPage = () => {
   const [selectCategory, setSelectCategory] = useState('전체');
   const [sortBy, setSortBy] = useState('등록순');
 
-  const [isEditorModalOpen, setIsEditorModalOpen] = useState(false);
+  const [isManualEditorModalOpen, setIsManualEditorModalOpen] = useState(false);
+  const [editingItemId, setEditingItemId] = useState(null);
   const [isExhaustedListModalOpen, setIsExhaustedListModalOpen] =
     useState(false);
 
@@ -52,8 +53,8 @@ export const InventoryPage = () => {
 
   return (
     <div className={styles.container}>
-      {isEditorModalOpen && (
-        <ItemEditorModal closeModal={() => setIsEditorModalOpen(false)} />
+      {isManualEditorModalOpen && (
+        <ItemEditorModal closeModal={() => setIsManualEditorModalOpen(false)} />
       )}
       {isExhaustedListModalOpen && (
         <ExhaustedListModal
@@ -109,8 +110,23 @@ export const InventoryPage = () => {
             </div>
           ) : (
             <div className={styles.itemList}>
-              {processedList.map((item, index) => (
-                <div key={index} className={styles.itemRow} onClick={() => {}}>
+              {processedList.map((item) => (
+                <div
+                  key={item.id}
+                  className={styles.itemRow}
+                  onClick={() => setEditingItemId(item.id)}
+                >
+                  {editingItemId === item.id && (
+                    <ItemEditorModal
+                      title="품목 상세"
+                      initName={item.name}
+                      initCount={item.count}
+                      initCategory={item.category}
+                      initAddDate={item.expiryDate}
+                      placeholder={item.name}
+                      closeModal={() => setEditingItemId(null)}
+                    />
+                  )}
                   <span className={styles.itemName}>{item.name}</span>
                   <span className={styles.itemCount}>{item.count}개</span>
                 </div>
@@ -121,7 +137,7 @@ export const InventoryPage = () => {
             <Button
               text="보유품목 수동등록"
               isActive={true}
-              onClick={() => setIsEditorModalOpen(true)}
+              onClick={() => setIsManualEditorModalOpen(true)}
             />
           </div>
         </div>

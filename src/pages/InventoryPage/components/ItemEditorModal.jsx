@@ -65,7 +65,11 @@ export const ItemEditorModal = ({
                 style={{ width: '30px', height: '30px', color: '#73D7BC' }}
               />
             }
-            text="리스트에 항목을 추가했어요"
+            text={
+              title === '품목 상세'
+                ? '수정되었습니다'
+                : '리스트에 항목을 추가했어요'
+            }
             setToastOpen={setSuccessToastOpen}
             delay={TOAST_DELAY}
           />
@@ -130,7 +134,13 @@ export const ItemEditorModal = ({
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <div className={styles.buttonCancel} onClick={closeModal}>
+          <div
+            className={styles.buttonCancel}
+            onClick={(e) => {
+              e.stopPropagation();
+              closeModal();
+            }}
+          >
             <img src={buttonCancel} />
           </div>
           <div className={styles.buttonCheck} onClick={handleSaveClick}>
