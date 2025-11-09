@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { OnBoardingPage } from './pages/OnBoardingPage/OnBoardingPage';
 import { InventoryPage } from './pages/InventoryPage/InventoryPage';
+import { LoginPage } from './pages/auth/LoginPage/LoginPage';
+import { RegisterPage } from './pages/auth/RegisterPage/RegisterPage';
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/landing" element={<OnBoardingPage />} />
           <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/login" element={<LoginPage />} />;
+          <Route path="/register" element={<RegisterPage />} />;
         </Route>
       </Routes>
     </BrowserRouter>

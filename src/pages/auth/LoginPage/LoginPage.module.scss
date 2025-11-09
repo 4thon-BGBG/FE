@@ -1,0 +1,37 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.container {
+  @include flex(column, $justify-content: flex-start);
+  width: 100%;
+  padding: 0 16px;
+
+  .header {
+    color: $color-black;
+    font-size: $font-size-title1;
+    font-weight: $font-weight-semibold;
+    padding-top: 85px;
+    padding-bottom: 20px;
+  }
+
+  .formContainer {
+    @include flex(column, $gap: 84px);
+    width: 100%;
+    .inputContent {
+      @include flex(column, $gap: 25px);
+      width: 100%;
+    }
+  }
+  .registerButton {
+    @include flex($gap: 10px);
+    padding-top: 28px;
+    width: 100%;
+    color: $color-black;
+    font-size: rem(14px);
+    font-weight: $font-weight-medium;
+    a {
+      @include hoverEvent(0.8);
+      color: $color-primary;
+    }
+  }
+}

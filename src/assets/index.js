@@ -10,6 +10,8 @@ import penIcon from '@/assets/pen-icon.svg';
 import buttonCancel from '@/assets/button-cancel-icon.svg';
 import buttonCheck from '@/assets/button-check-icon.svg';
 import checkboxCheck from '@/assets/checkbox-check-icon.svg';
+import eyeOpen from '@/assets/eye-open-icon.svg';
+import eyeClose from '@/assets/eye-close-icon.svg';
 
 // 임포트한 이미지 및 아이콘 내보내기
 export {
@@ -23,4 +25,7 @@ export {
   buttonCancel,
   buttonCheck,
   checkboxCheck,
+  eyeOpen, 
+  eyeClose,
 };
+
