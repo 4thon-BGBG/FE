@@ -1,15 +1,6 @@
 @use '@/styles/variables' as *;
 @use '@/styles/function' as *;
 
-@mixin buttonStyle($background: $color-gray0) {
-  @include flex();
-  @include hoverEvent();
-
-  padding: 7px 29px;
-  background-color: $background;
-  border-radius: 7px;
-}
-
 .backdrop {
   @include flex();
   position: fixed;
