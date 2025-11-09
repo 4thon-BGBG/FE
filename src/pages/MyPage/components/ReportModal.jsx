@@ -3,6 +3,8 @@ import styles from './ReportModal.module.scss';
 import { AnalyzingImg, blankBubble } from '@/assets';
 import { useEffect, useState } from 'react';
 import { reportMockData } from '@/data/reportMock';
+import { BarChart } from './BarChart';
+import { DoughnutChart } from './DoughnutChart';
 
 export const ReportModal = ({ closeModal }) => {
   const [reportData, setReportData] = useState(null);
@@ -64,7 +66,9 @@ export const ReportModal = ({ closeModal }) => {
                   <span>{reportData.summary.avgItemsPerTrip}개</span>예요!
                 </p>
               </div>
-              <div className={styles.chartContainer}>{/* 차트 넣기 */}</div>
+              <div className={styles.chartContainer}>
+                <BarChart data={reportData.weeklyReport} />
+              </div>
               <div className={styles.reportText}>
                 <p>
                   가장 많이 구매한 카테고리는
@@ -72,7 +76,9 @@ export const ReportModal = ({ closeModal }) => {
                   <span>{reportData.categoryReport.topCategory}</span>이에요!
                 </p>
               </div>
-              <div className={styles.chartContainer}>{/* 차트 넣기 */}</div>
+              <div className={styles.chartContainer}>
+                <DoughnutChart data={reportData.categoryReport} />
+              </div>
             </div>
           )}
         </div>
