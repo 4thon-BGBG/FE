@@ -1,0 +1,142 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.container {
+  @include flex(column, $justify-content: flex-start, $gap: 15px);
+  width: 100%;
+  height: 100dvh;
+  padding: 14px 16px;
+  background-color: #fae8d4;
+
+  .profileContent {
+    @include flex($gap: 20px);
+    width: 100%;
+    padding: 20px;
+    background-color: $color-white;
+    border-radius: 10px;
+    position: relative;
+    .profile {
+      img {
+      }
+    }
+    .info {
+      @include flex(column, flex-start, $gap: 4px);
+      width: 100%;
+      color: $color-black;
+      .nickname {
+        @include flex($gap: 5px);
+        @include hoverEvent();
+        span {
+          font-size: 20px;
+          font-weight: $font-weight-semibold;
+          line-height: 130%;
+        }
+        .nicknameEdit {
+          color: #999999;
+          width: 20px;
+          height: 20px;
+        }
+      }
+      .latest {
+        @include flex($gap: 5px);
+        color: $color-black;
+        font-size: 14px;
+        font-weight: $font-weight-medium;
+        span {
+          color: $color-primary;
+        }
+      }
+    }
+    .profileImg {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  .content {
+    @include flex(column, $justify-content: flex-start);
+    position: relative;
+    width: 100%;
+    min-height: 257px;
+    padding: 5px;
+    background-color: $color-white;
+    border-radius: 10px;
+    .contentHeader {
+      @include flex($justify-content: space-between);
+      width: 100%;
+      color: $color-black;
+      font-size: 20px;
+      font-weight: $font-weight-medium;
+      line-height: 130%;
+      padding: 15px;
+      border-bottom: 1px solid $color-gray2;
+      .contentTitle {
+      }
+      .contentIcon {
+        width: 25px;
+        height: 25px;
+        color: $color-gray0;
+      }
+    }
+
+    .blankBox {
+      @include flex(column, $gap: 15px);
+      width: 100%;
+      height: 100%;
+      img {
+      }
+      span {
+        color: $color-gray0;
+        font-size: $font-size-body;
+      }
+    }
+
+    .historyList {
+      @include flex(column);
+      width: 100%;
+      padding: 0 15px;
+      .itemRow {
+        @include flex($justify-content: space-between);
+        width: 100%;
+        padding: 15px 0;
+        border-bottom: 1.23px solid $color-gray2;
+        .left {
+          @include flex($gap: 10px);
+          font-size: $font-size-body;
+          .itemName {
+            color: $color-black;
+          }
+          .itemCount {
+            color: $color-primary;
+          }
+        }
+        .date {
+          color: $color-gray1;
+          font-size: 14px;
+          font-weight: $font-weight-medium;
+        }
+      }
+      .contentIcon {
+        @include hoverEvent();
+        margin: 15px 0 10px 0;
+        width: 20px;
+        height: 20px;
+        color: $color-gray0;
+      }
+    }
+
+    .contentImg {
+      padding-bottom: 35px;
+      img {
+      }
+    }
+
+    .button {
+      width: 100%;
+      position: absolute;
+      padding: 20px;
+      bottom: 0;
+    }
+  }
+}
