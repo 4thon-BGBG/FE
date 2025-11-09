@@ -21,6 +21,14 @@
         top: 50%;
         transform: translateY(-50%);
       }
+      .searchClose {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        width: 25px;
+        height: 25px;
+        transform: translateY(-50%);
+      }
       .searchInput {
         width: 100%;
         padding: 14px 10px 14px 45px;

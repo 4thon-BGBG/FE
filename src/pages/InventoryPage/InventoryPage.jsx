@@ -7,6 +7,7 @@ import { SortSelect } from './components/SortSelect';
 import { categorys } from '@/data/category';
 import { ItemEditorModal } from './components/ItemEditorModal';
 import { ExhaustedListModal } from './components/ExhaustedListModal';
+import { IoClose } from 'react-icons/io5';
 
 export const InventoryPage = () => {
   const [allItems, setAllItems] = useState([]);
@@ -71,6 +72,12 @@ export const InventoryPage = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="찾으시는 품목 이름을 입력해주세요"
           />
+          {searchTerm && (
+            <IoClose
+              className={styles.searchClose}
+              onClick={() => setSearchTerm('')}
+            />
+          )}
         </div>
       </div>
       <div className={styles.content}>
