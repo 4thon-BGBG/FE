@@ -1,0 +1,55 @@
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  border: none;
+  padding-right: 0.8rem;
+}
+
+.expandedInput {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: none;
+}
+
+.expandedInput::placeholder {
+  color: #aaa;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #FFE8D6;
+  border-radius: 4px;
+}
+
+.quantityButton {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background-color: #FFE8D6;
+  color: #F56E00;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.quantity {
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 4px;
+  background-color: white;
+  color: #000000;
+  min-width: 35px;
+  text-align: center;
+}
+

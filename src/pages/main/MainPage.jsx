@@ -75,6 +75,13 @@ export const MainPage = () => {
     setAllLists(updatedLists);
   };
 
+  // 특정 리스트의 아이템 업데이트 함수
+  const handleUpdateItem = (listIndex, itemIndex, updatedItem) => {
+    const updatedLists = [...allLists];
+    updatedLists[listIndex][itemIndex] = updatedItem;
+    setAllLists(updatedLists);
+  };
+
   // 새 리스트 추가 함수
   const handleAddList = () => {
     const newList = [];
@@ -112,6 +119,7 @@ export const MainPage = () => {
             onAddItem={(newItem) => handleAddItem(index, newItem)}
             onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
+            onUpdateItem={(itemIndex, updatedItem) => handleUpdateItem(index, itemIndex, updatedItem)}
           />
           ))}
           <AddListButton onAddList={handleAddList} />

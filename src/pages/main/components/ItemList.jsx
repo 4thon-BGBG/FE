@@ -2,14 +2,17 @@ import React, { useState } from 'react'
 import "./ItemList.scss"
 import { CATEGORIES } from '../MainPage'
 import { Toast } from './Toast'
+import { ItemDetailModal } from './ItemDetailModal'
+import { ItemInputWithQuantity } from './ItemInputWithQuantity'
 
-export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
+export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck, onUpdateItem}) => {
   const [sortType, setSortType] = useState('default'); // 'default' or 'category'
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [itemName, setItemName] = useState('');
   const [itemCount, setItemCount] = useState(1);
   const [toast, setToast] = useState(null);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
   const handleSortChange = (type) => {
     setSortType(type);
@@ -99,7 +102,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
       {sortType === 'default' ? (
         // 기본 정렬 - 원래 순서대로
         items.map((item, index) => (
-          <div key={index} className="item">
+          <div key={index} className={`item ${item.isImportant ? 'important' : ''}`}>
             <div className="itemContent">
               <input 
                 type="checkbox" 
@@ -109,7 +112,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
               <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
               <span className="count"> {item.count}</span>
             </div>
-            <button className="deleteButton" onClick={() => onDeleteItem(index)}>⋯</button>
+            <button className="deleteButton" onClick={() => setSelectedItemIndex(index)}>⋯</button>
           </div>
         ))
       ) : (
@@ -122,7 +125,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
                 <span>{CATEGORIES[categoryIndex]}</span>
               </div>
               {groupedItems[categoryIndex].map((item, itemIndex) => (
-                <div key={`${categoryIndex}-${itemIndex}`} className="item">
+                <div key={`${categoryIndex}-${itemIndex}`} className={`item ${item.isImportant ? 'important' : ''}`}>
                   <div className="itemContent">
                     <input 
                       type="checkbox" 
@@ -132,7 +135,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
                     <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
                     <span className="count"> {item.count}</span>
                   </div>
-                  <button className="deleteButton" onClick={() => onDeleteItem(item.originalIndex)}>⋯</button>
+                  <button className="deleteButton" onClick={() => setSelectedItemIndex(item.originalIndex)}>⋯</button>
                 </div>
               ))}
             </div>
@@ -146,20 +149,14 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
       ) : (
         <div className='addButtonExpanded'>
           
-          <div className='inputWrapper'>
-            <input
-              type='text'
-              placeholder='추가할 품목 입력'
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-              className='expandedInput'
-            />
-            <div className='quantityControl'>
-              <button className='quantityButton' onClick={handleDecrement}>−</button>
-              <span className='quantity'>{itemCount}개</span>
-              <button className='quantityButton' onClick={handleIncrement}>+</button>
-            </div>
-          </div>
+          <ItemInputWithQuantity
+            itemName={itemName}
+            onItemNameChange={setItemName}
+            itemCount={itemCount}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            placeholder='추가할 품목 입력'
+          />
           <hr style={{ border: "1px solid #000" }} />
           <div className='categoryGrid'>
             {CATEGORIES.map((category, index) => (
@@ -180,7 +177,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
             <button className='addBtn' onClick={handleAdd}>
               + 추가
             </button>
-          </div>
+    </div>
         </div>
       )}
 
@@ -189,6 +186,18 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
           message={toast.message} 
           type={toast.type} 
           onClose={() => setToast(null)} 
+        />
+      )}
+
+      {selectedItemIndex !== null && (
+        <ItemDetailModal
+          item={items[selectedItemIndex]}
+          onClose={() => setSelectedItemIndex(null)}
+          onUpdate={(updatedItem) => onUpdateItem(selectedItemIndex, updatedItem)}
+          onDelete={() => {
+            onDeleteItem(selectedItemIndex);
+            setSelectedItemIndex(null);
+          }}
         />
       )}
     </div>

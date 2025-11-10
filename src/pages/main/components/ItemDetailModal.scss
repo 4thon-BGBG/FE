@@ -1,0 +1,307 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+.itemDetailModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 20px;
+  padding: 2rem;
+  min-width: 320px;
+  max-width: 400px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modalClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalClose:hover {
+  color: #333;
+}
+
+.modalTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.2rem 0;
+}
+
+.detailLabel {
+  font-size: 0.95rem;
+  color: #999999;
+  font-weight: 500;
+  width: 5rem;
+}
+
+.detailValueWithStar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detailValue {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.starButtonModal {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  filter: grayscale(100%);
+  opacity: 0.3;
+  transition: all 0.2s;
+}
+
+.starButtonModal:hover {
+  opacity: 0.6;
+  transform: scale(1.1);
+}
+
+.starButtonModal.active {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.modalActions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.actionButton {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.actionButton img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.actionButton:hover {
+  background-color: #e8e8e8;
+}
+
+
+
+.actionIcon {
+  font-size: 1.2rem;
+}
+
+.editRow {
+  margin-bottom: 1.5rem;
+}
+
+.editLabel {
+  display: block;
+  font-size: 0.95rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.editInput {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: #F56E00;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background-color: #FFE8D6;
+  border-radius: 8px;
+  padding: 0.5rem;
+  width: fit-content;
+}
+
+.quantityButton {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: #FFE8D6;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: #F56E00;
+}
+
+.quantityButton:hover {
+  background-color: #FFD9B8;
+}
+
+.quantity {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  min-width: 50px;
+  text-align: center;
+}
+
+.categoryGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.categoryButton {
+  padding: 0.5rem 0.8rem;
+  border: 1.5px solid #F56E00;
+  border-radius: 6px;
+  background-color: white;
+  color: #F56E00;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.categoryButton:hover {
+  background-color: #FFF5E6;
+}
+
+.categoryButton.selected {
+  background-color: #F56E00;
+  color: white;
+}
+
+.memoTextarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.memoTextarea:focus {
+  outline: none;
+  border-color: #F56E00;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.cancelBtn,
+.confirmBtn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelBtn {
+  background-color: #999;
+  color: white;
+}
+
+.cancelBtn:hover {
+  background-color: #888;
+}
+
+.confirmBtn {
+  background-color: #F56E00;
+  color: white;
+}
+
+.confirmBtn:hover {
+  background-color: #d45f00;
+}
+
+.deleteIcon {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.deleteMessage {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+

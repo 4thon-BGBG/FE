@@ -283,6 +283,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.2s;
+}
+
+.item.important {
+  background-color: #FFF5E6;
+}
+
+.item.important span {
+  color: #F56E00;
+  font-weight: 600;
 }
 
 .itemContent {
@@ -308,7 +318,7 @@
 
 .checked {
   text-decoration: line-through;
-  color: #999;
+  color: #999 !important;
 }
 
 .addItemForm {
