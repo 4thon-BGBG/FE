@@ -12,6 +12,10 @@ import buttonCheck from '@/assets/button-check-icon.svg';
 import checkboxCheck from '@/assets/checkbox-check-icon.svg';
 import eyeOpen from '@/assets/eye-open-icon.svg';
 import eyeClose from '@/assets/eye-close-icon.svg';
+import reportImg from '@/assets/report-img.svg';
+import profileImg from '@/assets/profile-img.svg';
+import logoOpacity from '@/assets/logo-opacity.svg';
+import AnalyzingImg from '@/assets/Analyzing-img.svg';
 
 // 임포트한 이미지 및 아이콘 내보내기
 export {
@@ -25,7 +29,10 @@ export {
   buttonCancel,
   buttonCheck,
   checkboxCheck,
-  eyeOpen, 
+  eyeOpen,
   eyeClose,
+  reportImg,
+  profileImg,
+  logoOpacity,
+  AnalyzingImg,
 };
-

@@ -4,6 +4,7 @@ import { OnBoardingPage } from './pages/OnBoardingPage/OnBoardingPage';
 import { InventoryPage } from './pages/InventoryPage/InventoryPage';
 import { LoginPage } from './pages/auth/LoginPage/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage/RegisterPage';
+import { MyPage } from './pages/MyPage/MyPage';
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/landing" element={<OnBoardingPage />} />
           <Route path="/inventory" element={<InventoryPage />} />
-          <Route path="/login" element={<LoginPage />} />;
-          <Route path="/register" element={<RegisterPage />} />;
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
