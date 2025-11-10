@@ -4,8 +4,18 @@ import { CATEGORIES } from '../MainPage'
 import { Toast } from './Toast'
 import { ItemDetailModal } from './ItemDetailModal'
 import { ItemInputWithQuantity } from './ItemInputWithQuantity'
-
-export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck, onUpdateItem}) => {
+import { ListManageModal } from './ListManageModal'
+import { Setting } from '@/assets'
+export const ItemList = ({
+  items, 
+  onAddItem, 
+  onDeleteItem, 
+  onToggleCheck, 
+  onUpdateItem,
+  listName = '장보기 리스트',
+  onUpdateListName,
+  onDeleteList
+}) => {
   const [sortType, setSortType] = useState('default'); // 'default' or 'category'
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -13,6 +23,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck, onUpdat
   const [itemCount, setItemCount] = useState(1);
   const [toast, setToast] = useState(null);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [showManageModal, setShowManageModal] = useState(false);
 
   const handleSortChange = (type) => {
     setSortType(type);
@@ -78,10 +89,17 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck, onUpdat
 
   const groupedItems = getGroupedByCategory();
 
+  const completedCount = items.filter(item => item.isChecked).length;
+
   return (
     <div className='itemList'>
       <div className='listHeader'>
-        <p className='itemName'>장보기 리스트</p>
+        <div className='listTitleSection'>
+          <p className='itemName'>{listName}</p>
+          <button className='settingsButton' onClick={() => setShowManageModal(true)}>
+            <img src={Setting} alt='설정' />
+          </button>
+        </div>
         <div className='sortToggle' data-active={sortType}>
           <button 
             className={`sortOption ${sortType === 'default' ? 'active' : ''}`}
@@ -198,6 +216,17 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck, onUpdat
             onDeleteItem(selectedItemIndex);
             setSelectedItemIndex(null);
           }}
+        />
+      )}
+
+      {showManageModal && (
+        <ListManageModal
+          listName={listName}
+          itemCount={items.length}
+          completedCount={completedCount}
+          onClose={() => setShowManageModal(false)}
+          onUpdateName={onUpdateListName}
+          onDeleteList={onDeleteList}
         />
       )}
     </div>

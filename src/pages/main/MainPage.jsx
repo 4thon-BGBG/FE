@@ -49,7 +49,7 @@ export const MainPage = () => {
   const [allLists, setAllLists] = useState([dummyList, dummyList2]);
   
   // 각 리스트의 이름 (실제로는 서버에서 받아올 데이터)
-  const listNames = allLists.map((_, index) => `장보기 리스트 ${index + 1}`);
+  const [listNames, setListNames] = useState(['장보기 리스트 1', '장보기 리스트 2']);
   
   // 특정 리스트에 아이템 추가하는 함수
   const handleAddItem = (listIndex, newItem) => {
@@ -86,6 +86,22 @@ export const MainPage = () => {
   const handleAddList = () => {
     const newList = [];
     setAllLists([...allLists, newList]);
+    setListNames([...listNames, `장보기 리스트 ${allLists.length + 1}`]);
+  };
+
+  // 리스트 이름 업데이트 함수
+  const handleUpdateListName = (listIndex, newName) => {
+    const updatedNames = [...listNames];
+    updatedNames[listIndex] = newName;
+    setListNames(updatedNames);
+  };
+
+  // 리스트 삭제 함수
+  const handleDeleteList = (listIndex) => {
+    const updatedLists = allLists.filter((_, index) => index !== listIndex);
+    const updatedNames = listNames.filter((_, index) => index !== listIndex);
+    setAllLists(updatedLists);
+    setListNames(updatedNames);
   };
 
   // 소진된 아이템을 선택한 리스트에 추가
@@ -115,11 +131,14 @@ export const MainPage = () => {
         {allLists.map((list, index) => (
           <ItemList 
             key={index} 
-            items={list} 
+            items={list}
+            listName={listNames[index]}
             onAddItem={(newItem) => handleAddItem(index, newItem)}
             onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
             onUpdateItem={(itemIndex, updatedItem) => handleUpdateItem(index, itemIndex, updatedItem)}
+            onUpdateListName={(newName) => handleUpdateListName(index, newName)}
+            onDeleteList={() => handleDeleteList(index)}
           />
           ))}
           <AddListButton onAddList={handleAddList} />

@@ -4,6 +4,7 @@ import { CATEGORIES } from '../MainPage'
 import { Modify } from '@/assets'
 import { Delete } from '@/assets'
 import { Memo } from '@/assets'
+import { Error } from '@/assets'
 import { ItemInputWithQuantity } from './ItemInputWithQuantity'
 export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
   const [mode, setMode] = useState('detail'); // 'detail', 'edit', 'memo', 'delete'
@@ -171,7 +172,7 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
 
         {mode === 'delete' && (
           <>
-            <div className='deleteIcon'>⚠️</div>
+            <img src={Error} className='deleteIcon'/>
             <p className='deleteMessage'>이 품목을 리스트에서 삭제하시겠어요?</p>
             
             <div className='modalButtons'>
