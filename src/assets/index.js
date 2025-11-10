@@ -2,6 +2,11 @@
 // 이미지 추가하면 여기서 임포트하고 내보내기
 import Icon from'./mainPage/Icon.svg';
 import Glasses from './mainPage/glasses.svg';
+import Check from './mainPage/check.svg';
+import Error from './mainPage/error.svg';
+
 // 임포트한 이미지 및 아이콘 내보내기
 export {Icon};
 export {Glasses};
+export {Check};
+export {Error};

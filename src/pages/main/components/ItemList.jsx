@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./ItemList.scss"
 import { CATEGORIES } from '../MainPage'
+import { Toast } from './Toast'
 
 export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
   const [sortType, setSortType] = useState('default'); // 'default' or 'category'
@@ -8,6 +9,7 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [itemName, setItemName] = useState('');
   const [itemCount, setItemCount] = useState(1);
+  const [toast, setToast] = useState(null);
 
   const handleSortChange = (type) => {
     setSortType(type);
@@ -32,12 +34,8 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
   };
 
   const handleAdd = () => {
-    if (!itemName.trim()) {
-      alert('품목 이름을 입력해주세요!');
-      return;
-    }
-    if (selectedCategory === null) {
-      alert('카테고리를 선택해주세요!');
+    if (!itemName.trim() || selectedCategory === null) {
+      setToast({ type: 'warning', message: '필요한 모든 항목을 입력해주세요' });
       return;
     }
 
@@ -47,6 +45,9 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
       categoryIndex: selectedCategory,
       isChecked: false
     });
+
+    // 성공 메시지 표시
+    setToast({ type: 'success', message: '리스트에 항목을 추가했어요' });
 
     // 초기화
     handleClose();
@@ -181,6 +182,14 @@ export const ItemList = ({items, onAddItem, onDeleteItem, onToggleCheck}) => {
             </button>
           </div>
         </div>
+      )}
+
+      {toast && (
+        <Toast 
+          message={toast.message} 
+          type={toast.type} 
+          onClose={() => setToast(null)} 
+        />
       )}
     </div>
   )
