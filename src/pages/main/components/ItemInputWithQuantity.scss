@@ -24,16 +24,16 @@
 .quantityControl {
   @include flex(row, center, center, 0.5rem);
   background-color: #FFE8D6;
-  border-radius: rem(4px);
+  border-radius: 4px;
 }
 
 .quantityButton {
-  width: rem(28px);
-  height: rem(28px);
+  width: 28px;
+  height: 28px;
   border: none;
   background-color: #FFE8D6;
   color: $color-primary;
-  border-radius: rem(5px);
+  border-radius: 5px;
   font-size: 1.2rem;
   cursor: pointer;
   @include flex(row, center, center);
@@ -43,10 +43,10 @@
 .quantity {
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
-  border-radius: rem(4px);
+  border-radius: 4px;
   background-color: $color-white;
   color: $color-black;
-  min-width: rem(35px);
+  min-width: 35px;
   text-align: center;
 }
 

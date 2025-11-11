@@ -1,22 +1,20 @@
-@use '@/styles/variables' as *;
-@use '@/styles/function' as *;
-
 .addListButton {
   width: 100%;
   padding: 1rem;
-  background-color: $color-white;
+  background-color: white;
   color: #666;
   border: none;
-  border-radius: rem(10px);
-  font-size: $font-size-body;
-  font-weight: $font-weight-medium;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   margin-top: 1rem;
 }
 
 .addListButton:hover {
-  border-color: $color-primary;
-  color: $color-primary;
+  border-color: #F56E00;
+  color: #F56E00;
   background-color: #fff5f0;
 }
+

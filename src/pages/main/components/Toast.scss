@@ -7,12 +7,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: $color-white;
-  border-radius: rem(15px);
+  border-radius: 15px;
   padding: 2rem 2.5rem;
-  box-shadow: 0 rem(4px) rem(20px) rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   @include flex(column, center, center, 1rem);
-  min-width: rem(250px);
+  min-width: 250px;
   animation: fadeIn 0.2s ease-in;
 }
 
@@ -29,13 +29,13 @@
 
 .toastIcon {
   @include flex(row, center, center);
-  width: rem(60px);
-  height: rem(60px);
+  width: 60px;
+  height: 60px;
 }
 
 .iconImage {
-  width: rem(60px);
-  height: rem(60px);
+  width: 60px;
+  height: 60px;
   object-fit: contain;
 }
 

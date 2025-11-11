@@ -73,7 +73,7 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
         <button className='searchButton' onClick={handleSearch}>
           <img src={Glasses} alt='검색' className='searchIcon' />
         </button>
-      </div>
+      </div>  
 
       {step === 'initial' && (
         <div className='recommendSection'>

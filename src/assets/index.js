@@ -10,6 +10,13 @@ import Modify from './mainPage/modify.svg';
 import Setting from './mainPage/setting.svg';
 import Character from './mainPage/character.svg';
 import Switch from './mainPage/switch.svg';
+import Basket from './mainPage/basket.svg';
+import Item from './mainPage/item.svg';
+import SeeMore from './mainPage/see_more.svg';
+import BasketActive from './mainPage/basket_active.svg';
+import ItemActive from './mainPage/item_active.svg';
+import SeeMoreActive from './mainPage/see_more_active.svg';
+
 // 임포트한 이미지 및 아이콘 내보내기
 export {Icon};
 export {Glasses};
@@ -21,3 +28,9 @@ export {Memo};
 export {Setting};
 export {Character};
 export {Switch};
+export {Basket};
+export {Item};
+export {SeeMore};
+export {BasketActive};
+export {ItemActive};
+export {SeeMoreActive};

@@ -3,7 +3,7 @@
 
 .aiSuggestion {
   background-color: $color-white;
-  border-radius: rem(15px);
+  border-radius: 15px;
   padding: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -41,8 +41,8 @@
 .searchInput {
   flex: 1;
   padding: 0.8rem 1rem;
-  border: rem(1px) solid $color-gray2;
-  border-radius: rem(8px);
+  border: 1px solid $color-gray2;
+  border-radius: 8px;
   font-size: $font-size-body;
   outline: none;
 }
@@ -52,19 +52,19 @@
 }
 
 .searchButton {
-  width: rem(40px);
-  height: rem(40px);
+  width: 40px;
+  height: 40px;
   background-color: $color-primary;
   border: none;
-  border-radius: rem(8px);
+  border-radius: 8px;
   cursor: pointer;
   @include flex(row, center, center);
   @include hoverEvent(0.85);
 }
 
 .searchIcon {
-  width: rem(20px);
-  height: rem(20px);
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 
@@ -86,8 +86,8 @@
 .recommendTag {
   padding: 0.6rem 1.2rem;
   background-color: $color-secondary;
-  border: rem(1px) solid $color-primary;
-  border-radius: rem(20px);
+  border: 1px solid $color-primary;
+  border-radius: 20px;
   color: $color-primary;
   font-size: $font-size-subhead;
   font-weight: $font-weight-medium;
@@ -113,8 +113,8 @@
 }
 
 .characterImage {
-  width: rem(150px);
-  height: rem(150px);
+  width: 150px;
+  height: 150px;
   object-fit: contain;
 }
 
@@ -125,7 +125,7 @@
 
 .recipeList {
   background-color: $color-secondary;
-  border-radius: rem(12px);
+  border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -136,8 +136,8 @@
 }
 
 .recipeNumber {
-  width: rem(24px);
-  height: rem(24px);
+  width: 24px;
+  height: 24px;
   background-color: $color-primary;
   color: $color-white;
   border-radius: 50%;
@@ -159,8 +159,8 @@
 }
 
 .promptIcon {
-  width: rem(32px);
-  height: rem(32px);
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -197,7 +197,7 @@
   width: 5rem;
   height: 2.25rem;
   border: none;
-  border-radius: rem(10px);
+  border-radius: 10px;
   font-size: 1.3rem;
   cursor: pointer;
   @include flex(row, center, center);

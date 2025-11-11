@@ -3,8 +3,10 @@
 
 .mainPage {
   background-color: $color-secondary;
-  height: 100vh;
+  min-height: 100vh;
   gap: 2rem;
+  padding: 1rem;
+  padding-bottom: 5rem;
 }
 
 .itemList {
