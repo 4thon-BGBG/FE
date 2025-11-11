@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './AddItems.scss'
+import { CustomSelect } from './CustomSelect'
 
 export const AddItems = ({ exhaustedItem, listNames, onAddToList, onCancel }) => {
   const [selectedListIndex, setSelectedListIndex] = useState(0);
@@ -16,15 +17,11 @@ export const AddItems = ({ exhaustedItem, listNames, onAddToList, onCancel }) =>
       
       <div className='listSelector'>
         <label>추가할 리스트:</label>
-        <select 
-          value={selectedListIndex}
-          onChange={(e) => setSelectedListIndex(Number(e.target.value))}
-        >
-          {listNames.map((name, index) => (
-            <option key={index} value={index}>{name}</option>
-          ))}
-        </select>
-        <button className='refreshButton'>🔄</button>
+        <CustomSelect 
+          options={listNames}
+          selectedIndex={selectedListIndex}
+          onChange={setSelectedListIndex}
+        />
       </div>
 
       <div className='modalButtons'>

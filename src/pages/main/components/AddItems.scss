@@ -22,8 +22,7 @@
 
 .listSelector {
   background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 10px;
+  border-radius: 7px;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -36,44 +35,27 @@
   white-space: nowrap;
 }
 
-.listSelector select {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  background-color: white;
-}
-
-.refreshButton {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0.3rem;
-  transition: transform 0.2s;
-}
-
-.refreshButton:hover {
-  transform: rotate(180deg);
-}
 
 .modalButtons {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
+  justify-content: flex-end;
 }
 
 .cancelButton,
 .confirmButton {
-  flex: 1;
-  padding: 0.8rem;
+  width: 5rem;
+  height: 2.25rem;
+  padding: 0;
   border: none;
   border-radius: 10px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.2s;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cancelButton {

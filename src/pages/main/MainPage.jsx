@@ -124,6 +124,20 @@ export const MainPage = () => {
     // API 예시: POST /api/exhausted-items/dismiss
     // body: { itemId: item.id }
   };
+
+  // AI 추천으로부터 재료 추가하는 함수
+  const handleAddAIRecipes = (listIndex, recipes) => {
+    const updatedLists = [...allLists];
+    // 각 레시피를 아이템으로 변환하여 추가
+    const newItems = recipes.map(recipe => ({
+      name: recipe,
+      count: 1,
+      categoryIndex: 9, // 기타 카테고리
+      isChecked: false
+    }));
+    updatedLists[listIndex] = [...updatedLists[listIndex], ...newItems];
+    setAllLists(updatedLists);
+  };
   
   return (
     <div className='mainPage'>
@@ -155,7 +169,11 @@ export const MainPage = () => {
           )}
           
           {/* AI 추천 컴포넌트 */}
-          <AISuggestion />
+          <AISuggestion 
+            listNames={listNames}
+            onAddRecipes={handleAddAIRecipes}
+            style={{marginTop: '2rem'}}
+          />
         </div>
       </div>
     )
