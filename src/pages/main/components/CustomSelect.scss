@@ -9,7 +9,7 @@
 .customSelectButton {
   width: 100%;
   padding: 0.5rem;
-  border-radius: 5px;
+  border-radius: rem(5px);
   font-size: $font-size-subhead;
   cursor: pointer;
   background-color: $color-gray3;
@@ -28,8 +28,8 @@
 }
 
 .switchIcon {
-  width: 16px;
-  height: 16px;
+  width: rem(16px);
+  height: rem(16px);
   object-fit: contain;
   transition: transform 0.3s;
   
@@ -44,8 +44,8 @@
   left: 0;
   right: 0;
   background-color: $color-white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: rem(10px);
+  box-shadow: 0 rem(4px) rem(12px) rgba(0, 0, 0, 0.15);
   z-index: 1000;
   overflow: hidden;
   animation: slideDown 0.2s ease-out;
@@ -54,7 +54,7 @@
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(rem(-10px));
   }
   to {
     opacity: 1;
@@ -84,7 +84,7 @@
   color: $color-primary;
   font-size: 1.1rem;
   font-weight: $font-weight-bold;
-  width: 20px;
+  width: rem(20px);
   flex-shrink: 0;
 }
 
