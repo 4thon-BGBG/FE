@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './AISuggestion.scss'
-import { Icon, Character } from '@/assets'
+import { Icon, Character, Glasses } from '@/assets'
 import { CustomSelect } from './CustomSelect'
 import { Toast } from './Toast'
 
@@ -71,7 +71,7 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
           className='searchInput'
         />
         <button className='searchButton' onClick={handleSearch}>
-          🔍
+          <img src={Glasses} alt='검색' className='searchIcon' />
         </button>
       </div>
 

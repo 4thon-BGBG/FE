@@ -1,5 +1,8 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
 .addItemsCard {
-  background-color: white;
+  background-color: $color-white;
   border-radius: 15px;
   padding: 1.5rem;
   margin-top: 1rem;
@@ -9,37 +12,32 @@
 
 .modalTitle {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: #333;
   margin-bottom: 1.5rem;
   line-height: 1.5;
 }
 
 .itemName {
-  color: #F56E00;
-  font-weight: 700;
+  color: $color-primary;
+  font-weight: $font-weight-bold;
 }
 
 .listSelector {
-  background-color: #f9f9f9;
+  background-color: $color-gray3;
   border-radius: 7px;
   margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  @include flex(row, center, flex-start, 0.5rem);
 }
 
 .listSelector label {
-  font-size: 0.9rem;
+  font-size: $font-size-subhead;
   color: #666;
   white-space: nowrap;
 }
 
-
 .modalButtons {
-  display: flex;
-  gap: 0.8rem;
-  justify-content: flex-end;
+  @include flex(row, center, flex-end, 0.8rem);
 }
 
 .cancelButton,
@@ -52,27 +50,19 @@
   font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.2s;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-weight: $font-weight-bold;
+  @include flex(row, center, center);
 }
 
 .cancelButton {
-  background-color: #999;
-  color: white;
-}
-
-.cancelButton:hover {
-  background-color: #777;
+  background-color: $color-gray0;
+  color: $color-white;
+  @include hoverEvent(0.85);
 }
 
 .confirmButton {
-  background-color: #F56E00;
-  color: white;
-}
-
-.confirmButton:hover {
-  background-color: #d45f00;
+  background-color: $color-primary;
+  color: $color-white;
+  @include hoverEvent(0.85);
 }
 

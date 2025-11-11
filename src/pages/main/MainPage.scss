@@ -1,10 +1,15 @@
-.mainPage{
-  background-color : #FFE3C8;
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.mainPage {
+  background-color: $color-secondary;
   height: 100vh;
-  gap:2rem;
+  gap: 2rem;
 }
-.itemList{
+
+.itemList {
 }
-.listItem{
-  padding:1rem;
+
+.listItem {
+  padding: 1rem;
 }

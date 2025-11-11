@@ -1,5 +1,8 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
 .aiSuggestion {
-  background-color: white;
+  background-color: $color-white;
   border-radius: 15px;
   padding: 1.5rem;
   margin-top: 2rem;
@@ -7,67 +10,62 @@
 }
 
 .aiHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  @include flex(row, center, flex-start, 0.8rem);
   margin-bottom: 0.5rem;
 }
 
 .aiIcon {
-  width: 32px;
-  height: 32px;
+  width: rem(32px);
+  height: rem(32px);
   object-fit: contain;
 }
 
 .aiTitle {
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: $font-weight-bold;
   color: #333;
   margin: 0;
 }
 
 .aiSubtitle {
-  font-size: 0.9rem;
-  color: #999;
+  font-size: $font-size-subhead;
+  color: $color-gray0;
   margin: 0 0 1.5rem 0;
 }
 
 .searchBar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  @include flex(row, center, flex-start, 0.5rem);
   margin-bottom: 1.5rem;
 }
 
 .searchInput {
   flex: 1;
   padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid $color-gray2;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: $font-size-body;
   outline: none;
 }
 
 .searchInput:focus {
-  border-color: #F56E00;
+  border-color: $color-primary;
 }
 
 .searchButton {
   width: 40px;
   height: 40px;
-  background-color: #F56E00;
+  background-color: $color-primary;
   border: none;
   border-radius: 8px;
-  font-size: 1.2rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
+  @include flex(row, center, center);
+  @include hoverEvent(0.85);
 }
 
-.searchButton:hover {
-  background-color: #d45f00;
+.searchIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 .recommendSection {
@@ -75,47 +73,43 @@
 }
 
 .recommendTitle {
-  font-size: 0.9rem;
+  font-size: $font-size-subhead;
   color: #666;
   margin: 0 0 1rem 0;
 }
 
 .tagList {
-  display: flex;
+  @include flex(row, center, flex-start, 0.8rem);
   flex-wrap: wrap;
-  gap: 0.8rem;
 }
 
 .recommendTag {
   padding: 0.6rem 1.2rem;
-  background-color: #FFF5E6;
-  border: 1px solid #F56E00;
+  background-color: $color-secondary;
+  border: 1px solid $color-primary;
   border-radius: 20px;
-  color: #F56E00;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: $color-primary;
+  font-size: $font-size-subhead;
+  font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .recommendTag:hover {
-  background-color: #F56E00;
-  color: white;
+  background-color: $color-primary;
+  color: $color-white;
 }
 
 .loadingSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @include flex(column, center, center);
   padding: 3rem 0;
 }
 
 .loadingText {
-  font-size: 1rem;
-  color: #F56E00;
+  font-size: $font-size-body;
+  color: $color-primary;
   margin: 0 0 2rem 0;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .characterImage {
@@ -130,43 +124,37 @@
 }
 
 .recipeList {
-  background-color: #FFF5E6;
+  background-color: $color-secondary;
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
 
 .recipeItem {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  @include flex(row, center, flex-start, 1rem);
   padding: 0.5rem 0;
 }
 
 .recipeNumber {
   width: 24px;
   height: 24px;
-  background-color: #F56E00;
-  color: white;
+  background-color: $color-primary;
+  color: $color-white;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 600;
+  @include flex(row, center, center);
+  font-size: $font-size-subhead;
+  font-weight: $font-weight-semibold;
   flex-shrink: 0;
 }
 
 .recipeName {
-  font-size: 1rem;
+  font-size: $font-size-body;
   color: #333;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .addPrompt {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
+  @include flex(row, flex-start, flex-start, 0.8rem);
   margin-bottom: 1.5rem;
 }
 
@@ -178,7 +166,7 @@
 }
 
 .promptText {
-  font-size: 1rem;
+  font-size: $font-size-body;
   color: #333;
   margin: 0;
   line-height: 1.6;
@@ -186,7 +174,7 @@
 
 .promptSubtext {
   font-size: 0.85rem;
-  color: #999;
+  color: $color-gray0;
 }
 
 .addListSection {
@@ -194,16 +182,14 @@
 }
 
 .addListLabel {
-  font-size: 0.95rem;
+  font-size: $font-size-subhead;
   color: #666;
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .actionButtons {
-  display: flex;
-  gap: 0.8rem;
-  justify-content: flex-end;
+  @include flex(row, center, flex-end, 0.8rem);
 }
 
 .cancelButton,
@@ -214,29 +200,21 @@
   border-radius: 10px;
   font-size: 1.3rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex(row, center, center);
   transition: all 0.2s;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 
 .cancelButton {
-  background-color: #999;
-  color: white;
-}
-
-.cancelButton:hover {
-  background-color: #888;
+  background-color: $color-gray0;
+  color: $color-white;
+  @include hoverEvent(0.9);
 }
 
 .confirmButton {
-  background-color: #F56E00;
-  color: white;
-}
-
-.confirmButton:hover {
-  background-color: #d45f00;
+  background-color: $color-primary;
+  color: $color-white;
+  @include hoverEvent(0.85);
 }
 
 .listDropdownWrapper {
