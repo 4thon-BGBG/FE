@@ -43,7 +43,7 @@ export const OnBoardingPage = () => {
             step + 1 !== onBoardingItem.length
               ? () => setStep((prev) => prev + 1)
               : () => {
-                  nav('/');
+                  nav('/login');
                 }
           }
         />

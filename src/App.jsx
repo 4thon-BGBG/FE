@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 
 import { MainPage } from './pages/main/MainPage';
@@ -14,7 +14,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* 모바일 레이아웃 설정 */}
-        {/* TODO 추후 인증 로직 추가 */}
         <Route element={<Layout />}>
           <Route path="/landing" element={<OnBoardingPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -24,6 +23,7 @@ function App() {
             <Route path="/inventory" element={<InventoryPage />} />
             <Route path="/mypage" element={<MyPage />} />
           </Route>
+          <Route path="*" element={<Navigate to="/landing" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>
