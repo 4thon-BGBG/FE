@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
+import './Layout.scss';
 
 export const Layout = () => {
   const [activeTab, setActiveTab] = useState('basket');
@@ -19,7 +20,13 @@ export const Layout = () => {
         backgroundColor: "white",
       }}
     >
-      <div style={{ paddingBottom: '70px', height: '100%', overflowY: 'auto' }}>
+      <div style={{ 
+        paddingBottom: '70px', 
+        height: '100%', 
+        overflowY: 'auto',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none'
+      }}>
         <Outlet />
       </div>
       <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} hasNotification={false} />
