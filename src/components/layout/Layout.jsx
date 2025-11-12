@@ -8,6 +8,7 @@ export const Layout = () => {
         height: '100dvh',
         margin: '0 auto',
         position: 'relative',
+        backgroundColor: "white",
       }}
     >
       <Outlet />
