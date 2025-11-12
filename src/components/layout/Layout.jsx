@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
-import './Layout.scss';
 
 export const Layout = () => {
   const [activeTab, setActiveTab] = useState('basket');
+  const location = useLocation();
+  const noneNavBarPaths = ['login', 'register', 'landing'];
+  const showNavbar = !noneNavBarPaths.some((path) =>
+    location.pathname.includes(path),
+  );
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
@@ -20,13 +24,14 @@ export const Layout = () => {
         backgroundColor: 'white',
       }}
     >
-
       <Outlet />
-      <BottomNavigation
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
-        hasNotification={false}
-      />
+      {showNavbar && (
+        <BottomNavigation
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          hasNotification={false}
+        />
+      )}
     </div>
   );
 };
