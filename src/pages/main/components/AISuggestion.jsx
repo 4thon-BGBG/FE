@@ -62,6 +62,7 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
       <p className='aiSubtitle'>메뉴를 기반으로 AI 바디가 재료를 추천해줘요</p>
 
       <div className='searchBar'>
+        <img src={Glasses} alt='검색' className='searchIcon' onClick={handleSearch} />
         <input
           type='text'
           placeholder='메뉴명을 입력해주세요'
@@ -70,9 +71,6 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
           onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           className='searchInput'
         />
-        <button className='searchButton' onClick={handleSearch}>
-          <img src={Glasses} alt='검색' className='searchIcon' />
-        </button>
       </div>  
 
       {step === 'initial' && (

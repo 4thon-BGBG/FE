@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { BottomNavigation } from './BottomNavigation';
+import './Layout.scss';
 
 export const Layout = () => {
   const [activeTab, setActiveTab] = useState('basket');
@@ -19,6 +20,7 @@ export const Layout = () => {
         backgroundColor: 'white',
       }}
     >
+
       <Outlet />
       <BottomNavigation
         activeTab={activeTab}
