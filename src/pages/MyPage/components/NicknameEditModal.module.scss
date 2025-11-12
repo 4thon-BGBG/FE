@@ -1,0 +1,59 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.backdrop {
+  @include flex();
+  position: fixed;
+  max-width: 430px;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  padding: 0 16px;
+  .container {
+    @include flex(column, $gap: 20px);
+    position: relative;
+    width: 100%;
+    background-color: $color-white;
+    border-radius: 10px;
+    padding: 20px 25px;
+    .title {
+      font-size: 20px;
+      font-weight: $font-weight-semibold;
+      color: $color-black;
+      line-height: 130%; /* 26px */
+    }
+    .inputContainer {
+      @include flex($justify-content: space-between);
+      width: 100%;
+      color: $color-black;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid black;
+      .inputName {
+        font-size: $font-size-body;
+        border: none;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    .buttonContainer {
+      @include flex($gap: 15px);
+      width: 100%;
+      .buttonCancel {
+        @include buttonStyle();
+        img {
+        }
+      }
+      .buttonCheck {
+        @include buttonStyle($color-primary);
+        img {
+        }
+      }
+    }
+  }
+}

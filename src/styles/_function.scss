@@ -1,3 +1,5 @@
+@use '@/styles/variables' as *;
+
 @mixin flex(
   $direction: row,
   $align-items: center,
@@ -30,4 +32,13 @@
     filter: brightness($bright);
     cursor: pointer;
   }
+}
+
+@mixin buttonStyle($background: $color-gray0) {
+  @include flex();
+  @include hoverEvent();
+
+  padding: 7px 29px;
+  background-color: $background;
+  border-radius: 7px;
 }
