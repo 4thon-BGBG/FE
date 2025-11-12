@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/Button/Button';
 import { InputField } from '@/components/form/InputField';
 import { PasswordInputField } from '@/components/form/PasswordInputField';
+import { loginApi } from '@/apis/auth/auth';
 
 export const LoginPage = () => {
   const nav = useNavigate();
@@ -15,10 +16,14 @@ export const LoginPage = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (loginData) => {
     try {
-      console.log('로그인 데이터:', data);
-      nav('/');
+      const { ok, data } = await loginApi(loginData);
+      if (ok) {
+        console.log('로그인 데이터:', loginData);
+        console.log('로그인 데이터:', data);
+        nav('/main');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -33,11 +38,11 @@ export const LoginPage = () => {
             label="아이디"
             placeholder="아이디 입력"
             registration={{
-              ...register('id', {
+              ...register('username', {
                 required: '필수 입력 사항입니다.',
               }),
             }}
-            error={errors.id}
+            error={errors.username}
           />
           <PasswordInputField
             label="비밀번호"

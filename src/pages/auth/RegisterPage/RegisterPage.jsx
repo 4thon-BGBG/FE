@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/Button/Button';
 import { InputField } from '@/components/form/InputField';
 import { PasswordInputField } from '@/components/form/PasswordInputField';
+import { registerApi } from '@/apis/auth/auth';
 
 export const RegisterPage = () => {
   const nav = useNavigate();
@@ -30,10 +31,16 @@ export const RegisterPage = () => {
   };
 
   // 회원가입 제출
-  const onSubmit = (data) => {
+  const onSubmit = async (registerData) => {
     try {
-      console.log('회원가입 데이터:', data);
-      nav('/login');
+      console.log('회원가입 데이터:', registerData);
+      const { ok, data } = await registerApi(registerData);
+      if (ok) {
+        console.log('회원가입 데이터:', registerData);
+        console.log(data);
+
+        nav('/login');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -44,8 +51,8 @@ export const RegisterPage = () => {
   const nicknameValue = watch('nickname');
 
   useEffect(() => {
-    if (getValues('passwordConfirm')) {
-      trigger('passwordConfirm');
+    if (getValues('confirmPassword')) {
+      trigger('confirmPassword');
     }
   }, [passwordValue, trigger, getValues]);
 
@@ -79,13 +86,13 @@ export const RegisterPage = () => {
           ) : (
             <>
               <InputField
-                key="id"
+                key="username"
                 label="아이디"
                 placeholder="아이디 입력"
-                registration={register('id', {
+                registration={register('username', {
                   required: '필수 입력 사항입니다.',
                 })}
-                error={errors.id}
+                error={errors.username}
               />
               <PasswordInputField
                 label="비밀번호"
@@ -98,7 +105,7 @@ export const RegisterPage = () => {
               <PasswordInputField
                 label="비밀번호 재입력"
                 placeholder="비밀번호 입력"
-                registration={register('passwordConfirm', {
+                registration={register('confirmPassword', {
                   required: '필수 입력 사항입니다.',
                   validate: {
                     matchesPreviousPassword: (value) => {
@@ -109,7 +116,7 @@ export const RegisterPage = () => {
                     },
                   },
                 })}
-                error={errors.passwordConfirm}
+                error={errors.confirmPassword}
               />
             </>
           )}
