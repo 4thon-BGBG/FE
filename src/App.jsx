@@ -7,6 +7,7 @@ import { InventoryPage } from './pages/InventoryPage/InventoryPage';
 import { LoginPage } from './pages/auth/LoginPage/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage/RegisterPage';
 import { MyPage } from './pages/MyPage/MyPage';
+import ProtectedRoute from './components/layout/ProtectedRoute';
 
 function App() {
   return (
@@ -15,12 +16,14 @@ function App() {
         {/* 모바일 레이아웃 설정 */}
         {/* TODO 추후 인증 로직 추가 */}
         <Route element={<Layout />}>
-          <Route path="/main" element={<MainPage />} />
           <Route path="/landing" element={<OnBoardingPage />} />
-          <Route path="/inventory" element={<InventoryPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/mypage" element={<MyPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/main" element={<MainPage />} />
+            <Route path="/inventory" element={<InventoryPage />} />
+            <Route path="/mypage" element={<MyPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
