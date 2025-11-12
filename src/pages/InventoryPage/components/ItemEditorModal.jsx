@@ -6,7 +6,7 @@ import { LuPlus } from 'react-icons/lu';
 import { LuMinus } from 'react-icons/lu';
 import { IoIosWarning } from 'react-icons/io';
 import { FaCheckCircle } from 'react-icons/fa';
-import { ItemEditorToast } from './itemEditorToast';
+import { ItemEditorToast } from './ItemEditorToast';
 
 const TOAST_DELAY = 2000;
 

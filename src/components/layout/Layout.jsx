@@ -17,19 +17,16 @@ export const Layout = () => {
         height: '100dvh',
         margin: '0 auto',
         position: 'relative',
-        backgroundColor: "white",
+        backgroundColor: 'white',
       }}
     >
-      <div style={{ 
-        paddingBottom: '70px', 
-        height: '100%', 
-        overflowY: 'auto',
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none'
-      }}>
-        <Outlet />
-      </div>
-      <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} hasNotification={false} />
+
+      <Outlet />
+      <BottomNavigation
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        hasNotification={false}
+      />
     </div>
   );
 };
