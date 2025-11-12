@@ -9,7 +9,7 @@
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 1;
   padding: 0 16px;
-  .container {
+  .container {  
     @include flex(column, $gap: 20px);
     position: relative;
     width: 100%;

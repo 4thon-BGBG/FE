@@ -36,9 +36,8 @@
 .searchBar {
   @include flex(row, center, space-between);
   margin-bottom: 1.5rem;
-  background-color: $color-secondary;
-  border-radius: 8px;
   padding-right: 0.8rem;
+  border-bottom:1px solid black;
 }
 
 .searchInput {
@@ -59,22 +58,18 @@
   outline: none;
 }
 
-.searchButton {
-  width: 40px;
-  height: 40px;
-  background-color: $color-primary;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  flex-shrink: 0;
-  @include flex(row, center, center);
-  @include hoverEvent(0.85);
-}
 
 .searchIcon {
   width: 20px;
   height: 20px;
   object-fit: contain;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.searchIcon:hover {
+  opacity: 0.7;
 }
 
 .recommendSection {
@@ -93,10 +88,10 @@
 }
 
 .recommendTag {
-  padding: 0.6rem 1.2rem;
+  padding: rem(7px) rem(10px);
   background-color: $color-secondary;
   border: 1px solid $color-primary;
-  border-radius: 20px;
+  border-radius: 7px;
   color: $color-primary;
   font-size: $font-size-subhead;
   font-weight: $font-weight-medium;
