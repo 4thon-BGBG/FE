@@ -5,3 +5,39 @@ import Glasses from './mainPage/glasses.svg';
 // 임포트한 이미지 및 아이콘 내보내기
 export {Icon};
 export {Glasses};
+import logoWihte from '@/assets/logo-white.svg';
+import onBoarding1 from '@/assets/onBoarding-icon1.svg';
+import onBoarding2 from '@/assets/onBoarding-icon2.svg';
+import glasses from '@/assets/glasses.svg';
+import blankBubble from '@/assets/blank-bubble.svg';
+import selectCheck from '@/assets/select-check.svg';
+import penIcon from '@/assets/pen-icon.svg';
+import buttonCancel from '@/assets/button-cancel-icon.svg';
+import buttonCheck from '@/assets/button-check-icon.svg';
+import checkboxCheck from '@/assets/checkbox-check-icon.svg';
+import eyeOpen from '@/assets/eye-open-icon.svg';
+import eyeClose from '@/assets/eye-close-icon.svg';
+import reportImg from '@/assets/report-img.svg';
+import profileImg from '@/assets/profile-img.svg';
+import logoOpacity from '@/assets/logo-opacity.svg';
+import AnalyzingImg from '@/assets/Analyzing-img.svg';
+
+// 임포트한 이미지 및 아이콘 내보내기
+export {
+  logoWihte,
+  onBoarding1,
+  onBoarding2,
+  glasses,
+  blankBubble,
+  selectCheck,
+  penIcon,
+  buttonCancel,
+  buttonCheck,
+  checkboxCheck,
+  eyeOpen,
+  eyeClose,
+  reportImg,
+  profileImg,
+  logoOpacity,
+  AnalyzingImg,
+};
