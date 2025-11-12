@@ -15,10 +15,7 @@ function App() {
         {/* 모바일 레이아웃 설정 */}
         {/* TODO 추후 인증 로직 추가 */}
         <Route element={<Layout />}>
-      
-          <Route path="/" element={<MainPage />} />
-          {/* <Route path="/login" element={<LoginPage />} />; */}
-
+          <Route path="/main" element={<MainPage />} />
           <Route path="/landing" element={<OnBoardingPage />} />
           <Route path="/inventory" element={<InventoryPage />} />
           <Route path="/login" element={<LoginPage />} />
