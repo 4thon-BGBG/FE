@@ -1,0 +1,50 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $color-white;
+  border-radius: 15px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  @include flex(column, center, center, 1rem);
+  min-width: 250px;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.toastIcon {
+  @include flex(row, center, center);
+  width: 60px;
+  height: 60px;
+}
+
+.iconImage {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.toastMessage {
+  margin: 0;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+}
+

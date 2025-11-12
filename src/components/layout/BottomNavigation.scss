@@ -1,0 +1,63 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.bottomNavigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 430px;
+  margin: 0 auto;
+  background-color: $color-white;
+  @include flex(row, center, space-around);
+  padding: 0.5rem 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.navItem {
+  @include flex(column, center, center, 0.25rem);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s;
+  flex: 1;
+  
+  &.active {
+    .navLabel {
+      color: $color-primary;
+      font-weight: $font-weight-semibold;
+    }
+  }
+}
+
+.iconWrapper {
+  position: relative;
+  @include flex(row, center, center);
+}
+
+.navIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.notificationBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: #FF0000;
+  border-radius: 50%;
+  border: 2px solid $color-white;
+}
+
+.navLabel {
+  font-size: $font-size-caption;
+  color: $color-gray1;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+

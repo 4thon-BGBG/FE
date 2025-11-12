@@ -1,0 +1,52 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.inputWrapper {
+  @include flex(row, center, space-between);
+  border: none;
+  padding-right: 0.8rem;
+}
+
+.expandedInput {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  font-size: $font-size-subhead;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: none;
+}
+
+.expandedInput::placeholder {
+  color: #aaa;
+}
+
+.quantityControl {
+  @include flex(row, center, center, 0.5rem);
+  background-color: #FFE8D6;
+  border-radius: 4px;
+}
+
+.quantityButton {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background-color: #FFE8D6;
+  color: $color-primary;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  @include flex(row, center, center);
+  transition: all 0.2s;
+}
+
+.quantity {
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  border-radius: 4px;
+  background-color: $color-white;
+  color: $color-black;
+  min-width: 35px;
+  text-align: center;
+}
+

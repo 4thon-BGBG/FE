@@ -1,10 +1,17 @@
-.mainPage{
-  background-color : #FFE3C8;
-  height: 100vh;
-  gap:2rem;
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.mainPage {
+  background-color: $color-secondary;
+  min-height: 100vh;
+  gap: 2rem;
+  padding: 1rem;
+  padding-bottom: 5rem;
 }
-.itemList{
+
+.itemList {
 }
-.listItem{
-  padding:1rem;
+
+.listItem {
+  padding: 1rem;
 }

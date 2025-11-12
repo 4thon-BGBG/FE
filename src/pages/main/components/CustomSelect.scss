@@ -1,0 +1,94 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
+.customSelect {
+  position: relative;
+  width: 100%;
+}
+
+.customSelectButton {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: $font-size-subhead;
+  cursor: pointer;
+  background-color: $color-gray3;
+  border: none;
+  @include flex(row, center, space-between);
+  transition: background-color 0.2s;
+  
+  span {
+    flex: 1;
+    text-align: left;
+  }
+}
+
+.customSelectButton:hover {
+  background-color: #f0f0f0;
+}
+
+.switchIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  transition: transform 0.3s;
+  
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.customSelectDropdown {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  right: 0;
+  background-color: $color-white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.customSelectOption {
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  @include flex(row, center, flex-start, 0.8rem);
+  transition: background-color 0.2s;
+  font-size: $font-size-subhead;
+  color: #333;
+  background-color: $color-white;
+  
+  &:hover {
+    background-color: $color-secondary;
+  }
+  
+  &.selected {
+    background-color: $color-secondary;
+  }
+}
+
+.checkmark {
+  color: $color-primary;
+  font-size: 1.1rem;
+  font-weight: $font-weight-bold;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.optionText {
+  flex: 1;
+}
+

@@ -1,5 +1,8 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
 .addItemsCard {
-  background-color: white;
+  background-color: $color-white;
   border-radius: 15px;
   padding: 1.5rem;
   margin-top: 1rem;
@@ -9,88 +12,57 @@
 
 .modalTitle {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: #333;
   margin-bottom: 1.5rem;
   line-height: 1.5;
 }
 
 .itemName {
-  color: #F56E00;
-  font-weight: 700;
+  color: $color-primary;
+  font-weight: $font-weight-bold;
 }
 
 .listSelector {
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 10px;
+  background-color: $color-gray3;
+  border-radius: 7px;
   margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  @include flex(row, center, flex-start, 0.5rem);
 }
 
 .listSelector label {
-  font-size: 0.9rem;
+  font-size: $font-size-subhead;
   color: #666;
   white-space: nowrap;
 }
 
-.listSelector select {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  background-color: white;
-}
-
-.refreshButton {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0.3rem;
-  transition: transform 0.2s;
-}
-
-.refreshButton:hover {
-  transform: rotate(180deg);
-}
-
 .modalButtons {
-  display: flex;
-  gap: 1rem;
+  @include flex(row, center, flex-end, 0.8rem);
 }
 
 .cancelButton,
 .confirmButton {
-  flex: 1;
-  padding: 0.8rem;
+  width: 5rem;
+  height: 2.25rem;
+  padding: 0;
   border: none;
   border-radius: 10px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.2s;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
+  @include flex(row, center, center);
 }
 
 .cancelButton {
-  background-color: #999;
-  color: white;
-}
-
-.cancelButton:hover {
-  background-color: #777;
+  background-color: $color-gray0;
+  color: $color-white;
+  @include hoverEvent(0.85);
 }
 
 .confirmButton {
-  background-color: #F56E00;
-  color: white;
-}
-
-.confirmButton:hover {
-  background-color: #d45f00;
+  background-color: $color-primary;
+  color: $color-white;
+  @include hoverEvent(0.85);
 }
 

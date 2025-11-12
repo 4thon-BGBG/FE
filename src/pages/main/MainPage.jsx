@@ -49,7 +49,7 @@ export const MainPage = () => {
   const [allLists, setAllLists] = useState([dummyList, dummyList2]);
   
   // 각 리스트의 이름 (실제로는 서버에서 받아올 데이터)
-  const listNames = allLists.map((_, index) => `장보기 리스트 ${index + 1}`);
+  const [listNames, setListNames] = useState(['장보기 리스트 1', '장보기 리스트 2']);
   
   // 특정 리스트에 아이템 추가하는 함수
   const handleAddItem = (listIndex, newItem) => {
@@ -75,10 +75,33 @@ export const MainPage = () => {
     setAllLists(updatedLists);
   };
 
+  // 특정 리스트의 아이템 업데이트 함수
+  const handleUpdateItem = (listIndex, itemIndex, updatedItem) => {
+    const updatedLists = [...allLists];
+    updatedLists[listIndex][itemIndex] = updatedItem;
+    setAllLists(updatedLists);
+  };
+
   // 새 리스트 추가 함수
   const handleAddList = () => {
     const newList = [];
     setAllLists([...allLists, newList]);
+    setListNames([...listNames, `장보기 리스트 ${allLists.length + 1}`]);
+  };
+
+  // 리스트 이름 업데이트 함수
+  const handleUpdateListName = (listIndex, newName) => {
+    const updatedNames = [...listNames];
+    updatedNames[listIndex] = newName;
+    setListNames(updatedNames);
+  };
+
+  // 리스트 삭제 함수
+  const handleDeleteList = (listIndex) => {
+    const updatedLists = allLists.filter((_, index) => index !== listIndex);
+    const updatedNames = listNames.filter((_, index) => index !== listIndex);
+    setAllLists(updatedLists);
+    setListNames(updatedNames);
   };
 
   // 소진된 아이템을 선택한 리스트에 추가
@@ -101,6 +124,20 @@ export const MainPage = () => {
     // API 예시: POST /api/exhausted-items/dismiss
     // body: { itemId: item.id }
   };
+
+  // AI 추천으로부터 재료 추가하는 함수
+  const handleAddAIRecipes = (listIndex, recipes) => {
+    const updatedLists = [...allLists];
+    // 각 레시피를 아이템으로 변환하여 추가
+    const newItems = recipes.map(recipe => ({
+      name: recipe,
+      count: 1,
+      categoryIndex: 9, // 기타 카테고리
+      isChecked: false
+    }));
+    updatedLists[listIndex] = [...updatedLists[listIndex], ...newItems];
+    setAllLists(updatedLists);
+  };
   
   return (
     <div className='mainPage'>
@@ -108,10 +145,14 @@ export const MainPage = () => {
         {allLists.map((list, index) => (
           <ItemList 
             key={index} 
-            items={list} 
+            items={list}
+            listName={listNames[index]}
             onAddItem={(newItem) => handleAddItem(index, newItem)}
             onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
+            onUpdateItem={(itemIndex, updatedItem) => handleUpdateItem(index, itemIndex, updatedItem)}
+            onUpdateListName={(newName) => handleUpdateListName(index, newName)}
+            onDeleteList={() => handleDeleteList(index)}
           />
           ))}
           <AddListButton onAddList={handleAddList} />
@@ -128,7 +169,11 @@ export const MainPage = () => {
           )}
           
           {/* AI 추천 컴포넌트 */}
-          <AISuggestion />
+          <AISuggestion 
+            listNames={listNames}
+            onAddRecipes={handleAddAIRecipes}
+            style={{marginTop: '2rem'}}
+          />
         </div>
       </div>
     )
