@@ -34,21 +34,29 @@
 }
 
 .searchBar {
-  @include flex(row, center, flex-start, 0.5rem);
+  @include flex(row, center, space-between);
   margin-bottom: 1.5rem;
+  background-color: $color-secondary;
+  border-radius: 8px;
+  padding-right: 0.8rem;
 }
 
 .searchInput {
   flex: 1;
-  padding: 0.8rem 1rem;
-  border: 1px solid $color-gray2;
-  border-radius: 8px;
+  padding: 1rem;
+  border: none;
   font-size: $font-size-body;
   outline: none;
+  background-color: transparent;
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #aaa;
 }
 
 .searchInput:focus {
-  border-color: $color-primary;
+  outline: none;
 }
 
 .searchButton {
@@ -58,6 +66,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  flex-shrink: 0;
   @include flex(row, center, center);
   @include hoverEvent(0.85);
 }

@@ -1,3 +1,6 @@
+@use '@/styles/variables' as *;
+@use '@/styles/function' as *;
+
 .itemList{
   border-radius: 10px;
   background-color: white;
@@ -188,17 +191,26 @@
   align-items: center;
   justify-content: space-between;
   position: relative;
+  flex-wrap: nowrap;
 }
 
 .listTitleSection {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: nowrap;
+  flex: 1;
+  min-width: 0;
 }
 
 .itemName{
-  padding:1rem;
+  padding: 1rem 0;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
 }
 
 .settingsButton {
@@ -212,6 +224,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .settingsButton img {
@@ -231,6 +244,8 @@
   padding: 0;
   position: relative;
   width: fit-content;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .sortToggle::before {
@@ -261,7 +276,7 @@
   color: #999;
   cursor: pointer;
   transition: color 0.3s;
-  font-size: 0.9rem;
+  font-size: rem(14px);
   font-weight: 500;
   position: relative;
   z-index: 1;
