@@ -12,13 +12,13 @@ export const ExhaustedListModal = ({ closeModal }) => {
   const [itemData, setItemData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
 
-  // 체크박스(라디오버튼) 클릭 핸들러(현재는 이름으로 받아오지만 고유 id로 변경해야 함)
-  const handleCheckboxClick = (item) => {
-    if (selectedItems.includes(item)) {
-      const temp = selectedItems.filter((el) => el !== item);
+  // 체크박스(라디오버튼) 클릭 핸들러
+  const handleCheckboxClick = (id) => {
+    if (selectedItems.includes(id)) {
+      const temp = selectedItems.filter((el) => el !== id);
       setSelectedItems(temp);
     } else {
-      setSelectedItems((prev) => [...prev, item]);
+      setSelectedItems((prev) => [...prev, id]);
     }
   };
 
@@ -33,11 +33,17 @@ export const ExhaustedListModal = ({ closeModal }) => {
   }, []);
 
   const deleteItems = async () => {
-    selectedItems.map(async (item) => {
-      await ownItemDeleteApi(item.ownId);
+    const deletePromises = selectedItems.map((id) => {
+      return ownItemDeleteApi(id);
     });
-    console.log('소진된 품목 삭제 완료');
-    closeModal();
+
+    try {
+      await Promise.all(deletePromises);
+      console.log('소진된 품목 삭제 완료');
+      closeModal();
+    } catch (error) {
+      console.error('소진 품목 삭제 중 오류 발생:', error);
+    }
   };
 
   return (
