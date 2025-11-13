@@ -2,12 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import styles from './InventoryPage.module.scss';
 import { blankBubble, glasses } from '@/assets';
 import { Button } from '@/components/Button/Button';
-import { inventoryData } from '@/data/inventoryMock';
 import { SortSelect } from './components/SortSelect';
 import { categorys } from '@/data/category';
 import { ItemEditorModal } from './components/ItemEditorModal';
 import { ExhaustedListModal } from './components/ExhaustedListModal';
 import { IoClose } from 'react-icons/io5';
+import { ownItemAllApi } from '@/apis/inventory/inventory';
 
 export const InventoryPage = () => {
   const [allItems, setAllItems] = useState([]);
@@ -19,10 +19,6 @@ export const InventoryPage = () => {
   const [editingItemId, setEditingItemId] = useState(null);
   const [isExhaustedListModalOpen, setIsExhaustedListModalOpen] =
     useState(false);
-
-  useEffect(() => {
-    setAllItems(inventoryData);
-  }, []);
 
   const processedList = useMemo(() => {
     const filteredItems = allItems
@@ -51,6 +47,17 @@ export const InventoryPage = () => {
 
     return sortedItems;
   }, [allItems, selectCategory, searchTerm, sortBy]);
+
+  // API 통신
+  useEffect(() => {
+    const getAllItems = async () => {
+      const { ok, data } = await ownItemAllApi();
+      if (ok) {
+        setAllItems(data.data);
+      }
+    };
+    getAllItems();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -119,23 +126,24 @@ export const InventoryPage = () => {
             <div className={styles.itemList}>
               {processedList.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.ownId}
                   className={styles.itemRow}
-                  onClick={() => setEditingItemId(item.id)}
+                  onClick={() => setEditingItemId(item.ownId)}
                 >
-                  {editingItemId === item.id && (
+                  {editingItemId === item.ownId && (
                     <ItemEditorModal
+                      ownId={item.ownId}
                       title="품목 상세"
-                      initName={item.name}
-                      initCount={item.count}
-                      initCategory={item.category}
+                      initName={item.ownName}
+                      initCount={item.ownCount}
+                      initCategory={item.ownCategory}
                       initAddDate={item.expiryDate}
                       placeholder={item.name}
                       closeModal={() => setEditingItemId(null)}
                     />
                   )}
-                  <span className={styles.itemName}>{item.name}</span>
-                  <span className={styles.itemCount}>{item.count}개</span>
+                  <span className={styles.itemName}>{item.ownName}</span>
+                  <span className={styles.itemCount}>{item.ownCount}개</span>
                 </div>
               ))}
             </div>

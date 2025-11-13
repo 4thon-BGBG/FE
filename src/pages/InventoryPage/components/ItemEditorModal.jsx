@@ -7,10 +7,12 @@ import { LuMinus } from 'react-icons/lu';
 import { IoIosWarning } from 'react-icons/io';
 import { FaCheckCircle } from 'react-icons/fa';
 import { ItemEditorToast } from './ItemEditorToast';
+import { ownItemAddApi, ownItemEditApi } from '@/apis/inventory/inventory';
 
 const TOAST_DELAY = 2000;
 
 export const ItemEditorModal = ({
+  ownId = null,
   title = '보유품목 수동등록',
   placeholder = '추가할 품목 입력',
   initName = '',
@@ -34,12 +36,34 @@ export const ItemEditorModal = ({
     }
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     if (!itemName || !category || !addDate) {
       setFailToastOpen(true);
     } else {
-      setSuccessToastOpen(true);
-      setTimeout(() => closeModal(), TOAST_DELAY + 300);
+      // 수정인 경우
+      if (ownId) {
+        const { ok } = await ownItemEditApi(ownId, {
+          ownName: itemName,
+          ownCount: count,
+          ownCategory: category,
+        });
+        if (ok) {
+          setSuccessToastOpen(true);
+          setTimeout(() => closeModal(), TOAST_DELAY + 300);
+        }
+      }
+      // 수동 추가인 경우
+      else {
+        const { ok } = await ownItemAddApi({
+          ownName: itemName,
+          ownCount: count,
+          ownCategory: category,
+        });
+        if (ok) {
+          setSuccessToastOpen(true);
+          setTimeout(() => closeModal(), TOAST_DELAY + 300);
+        }
+      }
     }
   };
 
