@@ -8,8 +8,7 @@ export const HistoryModal = ({ closeModal }) => {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const [totalPages, setTotalPages] = useState(5); // 전체 페이지 수
   const [historyItems, setHistoryItems] = useState([]);
-
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const [pageNumbers, setPageNumbers] = useState([]); // 현재 페이지가 속한 그룹
 
   const handlePrevClick = () => {
     if (currentPage > 1) {
@@ -22,6 +21,23 @@ export const HistoryModal = ({ closeModal }) => {
       setCurrentPage(currentPage + 1);
     }
   };
+
+  useEffect(() => {
+    const pagesPerGroup = 5; // 한 번에 보여줄 페이지 번호 개수
+    // 현재 페이지가 속한 그룹 계산
+    const currentGroup = Math.floor((currentPage - 1) / pagesPerGroup);
+    const startPage = currentGroup * pagesPerGroup + 1; // 현재 그룹의 시작 페이지 번호
+    const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages); // 현재 그룹의 마지막 페이지 번호
+
+    // 표시할 페이지 번호 배열 생성
+    const tempPageNumbers = [];
+    if (totalPages > 0) {
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+    }
+    setPageNumbers(tempPageNumbers);
+  }, [currentPage]);
 
   useEffect(() => {
     const getHistoryItems = async () => {
