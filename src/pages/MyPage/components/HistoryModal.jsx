@@ -1,11 +1,13 @@
 import { inventoryData } from '@/data/inventoryMock';
 import styles from './HistoryModal.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
+import { historyApi } from '@/apis/mypage/mypage';
 
 export const HistoryModal = ({ closeModal }) => {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const [totalPages, setTotalPages] = useState(5); // 전체 페이지 수
+  const [historyItems, setHistoryItems] = useState([]);
 
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -21,6 +23,18 @@ export const HistoryModal = ({ closeModal }) => {
     }
   };
 
+  useEffect(() => {
+    const getHistoryItems = async () => {
+      const { ok, data } = await historyApi(currentPage);
+      if (ok) {
+        console.log('구매 기록 불러오기 성공', data);
+        setTotalPages(data.totalPages);
+        setHistoryItems(data.content);
+      }
+    };
+    getHistoryItems();
+  }, [currentPage]);
+
   return (
     <div className={styles.backdrop}>
       <div className={styles.container}>
@@ -31,13 +45,15 @@ export const HistoryModal = ({ closeModal }) => {
         </div>
         <div className={styles.listContainer}>
           <div className={styles.itemList}>
-            {inventoryData.slice(0, 10).map((item) => (
+            {historyItems.slice(0, 10).map((item) => (
               <div key={item.id} className={styles.itemRow}>
                 <div className={styles.left}>
                   <span className={styles.itemName}>{item.name}</span>
                   <span className={styles.itemCount}>{item.count}개</span>
                 </div>
-                <span className={styles.date}>구매일자 {item.expiryDate}</span>
+                <span className={styles.date}>
+                  구매일자 {item.purchaseDate}
+                </span>
               </div>
             ))}
           </div>
