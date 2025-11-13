@@ -3,7 +3,7 @@ import styles from './InventoryPage.module.scss';
 import { blankBubble, glasses } from '@/assets';
 import { Button } from '@/components/Button/Button';
 import { SortSelect } from './components/SortSelect';
-import { categorys } from '@/data/category';
+import { categorys, LABEL_TO_KEY_MAP, KEY_TO_LABEL_MAP } from '@/data/category';
 import { ItemEditorModal } from './components/ItemEditorModal';
 import { ExhaustedListModal } from './components/ExhaustedListModal';
 import { IoClose } from 'react-icons/io5';
@@ -12,7 +12,7 @@ import { ownItemAllApi } from '@/apis/inventory/inventory';
 export const InventoryPage = () => {
   const [allItems, setAllItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectCategory, setSelectCategory] = useState('전체');
+  const [selectCategoryKey, setSelectCategoryKey] = useState('ALL');
   const [sortBy, setSortBy] = useState('등록순');
 
   const [isManualEditorModalOpen, setIsManualEditorModalOpen] = useState(false);
@@ -24,13 +24,13 @@ export const InventoryPage = () => {
     const filteredItems = allItems
       .filter((item) => {
         // 카테고리 필터
-        return selectCategory === '전체'
+        return selectCategoryKey === 'ALL'
           ? true
-          : item.category === selectCategory;
+          : item.ownCategory === selectCategoryKey;
       })
       .filter((item) => {
         // 검색어 필터
-        return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return item.ownName.toLowerCase().includes(searchTerm.toLowerCase());
       });
 
     // 사본 만들어서 작업
@@ -38,15 +38,15 @@ export const InventoryPage = () => {
 
     // 정렬
     if (sortBy === '등록순') {
-      sortedItems.sort((a, b) => b.id - a.id);
+      sortedItems.sort((a, b) => b.ownId - a.ownId);
     } else if (sortBy === '이름순') {
-      sortedItems.sort((a, b) => a.name.localeCompare(b.name));
+      sortedItems.sort((a, b) => a.ownName.localeCompare(b.ownName));
     } else if (sortBy === '재고순') {
-      sortedItems.sort((a, b) => b.count - a.count);
+      sortedItems.sort((a, b) => b.ownCount - a.ownCount);
     }
 
     return sortedItems;
-  }, [allItems, selectCategory, searchTerm, sortBy]);
+  }, [allItems, selectCategoryKey, searchTerm, sortBy]);
 
   // API 통신
   useEffect(() => {
@@ -89,17 +89,20 @@ export const InventoryPage = () => {
       </div>
       <div className={styles.content}>
         <div className={styles.categoryList}>
-          {categorys.map((category, index) => (
-            <div
-              key={index}
-              className={`${styles.category} ${
-                selectCategory === category && styles.active
-              }`}
-              onClick={() => setSelectCategory(category)}
-            >
-              {category}
-            </div>
-          ))}
+          {categorys.map((categoryLabel, index) => {
+            const categoryKey = LABEL_TO_KEY_MAP[categoryLabel];
+            return (
+              <div
+                key={index}
+                className={`${styles.category} ${
+                  selectCategoryKey === categoryKey && styles.active
+                }`}
+                onClick={() => setSelectCategoryKey(categoryKey)}
+              >
+                {categoryLabel}
+              </div>
+            );
+          })}
         </div>
         <div className={styles.itemListContainer}>
           <div className={styles.itemListHeader}>
@@ -136,7 +139,7 @@ export const InventoryPage = () => {
                       title="품목 상세"
                       initName={item.ownName}
                       initCount={item.ownCount}
-                      initCategory={item.ownCategory}
+                      initCategory={KEY_TO_LABEL_MAP[item.ownCategory]}
                       initAddDate={item.expiryDate}
                       placeholder={item.name}
                       closeModal={() => setEditingItemId(null)}

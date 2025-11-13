@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import styles from './ItemEditorModal.module.scss';
-import { categorys } from '@/data/category';
+import { categorys, LABEL_TO_KEY_MAP } from '@/data/category';
 import { buttonCancel, buttonCheck, penIcon } from '@/assets';
 import { LuPlus } from 'react-icons/lu';
 import { LuMinus } from 'react-icons/lu';
@@ -37,15 +37,16 @@ export const ItemEditorModal = ({
   };
 
   const handleSaveClick = async () => {
-    if (!itemName || !category || !addDate) {
+    if (!itemName || !category || category === '전체' || !addDate) {
       setFailToastOpen(true);
     } else {
+      const categoryKey = LABEL_TO_KEY_MAP[category];
       // 수정인 경우
       if (ownId) {
         const { ok } = await ownItemEditApi(ownId, {
           ownName: itemName,
           ownCount: count,
-          ownCategory: category,
+          ownCategory: categoryKey,
         });
         if (ok) {
           setSuccessToastOpen(true);
@@ -57,7 +58,7 @@ export const ItemEditorModal = ({
         const { ok } = await ownItemAddApi({
           ownName: itemName,
           ownCount: count,
-          ownCategory: category,
+          ownCategory: categoryKey,
         });
         if (ok) {
           setSuccessToastOpen(true);
@@ -130,17 +131,19 @@ export const ItemEditorModal = ({
           </div>
         </div>
         <div className={styles.categoryContainer}>
-          {categorys.map((c, index) => (
-            <div
-              key={index}
-              className={`${styles.category} ${
-                c === category && styles.active
-              }`}
-              onClick={() => setCategory(c)}
-            >
-              {c}
-            </div>
-          ))}
+          {categorys
+            .filter((c) => c !== '전체')
+            .map((c, index) => (
+              <div
+                key={index}
+                className={`${styles.category} ${
+                  c === category && styles.active
+                }`}
+                onClick={() => setCategory(c)}
+              >
+                {c}
+              </div>
+            ))}
         </div>
         <div className={styles.addDateContainer}>
           <span className={styles.dateTitle}>구매일자(등록일자)</span>
