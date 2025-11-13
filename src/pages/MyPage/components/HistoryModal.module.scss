@@ -11,7 +11,7 @@
   transform: translateX(-50%);
   top: 0;
   background-color: rgba(0, 0, 0, 0.7);
-  z-index: 1;
+  z-index: 1001;
   padding: 0 16px;
   .container {
     @include flex(column, $gap: 20px);
