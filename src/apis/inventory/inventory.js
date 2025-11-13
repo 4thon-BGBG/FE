@@ -17,7 +17,7 @@ export const ownItemAllApi = async () => {
 export const ownItemAddApi = async (itemData) => {
   try {
     const res = await api.post('api/owns', {
-      nickname: itemData.ownName,
+      ownName: itemData.ownName,
       ownCount: itemData.ownCount,
       ownCategory: itemData.ownCategory,
     });
