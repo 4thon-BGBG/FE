@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ItemList } from './components/ItemList'
 import { AddListButton } from './components/AddListButton'
 import { AddItems } from './components/AddItems'
 import { AISuggestion } from './components/AISuggestion'
+import { getAllListsWithItems } from '@/apis/main/main'
+import { logoWihte } from '@/assets'
 import './MainPage.scss';
 
 // 카테고리 목록
@@ -19,22 +21,21 @@ export const CATEGORIES = [
   "기타"
 ];
 
-export const MainPage = () => {
-  const dummyList=[
-    {name: "훈제 닭가슴살", count : 3, isChecked: false, categoryIndex: 1},
-    {name: "친환경 무농약인증 1등급 대관오령 한우 설도살", count : 1, isChecked: false, categoryIndex: 1},
-    {name: "저지방우유", count : 1, isChecked: false, categoryIndex: 3},
-    {name: "체다치즈", count : 10, isChecked: true, categoryIndex: 3},
-    {name: "냉동 만두", count : 2, isChecked: true, categoryIndex: 6},
-  ];
-  const dummyList2=[
-    {name: "훈제 닭가슴살", count : 3, isChecked: false, categoryIndex: 1},
-    {name: "우유", count : 3, isChecked: false, categoryIndex: 3},
-    {name: "친환경 무농약인증 1등급 대관오령 한우 설도살", count : 3, isChecked: false, categoryIndex: 1},
-    {name: "냉동 만두", count : 2, isChecked: true, categoryIndex: 6},
-    {name: "양배추", count : 1, isChecked: true, categoryIndex: 0},
-  ];
+// API 카테고리를 인덱스로 변환
+const CATEGORY_MAP = {
+  'VEGETABLES_FRUITS': 0,
+  'MEAT': 1,
+  'SEAFOOD': 2,
+  'EGGS_DAIRY': 3,
+  'GRAINS_NUTS': 4,
+  'SEASONINGS': 5,
+  'FROZEN_FOODS': 6,
+  'PROCESSED_FOODS': 7,
+  'BEVERAGES_ALCOHOL': 8,
+  'ETC': 9
+};
 
+export const MainPage = () => {
   // 소진된 아이템 관리
   // TODO: 실제 통신으로 소진된 아이템 정보를 받아올 예정
   // API 예시: GET /api/exhausted-items
@@ -42,14 +43,75 @@ export const MainPage = () => {
   
   // 테스트용 - 실제로는 통신에서 받아올 데이터
   // 테스트하려면 아래 null을 주석 처리하고 그 아래 줄의 주석을 해제하세요
-  //const [exhaustedItem, setExhaustedItem] = useState(null);
-  const [exhaustedItem, setExhaustedItem] = useState({ name: "귀리햇반", count: 1, categoryIndex: 7, isChecked: false });
+  const [exhaustedItem, setExhaustedItem] = useState(null);
+  //const [exhaustedItem, setExhaustedItem] = useState({ name: "귀리햇반", count: 1, categoryIndex: 7, isChecked: false });
   
-  // 리스트들을 배열로 관리 (통신으로 받아올 때 이 배열의 길이가 동적으로 변함)
-  const [allLists, setAllLists] = useState([dummyList, dummyList2]);
+  // 리스트들을 배열로 관리 (API에서 받아온 데이터)
+  const [allLists, setAllLists] = useState([]);
   
-  // 각 리스트의 이름 (실제로는 서버에서 받아올 데이터)
-  const [listNames, setListNames] = useState(['장보기 리스트 1', '장보기 리스트 2']);
+  // 각 리스트의 이름과 ID (서버에서 받아올 데이터)
+  const [listNames, setListNames] = useState([]);
+  const [listIds, setListIds] = useState([]);
+  
+  // 로딩 상태
+  const [isLoading, setIsLoading] = useState(true);
+
+  // API 아이템을 화면용 포맷으로 변환  
+  const convertApiItemToDisplayItem = (apiItem) => {
+    return {
+      name: apiItem.itemName || '',
+      count: apiItem.itemCount || 1,
+      categoryIndex: CATEGORY_MAP[apiItem.category] ?? 9, // 기타로 기본값
+      isChecked: apiItem.isChecked || false,
+      memo: apiItem.memo || '',
+      isImportant: apiItem.isImportant || false
+    };
+  };
+
+  // 컴포넌트 마운트 시 데이터 가져오기
+  useEffect(() => {
+    let isMounted = true;
+    
+    const loadData = async () => {
+      const result = await getAllListsWithItems();
+      
+      console.log('API 원본 응답:', result.data);
+      
+      // 컴포넌트가 마운트된 상태일 때만 state 업데이트
+      if (isMounted && result.ok && result.data) {
+        // API 데이터를 화면용 포맷으로 변환
+        const lists = result.data.map(list => {
+          const items = list.items || [];
+          return items.map(item => convertApiItemToDisplayItem(item));
+        });
+        const names = result.data.map(list => list.listName);
+        const ids = result.data.map(list => list.id);
+        
+        setAllLists(lists);
+        setListNames(names);
+        setListIds(ids);
+        
+        console.log('변환된 데이터:', { lists, names, ids });
+      } else if (isMounted) {
+        console.error('데이터 로드 실패');
+        setAllLists([]);
+        setListNames([]);
+        setListIds([]);
+      }
+      
+      if (isMounted) {
+        setIsLoading(false);
+      }
+    };
+    
+    loadData();
+    
+    // cleanup 함수: 컴포넌트 언마운트 시 실행
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   
   // 특정 리스트에 아이템 추가하는 함수
   const handleAddItem = (listIndex, newItem) => {
@@ -83,10 +145,17 @@ export const MainPage = () => {
   };
 
   // 새 리스트 추가 함수
-  const handleAddList = () => {
+  const handleAddList = async () => {
+    // TODO: API 호출하여 새 리스트 생성
+    // API 예시: POST /api/list
+    // body: { listName: `장보기 리스트 ${allLists.length + 1}` }
+    // 응답: { id: newId, listName: "장보기 리스트 N" }
+    
     const newList = [];
+    const newListName = `장보기 리스트 ${allLists.length + 1}`;
     setAllLists([...allLists, newList]);
-    setListNames([...listNames, `장보기 리스트 ${allLists.length + 1}`]);
+    setListNames([...listNames, newListName]);
+    setListIds([...listIds, null]); // 실제로는 API 응답에서 받은 ID
   };
 
   // 리스트 이름 업데이트 함수
@@ -97,11 +166,16 @@ export const MainPage = () => {
   };
 
   // 리스트 삭제 함수
-  const handleDeleteList = (listIndex) => {
+  const handleDeleteList = async (listIndex) => {
+    // TODO: API 호출하여 리스트 삭제
+    // API 예시: DELETE /api/list/${listIds[listIndex]}
+    
     const updatedLists = allLists.filter((_, index) => index !== listIndex);
     const updatedNames = listNames.filter((_, index) => index !== listIndex);
+    const updatedIds = listIds.filter((_, index) => index !== listIndex);
     setAllLists(updatedLists);
     setListNames(updatedNames);
+    setListIds(updatedIds);
   };
 
   // 소진된 아이템을 선택한 리스트에 추가
@@ -139,12 +213,21 @@ export const MainPage = () => {
     setAllLists(updatedLists);
   };
   
+  // 로딩 중이면 로딩 표시
+  if (isLoading) {
+    return (
+      <div className='mainPage'>
+        <logoWihte/>
+      </div>
+    );
+  }
+
   return (
     <div className='mainPage'>
       <div className='listItem'>
         {allLists.map((list, index) => (
           <ItemList 
-            key={index} 
+            key={listIds[index] || index} 
             items={list}
             listName={listNames[index]}
             onAddItem={(newItem) => handleAddItem(index, newItem)}
@@ -172,7 +255,6 @@ export const MainPage = () => {
           <AISuggestion 
             listNames={listNames}
             onAddRecipes={handleAddAIRecipes}
-            style={{marginTop: '2rem'}}
           />
         </div>
       </div>
