@@ -7,7 +7,11 @@ import { LuMinus } from 'react-icons/lu';
 import { IoIosWarning } from 'react-icons/io';
 import { FaCheckCircle } from 'react-icons/fa';
 import { ItemEditorToast } from './ItemEditorToast';
-import { ownItemAddApi, ownItemEditApi } from '@/apis/inventory/inventory';
+import {
+  ownItemAddApi,
+  ownItemDeleteApi,
+  ownItemEditApi,
+} from '@/apis/inventory/inventory';
 
 const TOAST_DELAY = 2000;
 
@@ -27,12 +31,21 @@ export const ItemEditorModal = ({
   const [addDate, setAddDate] = useState(initAddDate);
   const [failToastOpen, setFailToastOpen] = useState(false);
   const [successToastOpen, setSuccessToastOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const dateInputRef = useRef(null);
 
   const handleDateClick = () => {
     if (dateInputRef.current) {
       dateInputRef.current.showPicker();
+    }
+  };
+
+  const handleDeleteOwnItem = async (ownId) => {
+    const { ok } = await ownItemDeleteApi(ownId);
+    if (ok) {
+      setIsDeleteModalOpen(false);
+      closeModal();
     }
   };
 
@@ -70,7 +83,40 @@ export const ItemEditorModal = ({
 
   return (
     <div className={styles.backdrop}>
-      <div className={styles.container}>
+      {/* 품목 삭제 모달 */}
+      {isDeleteModalOpen && (
+        <div className={styles.deleteModalContainer}>
+          <IoIosWarning
+            style={{ width: '35px', height: '35px', color: '#F56E00' }}
+          />
+          <div className={styles.deleteModalText}>
+            <h1 className={styles.deleteModalHeader}>{itemName}</h1>
+            <span className={styles.deleteModalCaption}>
+              이 품목을 보유 품목에서 <span>삭제</span>하시겠어요?
+            </span>
+          </div>
+          <div className={styles.deleteModalButtonContent}>
+            <div
+              className={styles.buttonCancel}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDeleteModalOpen(false);
+              }}
+            >
+              <img src={buttonCancel} />
+            </div>
+            <div className={styles.buttonCheck} onClick={handleDeleteOwnItem}>
+              <img src={buttonCheck} />
+            </div>
+          </div>
+        </div>
+      )}
+      <div
+        className={`${styles.container} ${
+          isDeleteModalOpen && styles.modalOpen
+        }`}
+      >
+        {/* 추가 실패 토스트 */}
         {failToastOpen && (
           <ItemEditorToast
             Img={
@@ -83,6 +129,7 @@ export const ItemEditorModal = ({
             delay={TOAST_DELAY}
           />
         )}
+        {/* 품목 수정/완료 토스트 */}
         {successToastOpen && (
           <ItemEditorToast
             Img={
@@ -161,17 +208,29 @@ export const ItemEditorModal = ({
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <div
-            className={styles.buttonCancel}
-            onClick={(e) => {
-              e.stopPropagation();
-              closeModal();
-            }}
-          >
-            <img src={buttonCancel} />
-          </div>
-          <div className={styles.buttonCheck} onClick={handleSaveClick}>
-            <img src={buttonCheck} />
+          {ownId && (
+            <div
+              className={styles.buttonDelete}
+              onClick={() => {
+                setIsDeleteModalOpen(true);
+              }}
+            >
+              품목 삭제
+            </div>
+          )}
+          <div className={styles.buttonContent}>
+            <div
+              className={styles.buttonCancel}
+              onClick={(e) => {
+                e.stopPropagation();
+                closeModal();
+              }}
+            >
+              <img src={buttonCancel} />
+            </div>
+            <div className={styles.buttonCheck} onClick={handleSaveClick}>
+              <img src={buttonCheck} />
+            </div>
           </div>
         </div>
       </div>
