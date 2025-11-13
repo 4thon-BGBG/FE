@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import styles from './NicknameEditModal.module.scss';
 import { buttonCancel, buttonCheck } from '@/assets';
+import { nicknameEditApi } from '@/apis/mypage/mypage';
 
 export const NicknameEditModal = ({ nickname, closeModal }) => {
   const [modifyNickname, setModifyNickname] = useState(nickname);
 
-  const handleSaveClick = () => {
-    closeModal();
+  const handleSaveClick = async () => {
+    const { ok } = nicknameEditApi(modifyNickname);
+    if (ok) {
+      closeModal();
+    }
   };
 
   return (

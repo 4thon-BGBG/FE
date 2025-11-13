@@ -5,21 +5,49 @@ import { IoMdSearch } from 'react-icons/io';
 import { RiMore2Fill } from 'react-icons/ri';
 import { MdEdit } from 'react-icons/md';
 import { Button } from '@/components/Button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NicknameEditModal } from './components/NicknameEditModal';
 import { HistoryModal } from './components/HistoryModal';
 import { ReportModal } from './components/ReportModal';
+import { historyApi, nicknameApi } from '@/apis/mypage/mypage';
 
 export const MyPage = () => {
   const [isNicknameModalOpen, setIsNicknameModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
+  const [nickname, setNickname] = useState('');
+  const [historyItems, setHistoryItems] = useState([]);
+
+  useEffect(() => {
+    // 닉네임 정보 가져오기
+    const getNickName = async () => {
+      const { ok, data } = await nicknameApi();
+      if (ok) {
+        setNickname(data.data.nickname);
+      }
+    };
+    getNickName();
+  }, [isNicknameModalOpen]);
+
+  useEffect(() => {
+    // 히스토리 가져오기
+    const getHistoryItems = async () => {
+      const { ok, data } = await historyApi(1);
+      console.log(data);
+
+      if (ok) {
+        setHistoryItems(data.content);
+      }
+    };
+    getHistoryItems();
+  }, []);
+
   return (
     <div className={styles.container}>
       {isNicknameModalOpen && (
         <NicknameEditModal
-          nickname={'멋쟁이사자'}
+          nickname={nickname}
           closeModal={() => setIsNicknameModalOpen(false)}
         />
       )}
@@ -39,7 +67,7 @@ export const MyPage = () => {
             className={styles.nickname}
             onClick={() => setIsNicknameModalOpen(true)}
           >
-            <span>멋쟁이사자</span>
+            <span>{nickname}</span>
             <MdEdit className={styles.nicknameEdit} />
           </div>
           <span className={styles.latest}>
@@ -54,23 +82,25 @@ export const MyPage = () => {
           <span className={styles.contentTitle}>나의 장보기 내역</span>
           <IoMdSearch className={styles.contentIcon} />
         </div>
-        {inventoryData.length === 0 ? (
+        {historyItems.length === 0 ? (
           <div className={styles.blankBox}>
             <img src={blankBubble} />
             <span>아직 바구바구에서 장 본 내역이 없어요</span>
           </div>
         ) : (
           <div className={styles.historyList}>
-            {inventoryData.slice(0, 3).map((item) => (
+            {historyItems.slice(0, 3).map((item) => (
               <div key={item.id} className={styles.itemRow}>
                 <div className={styles.left}>
                   <span className={styles.itemName}>{item.name}</span>
                   <span className={styles.itemCount}>{item.count}개</span>
                 </div>
-                <span className={styles.date}>구매일자 {item.expiryDate}</span>
+                <span className={styles.date}>
+                  구매일자 {item.purchaseDate}
+                </span>
               </div>
             ))}
-            {inventoryData.length > 3 && (
+            {historyItems.length > 3 && (
               <div
                 className={styles.iconRow}
                 onClick={() => {
