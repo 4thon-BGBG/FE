@@ -57,4 +57,15 @@ export const updateListNameApi = async (Id, listName) => {
     return {ok : false, data : null}
   }
 };
+//장바구니 품목을 보유 품목으로 이동
+export const moveItemToOwnApi = async () => {
+  try{
+    const res = await api.post('api/owns/move-from-items');
+    console.log('장바구니 품목을 보유 품목으로 이동 성공', res.data);
+    return {ok : true, data : res.data};
+  }catch(error){
+    console.error('장바구니 품목을 보유 품목으로 이동 실패', error);
+    return {ok : false, data : null}
+  }
+};
 

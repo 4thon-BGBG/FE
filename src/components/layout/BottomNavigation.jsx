@@ -9,6 +9,7 @@ import {
   SeeMoreActive,
 } from '@/assets';
 import { useNavigate } from 'react-router-dom';
+import { moveItemToOwnApi } from '@/apis/main/main';
 
 export const BottomNavigation = ({
   activeTab = 'basket',
@@ -42,16 +43,26 @@ export const BottomNavigation = ({
     },
   ];
 
+  const handleNavClick = async (item) => {
+    // 보관함(보유품목) 클릭 시 API 먼저 호출
+    if (item.id === 'item') {
+      const result = await moveItemToOwnApi();
+      if (result.ok) {
+        console.log('장바구니 품목이 보유 품목으로 이동되었습니다.');
+      }
+    }
+    
+    onTabChange && onTabChange(item.id);
+    nav(item.path);
+  };
+
   return (
     <nav className="bottomNavigation">
       {navItems.map((item) => (
         <button
           key={item.id}
           className={`navItem ${activeTab === item.id ? 'active' : ''}`}
-          onClick={() => {
-            onTabChange && onTabChange(item.id);
-            nav(item.path);
-          }}
+          onClick={() => handleNavClick(item)}
         >
           <div className="iconWrapper">
             <img
