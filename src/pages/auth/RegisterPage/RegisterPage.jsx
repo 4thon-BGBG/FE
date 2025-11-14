@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './RegisterPage.module.scss';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/Button/Button';
 import { InputField } from '@/components/form/InputField';
 import { PasswordInputField } from '@/components/form/PasswordInputField';
@@ -128,6 +128,10 @@ export const RegisterPage = () => {
           onClick={step === 0 ? handleNext : () => {}}
         />
       </form>
+
+      <span className={styles.registerButton}>
+        이미 바구바구 계정이 있나요? <Link to="/login">로그인하기</Link>
+      </span>
     </div>
   );
 };

@@ -48,4 +48,16 @@
       min-height: 296px;
     }
   }
+  .registerButton {
+    @include flex($gap: 10px);
+    padding-top: 28px;
+    width: 100%;
+    color: $color-black;
+    font-size: rem(14px);
+    font-weight: $font-weight-medium;
+    a {
+      @include hoverEvent(0.8);
+      color: $color-primary;
+    }
+  }
 }
