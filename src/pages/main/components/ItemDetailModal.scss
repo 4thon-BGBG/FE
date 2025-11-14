@@ -170,7 +170,7 @@
   border-color: #F56E00;
 }
 
-.quantityControl {
+.modalQuantityControl {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,7 +181,7 @@
   width: fit-content;
 }
 
-.quantityButton {
+.modalQuantityButton {
   width: 32px;
   height: 32px;
   border: none;
@@ -196,11 +196,11 @@
   color: #F56E00;
 }
 
-.quantityButton:hover {
+.modalQuantityButton:hover {
   background-color: #FFD9B8;
 }
 
-.quantity {
+.modalQuantity {
   font-size: 1.1rem;
   font-weight: 600;
   color: #333;

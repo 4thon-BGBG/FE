@@ -18,11 +18,11 @@ function App() {
           <Route path="/landing" element={<OnBoardingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route element={<ProtectedRoute />}>
+          {/* <Route element={<ProtectedRoute />}> */}
             <Route path="/main" element={<MainPage />} />
             <Route path="/inventory" element={<InventoryPage />} />
             <Route path="/mypage" element={<MyPage />} />
-          </Route>
+          {/* </Route> */}
           <Route path="*" element={<Navigate to="/landing" replace />} />
         </Route>
       </Routes>

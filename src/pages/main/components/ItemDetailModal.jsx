@@ -6,13 +6,13 @@ import { Delete } from '@/assets'
 import { Memo } from '@/assets'
 import { Error } from '@/assets'
 import { ItemInputWithQuantity } from './ItemInputWithQuantity'
-export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
+export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMemo, onToggleImportant, listId }) => {
   const [mode, setMode] = useState('detail'); // 'detail', 'edit', 'memo', 'delete'
   const [editedName, setEditedName] = useState(item.name);
   const [editedCount, setEditedCount] = useState(item.count);
   const [editedCategory, setEditedCategory] = useState(item.categoryIndex);
-  const [isImportant, setIsImportant] = useState(item.isImportant || false);
   const [memo, setMemo] = useState(item.memo || '');
+  const [isImportant, setIsImportant] = useState(item.isImportant || false); // 로컬 전용
 
   const handleIncrement = () => {
     setEditedCount(prev => prev + 1);
@@ -30,9 +30,32 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
       name: editedName,
       count: editedCount,
       categoryIndex: editedCategory,
-      isImportant,
-      memo
+      memo,
+      isImportant  // 로컬 state 유지 (서버에는 전송 안 됨)
     });
+    onClose();
+  };
+
+  // 별표 토글 - 로컬 전용, API 호출 없음
+  const handleToggleImportantClick = () => {
+    const newValue = !isImportant;
+    setIsImportant(newValue);
+    // MainPage의 state를 업데이트 (API 호출 없음)
+    if (onToggleImportant) {
+      onToggleImportant();
+    }
+  };
+
+  const handleSaveMemo = async () => {
+    if (onUpdateMemo) {
+      await onUpdateMemo(item.id, memo);
+    } else {
+      // fallback: 전체 업데이트
+      onUpdate({
+        ...item,
+        memo
+      });
+    }
     onClose();
   };
 
@@ -41,14 +64,6 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
     onClose();
   };
 
-  const handleToggleImportant = () => {
-    const newImportantValue = !isImportant;
-    setIsImportant(newImportantValue);
-    onUpdate({
-      ...item,
-      isImportant: newImportantValue
-    });
-  };
 
   return (
     <>
@@ -65,7 +80,7 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
                 <span className='detailValue'>{item.name}</span>
                 <button 
                   className={`starButtonModal ${isImportant ? 'active' : ''}`}
-                  onClick={handleToggleImportant}
+                  onClick={handleToggleImportantClick}
                 >
                   ⭐
                 </button>
@@ -163,7 +178,7 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
               <button className='cancelBtn' onClick={() => setMode('detail')}>
                 취소
               </button>
-              <button className='confirmBtn' onClick={handleSaveEdit}>
+              <button className='confirmBtn' onClick={handleSaveMemo}>
                 확인
               </button>
             </div>

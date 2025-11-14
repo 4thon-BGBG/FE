@@ -6,6 +6,10 @@ export const ListManageModal = ({ listName, itemCount, completedCount, onClose, 
   const [mode, setMode] = useState('main'); // 'main', 'edit', 'delete'
   const [editedName, setEditedName] = useState(listName);
 
+  const handleDeleteList = () => {
+    onDeleteList();
+    onClose();
+  }
   const handleSaveName = () => {
     if (!editedName.trim()) {
       alert('리스트 이름을 입력해주세요!');
@@ -15,10 +19,6 @@ export const ListManageModal = ({ listName, itemCount, completedCount, onClose, 
     onClose();
   };
 
-  const handleDelete = () => {
-    onDeleteList();
-    onClose();
-  };
 
   return (
     <>
@@ -90,7 +90,7 @@ export const ListManageModal = ({ listName, itemCount, completedCount, onClose, 
               <button className='cancelBtn' onClick={() => setMode('main')}>
                 ✕
               </button>
-              <button className='confirmBtn' onClick={handleDelete}>
+              <button className='confirmBtn' onClick={handleDeleteList}>
                 ✓
               </button>
             </div>

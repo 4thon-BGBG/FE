@@ -5,16 +5,19 @@ import { Toast } from './Toast'
 import { ItemDetailModal } from './ItemDetailModal'
 import { ItemInputWithQuantity } from './ItemInputWithQuantity'
 import { ListManageModal } from './ListManageModal'
-import { Setting } from '@/assets'
+import { ListTitleWithSettings } from './ListTitleWithSettings'
 export const ItemList = ({
   items, 
   onAddItem, 
   onDeleteItem, 
   onToggleCheck, 
   onUpdateItem,
+  onUpdateMemo,
+  onToggleImportant,
   listName = '장보기 리스트',
   onUpdateListName,
-  onDeleteList
+  onDeleteList,
+  listId
 }) => {
   const [sortType, setSortType] = useState('default'); // 'default' or 'category'
   const [isExpanded, setIsExpanded] = useState(false);
@@ -94,12 +97,10 @@ export const ItemList = ({
   return (
     <div className='itemList'>
       <div className='listHeader'>
-        <div className='listTitleSection'>
-          <p className='itemName'>{listName}</p>
-          <button className='settingsButton' onClick={() => setShowManageModal(true)}>
-            <img src={Setting} alt='설정' />
-          </button>
-        </div>
+        <ListTitleWithSettings 
+          listName={listName}
+          onSettingsClick={() => setShowManageModal(true)}
+        />
         <div className='sortToggle' data-active={sortType}>
           <button 
             className={`sortOption ${sortType === 'default' ? 'active' : ''}`}
@@ -127,8 +128,13 @@ export const ItemList = ({
                 checked={item.isChecked} 
                 onChange={() => onToggleCheck(index)}
               />
-              <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
-              <span className="count"> {item.count}</span>
+              <div className="itemTextWrapper">
+                <div className="itemNameRow">
+                  <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
+                  <span className="count"> {item.count}</span>
+                </div>
+                {item.memo && <span className="itemMemo">{item.memo}</span>}
+              </div>
             </div>
             <button className="deleteButton" onClick={() => setSelectedItemIndex(index)}>⋯</button>
           </div>
@@ -150,8 +156,13 @@ export const ItemList = ({
                       checked={item.isChecked}
                       onChange={() => onToggleCheck(item.originalIndex)}
                     />
-                    <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
-                    <span className="count"> {item.count}</span>
+                    <div className="itemTextWrapper">
+                      <div className="itemNameRow">
+                        <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
+                        <span className="count"> {item.count}</span>
+                      </div>
+                      {item.memo && <span className="itemMemo">{item.memo}</span>}
+                    </div>
                   </div>
                   <button className="deleteButton" onClick={() => setSelectedItemIndex(item.originalIndex)}>⋯</button>
                 </div>
@@ -210,8 +221,11 @@ export const ItemList = ({
       {selectedItemIndex !== null && (
         <ItemDetailModal
           item={items[selectedItemIndex]}
+          listId={listId}
           onClose={() => setSelectedItemIndex(null)}
           onUpdate={(updatedItem) => onUpdateItem(selectedItemIndex, updatedItem)}
+          onUpdateMemo={(itemId, memo) => onUpdateMemo(selectedItemIndex, itemId, memo)}
+          onToggleImportant={() => onToggleImportant(selectedItemIndex)}
           onDelete={() => {
             onDeleteItem(selectedItemIndex);
             setSelectedItemIndex(null);
