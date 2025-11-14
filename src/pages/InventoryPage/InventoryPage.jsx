@@ -56,8 +56,12 @@ export const InventoryPage = () => {
         setAllItems(data.data);
       }
     };
-    getAllItems();
-  }, []);
+
+    // 수정 완료 후 널일 때 실행(+ 에디터 모달, 소진 모달에서 작업 완료 후 다시 불러오기)
+    if (editingItemId === null) {
+      getAllItems();
+    }
+  }, [isManualEditorModalOpen, editingItemId, isExhaustedListModalOpen]);
 
   return (
     <div className={styles.container}>
@@ -118,7 +122,7 @@ export const InventoryPage = () => {
             )}
             <SortSelect setSelected={setSortBy} />
           </div>
-          {processedList.length === 0 ? (
+          {processedList.filter((item) => item.ownCount > 0).length === 0 ? (
             <div className={styles.blankBox}>
               <img src={blankBubble} />
               <span>
@@ -127,28 +131,30 @@ export const InventoryPage = () => {
             </div>
           ) : (
             <div className={styles.itemList}>
-              {processedList.map((item) => (
-                <div
-                  key={item.ownId}
-                  className={styles.itemRow}
-                  onClick={() => setEditingItemId(item.ownId)}
-                >
-                  {editingItemId === item.ownId && (
-                    <ItemEditorModal
-                      ownId={item.ownId}
-                      title="품목 상세"
-                      initName={item.ownName}
-                      initCount={item.ownCount}
-                      initCategory={KEY_TO_LABEL_MAP[item.ownCategory]}
-                      initAddDate={item.expiryDate}
-                      placeholder={item.name}
-                      closeModal={() => setEditingItemId(null)}
-                    />
-                  )}
-                  <span className={styles.itemName}>{item.ownName}</span>
-                  <span className={styles.itemCount}>{item.ownCount}개</span>
-                </div>
-              ))}
+              {processedList
+                .filter((item) => item.ownCount > 0)
+                .map((item) => (
+                  <div
+                    key={item.ownId}
+                    className={styles.itemRow}
+                    onClick={() => setEditingItemId(item.ownId)}
+                  >
+                    {editingItemId === item.ownId && (
+                      <ItemEditorModal
+                        ownId={item.ownId}
+                        title="품목 상세"
+                        initName={item.ownName}
+                        initCount={item.ownCount}
+                        initCategory={KEY_TO_LABEL_MAP[item.ownCategory]}
+                        initAddDate={item.expiryDate}
+                        placeholder={item.name}
+                        closeModal={() => setEditingItemId(null)}
+                      />
+                    )}
+                    <span className={styles.itemName}>{item.ownName}</span>
+                    <span className={styles.itemCount}>{item.ownCount}개</span>
+                  </div>
+                ))}
             </div>
           )}
           <div className={styles.button}>
