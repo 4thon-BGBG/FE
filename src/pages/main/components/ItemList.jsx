@@ -14,7 +14,8 @@ export const ItemList = ({
   onUpdateItem,
   listName = '장보기 리스트',
   onUpdateListName,
-  onDeleteList
+  onDeleteList,
+  listId
 }) => {
   const [sortType, setSortType] = useState('default'); // 'default' or 'category'
   const [isExpanded, setIsExpanded] = useState(false);
@@ -127,8 +128,13 @@ export const ItemList = ({
                 checked={item.isChecked} 
                 onChange={() => onToggleCheck(index)}
               />
-              <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
-              <span className="count"> {item.count}</span>
+              <div className="itemTextWrapper">
+                <div className="itemNameRow">
+                  <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
+                  <span className="count"> {item.count}</span>
+                </div>
+                {item.memo && <span className="itemMemo">{item.memo}</span>}
+              </div>
             </div>
             <button className="deleteButton" onClick={() => setSelectedItemIndex(index)}>⋯</button>
           </div>
@@ -150,8 +156,13 @@ export const ItemList = ({
                       checked={item.isChecked}
                       onChange={() => onToggleCheck(item.originalIndex)}
                     />
-                    <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
-                    <span className="count"> {item.count}</span>
+                    <div className="itemTextWrapper">
+                      <div className="itemNameRow">
+                        <span className={item.isChecked ? "checked" : ""}>{item.name}</span>
+                        <span className="count"> {item.count}</span>
+                      </div>
+                      {item.memo && <span className="itemMemo">{item.memo}</span>}
+                    </div>
                   </div>
                   <button className="deleteButton" onClick={() => setSelectedItemIndex(item.originalIndex)}>⋯</button>
                 </div>

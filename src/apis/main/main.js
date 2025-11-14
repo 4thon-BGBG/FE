@@ -51,3 +51,37 @@ export const getAllListsWithItems = async () => {
     return { ok: false, data: null };
   }
 };
+//품목 추가 api
+export const addListApi = async (listName) => {
+  try{
+    const res = await api.post('list', { listName });
+    console.log('리스트 추가 성공', res.data);
+    return {ok : true, data : res.data};
+  }catch(error){
+    console.error('리스트 추가 실패', error);
+    return {ok : false, data : null}
+  }
+};
+
+export const deleteListApi = async (Id) => {
+  try{
+    const res = await api.delete(`list/${Id}`);
+    console.log('리스트 삭제 성공', res.data);
+    return {ok : true, data : res.data};
+  }catch(error){
+    console.error('리스트 삭제 실패', error);
+    return {ok : false, data : null}
+  }
+};
+
+//리스트 이름 수정 api
+export const updateListNameApi = async (Id, listName) => {
+  try{
+    const res = await api.patch(`list/${Id}?listName=${encodeURIComponent(listName)}`);
+    console.log('리스트 이름 수정 성공', res.data);
+    return {ok : true, data : res.data};
+  }catch(error){
+    console.error('리스트 이름 수정 실패', error);
+    return {ok : false, data : null}
+  }
+};

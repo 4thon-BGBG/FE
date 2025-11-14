@@ -3,7 +3,8 @@ import { ItemList } from './components/ItemList'
 import { AddListButton } from './components/AddListButton'
 import { AddItems } from './components/AddItems'
 import { AISuggestion } from './components/AISuggestion'
-import { getAllListsWithItems } from '@/apis/main/main'
+import { getAllListsWithItems, addListApi, deleteListApi, updateListNameApi } from '@/apis/main/main'
+import { addItemApi } from '@/apis/main/item'
 import { logoWihte } from '@/assets'
 import './MainPage.scss';
 
@@ -34,6 +35,20 @@ const CATEGORY_MAP = {
   'BEVERAGES_ALCOHOL': 8,
   'ETC': 9
 };
+
+// 인덱스를 API 카테고리로 변환 (역방향)
+const INDEX_TO_CATEGORY = [
+  'VEGETABLES_FRUITS',
+  'MEAT',
+  'SEAFOOD',
+  'EGGS_DAIRY',
+  'GRAINS_NUTS',
+  'SEASONINGS',
+  'FROZEN_FOODS',
+  'PROCESSED_FOODS',
+  'BEVERAGES_ALCOHOL',
+  'ETC'
+];
 
 export const MainPage = () => {
   // 소진된 아이템 관리
@@ -114,10 +129,26 @@ export const MainPage = () => {
 
   
   // 특정 리스트에 아이템 추가하는 함수
-  const handleAddItem = (listIndex, newItem) => {
-    const updatedLists = [...allLists];
-    updatedLists[listIndex] = [...updatedLists[listIndex], newItem];
-    setAllLists(updatedLists);
+  const handleAddItem = async (listIndex, newItem) => {
+    // API request body 형식으로 변환
+    const requestBody = {
+      itemName: newItem.name,
+      itemCount: newItem.count,
+      itemCategory: INDEX_TO_CATEGORY[newItem.categoryIndex] || 'ETC',
+      memo: newItem.memo || '',
+      shoppingListId: listIds[listIndex]
+    };
+
+    const result = await addItemApi(requestBody);
+    
+    if (result.ok) {
+      // API 호출 성공 시 로컬 state 업데이트
+      const updatedLists = [...allLists];
+      updatedLists[listIndex] = [...updatedLists[listIndex], newItem];
+      setAllLists(updatedLists);
+    } else {
+      console.error('품목 추가 실패');
+    }
   };
 
   // 특정 리스트의 아이템 삭제하는 함수
@@ -146,36 +177,51 @@ export const MainPage = () => {
 
   // 새 리스트 추가 함수
   const handleAddList = async () => {
-    // TODO: API 호출하여 새 리스트 생성
-    // API 예시: POST /api/list
-    // body: { listName: `장보기 리스트 ${allLists.length + 1}` }
-    // 응답: { id: newId, listName: "장보기 리스트 N" }
-    
-    const newList = [];
     const newListName = `장보기 리스트 ${allLists.length + 1}`;
-    setAllLists([...allLists, newList]);
-    setListNames([...listNames, newListName]);
-    setListIds([...listIds, null]); // 실제로는 API 응답에서 받은 ID
+    const result = await addListApi(newListName);
+    
+    if (result.ok) {
+      // API 응답에서 새 리스트 정보 추출
+      const newListData = result.data.data;
+      setAllLists([...allLists, []]);
+      setListNames([...listNames, newListData.listName]);
+      setListIds([...listIds, newListData.id]);
+      console.log('리스트 추가 성공:', newListData);
+    } else {
+      console.error('리스트 추가 실패');
+    }
   };
 
   // 리스트 이름 업데이트 함수
-  const handleUpdateListName = (listIndex, newName) => {
-    const updatedNames = [...listNames];
-    updatedNames[listIndex] = newName;
-    setListNames(updatedNames);
+  const handleUpdateListName = async (listIndex, newName) => {
+    const listId = listIds[listIndex];
+    const result = await updateListNameApi(listId, newName);
+    
+    if (result.ok) {
+      const updatedNames = [...listNames];
+      updatedNames[listIndex] = newName;
+      setListNames(updatedNames);
+    } else {
+      console.error('리스트 이름 수정 실패');
+    }
   };
 
   // 리스트 삭제 함수
   const handleDeleteList = async (listIndex) => {
-    // TODO: API 호출하여 리스트 삭제
-    // API 예시: DELETE /api/list/${listIds[listIndex]}
+    const listId = listIds[listIndex];
+    const result = await deleteListApi(listId);
     
-    const updatedLists = allLists.filter((_, index) => index !== listIndex);
-    const updatedNames = listNames.filter((_, index) => index !== listIndex);
-    const updatedIds = listIds.filter((_, index) => index !== listIndex);
-    setAllLists(updatedLists);
-    setListNames(updatedNames);
-    setListIds(updatedIds);
+    if (result.ok) {
+      const updatedLists = allLists.filter((_, index) => index !== listIndex);
+      const updatedNames = listNames.filter((_, index) => index !== listIndex);
+      const updatedIds = listIds.filter((_, index) => index !== listIndex);
+      setAllLists(updatedLists);
+      setListNames(updatedNames);
+      setListIds(updatedIds);
+      console.log('리스트 삭제 성공');
+    } else {
+      console.error('리스트 삭제 실패');
+    }
   };
 
   // 소진된 아이템을 선택한 리스트에 추가
@@ -230,6 +276,7 @@ export const MainPage = () => {
             key={listIds[index] || index} 
             items={list}
             listName={listNames[index]}
+            listId={listIds[index]}
             onAddItem={(newItem) => handleAddItem(index, newItem)}
             onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
