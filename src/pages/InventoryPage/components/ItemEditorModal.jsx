@@ -22,7 +22,7 @@ export const ItemEditorModal = ({
   initName = '',
   initCount = 1,
   initCategory = '',
-  initAddDate = '2025-11-08',
+  initAddDate = new Date().toLocaleDateString('sv-SE'),
   closeModal,
 }) => {
   const [itemName, setItemName] = useState(initName);

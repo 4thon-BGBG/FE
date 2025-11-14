@@ -146,7 +146,7 @@ export const InventoryPage = () => {
                         initName={item.ownName}
                         initCount={item.ownCount}
                         initCategory={KEY_TO_LABEL_MAP[item.ownCategory]}
-                        initAddDate={item.expiryDate}
+                        initAddDate={item.updateAt.split('T')[0]}
                         placeholder={item.name}
                         closeModal={() => setEditingItemId(null)}
                       />

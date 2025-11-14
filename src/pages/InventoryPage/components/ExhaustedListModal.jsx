@@ -79,7 +79,8 @@ export const ExhaustedListModal = ({ closeModal }) => {
                     <span className={styles.itemName}>{item.ownName}</span>
                   </div>
                   <span className={styles.date}>
-                    소진일자 {item.purchaseDate}
+                    소진일자 2025-11-15
+                    {/* {item.purchaseDate} */}
                   </span>
                 </div>
               ))}
