@@ -57,10 +57,6 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMem
   const handleToggleImportant = () => {
     const newImportantValue = !isImportant;
     setIsImportant(newImportantValue);
-    onUpdate({
-      ...item,
-      isImportant: newImportantValue
-    });
   };
 
   return (

@@ -4,8 +4,7 @@ import { AddListButton } from './components/AddListButton'
 import { AddItems } from './components/AddItems'
 import { AISuggestion } from './components/AISuggestion'
 import { getAllListsWithItems, addListApi, deleteListApi, updateListNameApi } from '@/apis/main/main'
-import { addItemApi, updateItemApi, deleteItemApi, updateMemoApi } from '@/apis/main/item'
-import { logoWihte } from '@/assets'
+import { addItemApi, updateItemApi, deleteItemApi, updateMemoApi, updateItemCheckedApi } from '@/apis/main/item'
 import './MainPage.scss';
 
 // 카테고리 목록
@@ -72,13 +71,13 @@ export const MainPage = () => {
   // API 아이템을 화면용 포맷으로 변환  
   const convertApiItemToDisplayItem = (apiItem) => {
     return {
-      id: apiItem.id || apiItem.itemId,  // id 또는 itemId 사용
+      id: apiItem.id || apiItem.itemId, 
       name: apiItem.itemName || '',
       count: apiItem.itemCount || 1,
       categoryIndex: CATEGORY_MAP[apiItem.category] ?? 9, // 기타로 기본값
-      isChecked: apiItem.isChecked || false,
+      isChecked: apiItem.ownItem ||false,  
       memo: apiItem.memo || '',
-      isImportant: apiItem.isImportant || false
+      isImportant: apiItem.isImportant === true  // boolean으로 명시적 변환
     };
   };
 
@@ -182,13 +181,29 @@ export const MainPage = () => {
   };
 
   // 특정 리스트의 아이템 체크 상태 토글 함수
-  const handleToggleCheck = (listIndex, itemIndex) => {
-    const updatedLists = [...allLists];
-    updatedLists[listIndex][itemIndex] = {
-      ...updatedLists[listIndex][itemIndex],
-      isChecked: !updatedLists[listIndex][itemIndex].isChecked
-    };
-    setAllLists(updatedLists);
+  const handleToggleCheck = async (listIndex, itemIndex) => {
+    const item = allLists[listIndex][itemIndex];
+    const newCheckedState = !item.isChecked;
+    const itemId = item.id;
+    
+    if (!itemId) {
+      console.error('품목 ID가 없습니다.');
+      return;
+    }
+    
+    const result = await updateItemCheckedApi(itemId, newCheckedState);
+    
+    if (result.ok) {
+      // API 호출 성공 시 로컬 state 업데이트
+      const updatedLists = [...allLists];
+      updatedLists[listIndex][itemIndex] = {
+        ...updatedLists[listIndex][itemIndex],
+        isChecked: newCheckedState
+      };
+      setAllLists(updatedLists);
+    } else {
+      console.error('품목 체크 상태 변경 실패');
+    }
   };
 
   // 특정 리스트의 아이템 업데이트 함수

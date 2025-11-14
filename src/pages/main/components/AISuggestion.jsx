@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './AISuggestion.scss'
 import { Icon, Character, Glasses } from '@/assets'
 import { CustomSelect } from './CustomSelect'
 import { Toast } from './Toast'
-import { getAIMenuRecommendation } from '@/apis/main/ai'
+import { getAIMenuRecommendation, getAIMenuRecommendationApi } from '@/apis/main/ai'
 
 export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
   const [step, setStep] = useState('initial'); // 'initial', 'loading', 'results', 'selectList'
@@ -11,9 +11,26 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
   const [recipes, setRecipes] = useState([]);
   const [selectedListIndex, setSelectedListIndex] = useState(0);
   const [toast, setToast] = useState(null);
+  const [recommendedTags, setRecommendedTags] = useState([]);
 
-  // 추천 메뉴 태그들
-  const recommendedTags = ['닭가슴살 샐러드', '카나페', '불닭볶이밥'];
+  // 컴포넌트 마운트 시 추천 메뉴 가져오기
+  useEffect(() => {
+    const fetchRecommendedMenus = async () => {
+      try {
+        const result = await getAIMenuRecommendationApi();
+        
+        if (result.ok && result.data) {
+          // API 응답이 배열 형태로 메뉴 이름들을 반환한다고 가정
+          setRecommendedTags(result.data);
+        }
+      } catch (error) {
+        console.error('추천 메뉴 로드 실패:', error);
+        // 실패 시 빈 배열 유지
+      }
+    };
+    
+    fetchRecommendedMenus();
+  }, []);
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -91,20 +108,24 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
       {step === 'initial' && (
         <div className='recommendSection'>
           <p className='recommendTitle'>기존 재료로 만들 수 있는 추천 메뉴에요</p>
-          <div className='tagList'>
-            {recommendedTags.map((tag, index) => (
-              <button 
-                key={index} 
-                className='recommendTag'
-                onClick={() => {
-                  setSearchQuery(tag);
-                  handleSearch();
-                }}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
+          {recommendedTags.length > 0 ? (
+            <div className='tagList'>
+              {recommendedTags.map((tag, index) => (
+                <button 
+                  key={index} 
+                  className='recommendTag'
+                  onClick={() => {
+                    setSearchQuery(typeof tag === 'string' ? tag : tag.name);
+                    handleSearch();
+                  }}
+                >
+                  {typeof tag === 'string' ? tag : tag.name}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <p className='noRecommendText'>추천 메뉴를 불러오는 중...</p>
+          )}
         </div>
       )}
 
