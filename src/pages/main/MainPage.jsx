@@ -75,9 +75,9 @@ export const MainPage = () => {
       name: apiItem.itemName || '',
       count: apiItem.itemCount || 1,
       categoryIndex: CATEGORY_MAP[apiItem.category] ?? 9, // 기타로 기본값
-      isChecked: apiItem.ownItem ||false,  
+      isChecked: apiItem.ownItem || false,  
       memo: apiItem.memo || '',
-      isImportant: apiItem.isImportant === true  // boolean으로 명시적 변환
+      isImportant: false  // 로컬 전용 필드 (API와 무관, 항상 false로 시작)
     };
   };
 
@@ -149,7 +149,7 @@ export const MainPage = () => {
         categoryIndex: newItem.categoryIndex,
         isChecked: false,
         memo: newItem.memo || '',
-        isImportant: false
+        isImportant: false  // 로컬 전용 필드 (API와 무관)
       };
       
       // API 호출 성공 시 로컬 state 업데이트
@@ -245,6 +245,16 @@ export const MainPage = () => {
     } else {
       console.error('메모 작성 실패');
     }
+  };
+
+  // 별표 토글 함수 (로컬 전용, API 호출 없음)
+  const handleToggleImportant = (listIndex, itemIndex) => {
+    const updatedLists = [...allLists];
+    updatedLists[listIndex][itemIndex] = {
+      ...updatedLists[listIndex][itemIndex],
+      isImportant: !updatedLists[listIndex][itemIndex].isImportant
+    };
+    setAllLists(updatedLists);
   };
 
   // 새 리스트 추가 함수
@@ -346,7 +356,7 @@ export const MainPage = () => {
           categoryIndex: CATEGORY_MAP[recipe.category] ?? 9,
           isChecked: false,
           memo: '',
-          isImportant: false
+          isImportant: false  // 로컬 전용 필드 (API와 무관)
         };
         
         newItems.push(newItemWithId);
@@ -377,6 +387,7 @@ export const MainPage = () => {
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
             onUpdateItem={(itemIndex, updatedItem) => handleUpdateItem(index, itemIndex, updatedItem)}
             onUpdateMemo={(itemIndex, itemId, memo) => handleUpdateMemo(index, itemIndex, itemId, memo)}
+            onToggleImportant={(itemIndex) => handleToggleImportant(index, itemIndex)}
             onUpdateListName={(newName) => handleUpdateListName(index, newName)}
             onDeleteList={() => handleDeleteList(index)}
           />

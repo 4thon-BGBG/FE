@@ -6,13 +6,13 @@ import { Delete } from '@/assets'
 import { Memo } from '@/assets'
 import { Error } from '@/assets'
 import { ItemInputWithQuantity } from './ItemInputWithQuantity'
-export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMemo, listId }) => {
+export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMemo, onToggleImportant, listId }) => {
   const [mode, setMode] = useState('detail'); // 'detail', 'edit', 'memo', 'delete'
   const [editedName, setEditedName] = useState(item.name);
   const [editedCount, setEditedCount] = useState(item.count);
   const [editedCategory, setEditedCategory] = useState(item.categoryIndex);
-  const [isImportant, setIsImportant] = useState(item.isImportant || false);
   const [memo, setMemo] = useState(item.memo || '');
+  const [isImportant, setIsImportant] = useState(item.isImportant || false); // 로컬 전용
 
   const handleIncrement = () => {
     setEditedCount(prev => prev + 1);
@@ -30,10 +30,20 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMem
       name: editedName,
       count: editedCount,
       categoryIndex: editedCategory,
-      isImportant,
-      memo
+      memo,
+      isImportant  // 로컬 state 유지 (서버에는 전송 안 됨)
     });
     onClose();
+  };
+
+  // 별표 토글 - 로컬 전용, API 호출 없음
+  const handleToggleImportantClick = () => {
+    const newValue = !isImportant;
+    setIsImportant(newValue);
+    // MainPage의 state를 업데이트 (API 호출 없음)
+    if (onToggleImportant) {
+      onToggleImportant();
+    }
   };
 
   const handleSaveMemo = async () => {
@@ -54,10 +64,6 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMem
     onClose();
   };
 
-  const handleToggleImportant = () => {
-    const newImportantValue = !isImportant;
-    setIsImportant(newImportantValue);
-  };
 
   return (
     <>
@@ -74,7 +80,7 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMem
                 <span className='detailValue'>{item.name}</span>
                 <button 
                   className={`starButtonModal ${isImportant ? 'active' : ''}`}
-                  onClick={handleToggleImportant}
+                  onClick={handleToggleImportantClick}
                 >
                   ⭐
                 </button>

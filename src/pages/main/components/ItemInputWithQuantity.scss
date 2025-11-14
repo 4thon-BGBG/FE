@@ -21,13 +21,13 @@
   color: #aaa;
 }
 
-.quantityControl {
+.inputQuantityControl {
   @include flex(row, center, center, 0.5rem);
   background-color: #FFE8D6;
   border-radius: 4px;
 }
 
-.quantityButton {
+.inputQuantityButton {
   width: 28px;
   height: 28px;
   border: none;
@@ -40,7 +40,7 @@
   transition: all 0.2s;
 }
 
-.quantity {
+.inputQuantity {
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
   border-radius: 4px;

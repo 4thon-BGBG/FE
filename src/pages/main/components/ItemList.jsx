@@ -13,6 +13,7 @@ export const ItemList = ({
   onToggleCheck, 
   onUpdateItem,
   onUpdateMemo,
+  onToggleImportant,
   listName = '장보기 리스트',
   onUpdateListName,
   onDeleteList,
@@ -226,6 +227,7 @@ export const ItemList = ({
           onClose={() => setSelectedItemIndex(null)}
           onUpdate={(updatedItem) => onUpdateItem(selectedItemIndex, updatedItem)}
           onUpdateMemo={(itemId, memo) => onUpdateMemo(selectedItemIndex, itemId, memo)}
+          onToggleImportant={() => onToggleImportant(selectedItemIndex)}
           onDelete={() => {
             onDeleteItem(selectedItemIndex);
             setSelectedItemIndex(null);

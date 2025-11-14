@@ -1,6 +1,34 @@
 @use '@/styles/variables' as *;
 @use '@/styles/function' as *;
 
+// 체크박스 커스텀 스타일
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+input[type="checkbox"]:checked {
+  background-color: $color-primary;
+  border-color: $color-primary;
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $color-secondary;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .itemList{
   border-radius: 10px;
   background-color: white;
@@ -73,9 +101,9 @@
 
 .expandedInput {
   flex: 1;
-  padding: 1rem;
   border: none;
   font-size: 0.95rem;
+  padding: 0.5rem !important;
   box-sizing: border-box;
   background-color: transparent;
   outline: none;
@@ -85,23 +113,22 @@
   color: #aaa;
 }
 
-.quantityControl {
+.quantityControlWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
   background-color: #FFE8D6;
   border-radius: 4px;
 }
 
-.quantityButton {
-  width: 28px;
-  height: 28px;
+.itemListQuantityButton {
+  width: 24px;
+  height: 24px;
   border: none;
   background-color: #FFE8D6;
   color: #F56E00;
-  border-radius: 5px;
-  font-size: 1.2rem;
+  border-radius: 4px;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -110,14 +137,15 @@
 }
 
 
-.quantity {
-  font-size: 17px;
+.itemListQuantity {
+  font-size: 15px;
   font-weight: 500;
   border-radius: 4px;
   background-color: white;
   color: #000000;
-  min-width: 35px;
+  min-width: 30px;
   text-align: center;
+  padding: 0.1rem 0.3rem;
 }
 
 .categoryGrid {
@@ -153,19 +181,31 @@
 
 .actionButtons {
   display: flex;
-  gap: 0.8rem;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  align-items: stretch;
 }
 
 .cancelBtn,
 .addBtn {
-  flex: 1;
-  padding: 0.9rem;
+  width: 80px !important;
+  min-width: 80px;
+  max-width: 80px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 17px !important;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  flex: 0 0 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .cancelBtn {
@@ -334,8 +374,6 @@
   background-color: #FFF5E6;
   color: #F56E00;
   font-weight: 600;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
 }
 
 .itemContent {

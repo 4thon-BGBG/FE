@@ -19,10 +19,10 @@ export const ItemInputWithQuantity = ({
         onChange={(e) => onItemNameChange(e.target.value)}
         className='expandedInput'
       />
-      <div className='quantityControl'>
-        <button className='quantityButton' onClick={onDecrement}>−</button>
-        <span className='quantity'>{itemCount}개</span>
-        <button className='quantityButton' onClick={onIncrement}>+</button>
+      <div className='inputQuantityControl'>
+        <button className='inputQuantityButton' onClick={onDecrement}>−</button>
+        <span className='inputQuantity'>{itemCount}개</span>
+        <button className='inputQuantityButton' onClick={onIncrement}>+</button>
       </div>
 
     </div>
