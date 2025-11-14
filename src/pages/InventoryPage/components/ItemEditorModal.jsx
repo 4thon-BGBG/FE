@@ -41,7 +41,7 @@ export const ItemEditorModal = ({
     }
   };
 
-  const handleDeleteOwnItem = async (ownId) => {
+  const handleDeleteOwnItem = async () => {
     const { ok } = await ownItemDeleteApi(ownId);
     if (ok) {
       setIsDeleteModalOpen(false);
