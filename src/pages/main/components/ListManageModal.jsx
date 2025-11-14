@@ -66,7 +66,7 @@ export const ListManageModal = ({ listName, itemCount, completedCount, onClose, 
               placeholder='리스트 이름'
             />
 
-            <div className='modalButtons'>
+            <div className='modalButtonsWrapper'>
               <button className='cancelBtn' onClick={() => setMode('main')}>
                 ✕
               </button>
@@ -86,7 +86,7 @@ export const ListManageModal = ({ listName, itemCount, completedCount, onClose, 
               <span className='subMessage'>이 리스트의 품목들도 함께 삭제돼요</span>
             </p>
 
-            <div className='modalButtons'>
+            <div className='modalButtonsWrapper'>
               <button className='cancelBtn' onClick={() => setMode('main')}>
                 ✕
               </button>

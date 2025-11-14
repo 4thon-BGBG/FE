@@ -128,21 +128,33 @@
   border-color: #F56E00;
 }
 
-.modalButtons {
+.modalButtonsWrapper {
   display: flex;
-  gap: 0.8rem;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .cancelBtn,
 .confirmBtn {
-  flex: 1;
-  padding: 1rem;
+  width: 100px !important;
+  min-width: 100px;
+  max-width: 100px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
   border: none;
   border-radius: 10px;
-  font-size: 1.5rem;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  flex: 0 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .cancelBtn {
@@ -176,8 +188,9 @@
   font-weight: 500;
   color: #333;
   text-align: center;
-  margin: 0 0 1.5rem 0;
+  margin: 0 auto 1.5rem auto;
   line-height: 1.8;
+  width: 100%;
 }
 
 .highlight {
