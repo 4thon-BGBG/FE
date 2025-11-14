@@ -53,29 +53,31 @@ export const ItemEditorModal = ({
     if (!itemName || !category || category === '전체' || !addDate) {
       setFailToastOpen(true);
     } else {
-      const categoryKey = LABEL_TO_KEY_MAP[category];
-      // 수정인 경우
-      if (ownId) {
-        const { ok } = await ownItemEditApi(ownId, {
-          ownName: itemName,
-          ownCount: count,
-          ownCategory: categoryKey,
-        });
-        if (ok) {
-          setSuccessToastOpen(true);
-          setTimeout(() => closeModal(), TOAST_DELAY + 300);
+      if (!successToastOpen) {
+        const categoryKey = LABEL_TO_KEY_MAP[category];
+        // 수정인 경우
+        if (ownId) {
+          const { ok } = await ownItemEditApi(ownId, {
+            ownName: itemName,
+            ownCount: count,
+            ownCategory: categoryKey,
+          });
+          if (ok) {
+            setSuccessToastOpen(true);
+            setTimeout(() => closeModal(), TOAST_DELAY + 300);
+          }
         }
-      }
-      // 수동 추가인 경우
-      else {
-        const { ok } = await ownItemAddApi({
-          ownName: itemName,
-          ownCount: count,
-          ownCategory: categoryKey,
-        });
-        if (ok) {
-          setSuccessToastOpen(true);
-          setTimeout(() => closeModal(), TOAST_DELAY + 300);
+        // 수동 추가인 경우
+        else {
+          const { ok } = await ownItemAddApi({
+            ownName: itemName,
+            ownCount: count,
+            ownCategory: categoryKey,
+          });
+          if (ok) {
+            setSuccessToastOpen(true);
+            setTimeout(() => closeModal(), TOAST_DELAY + 300);
+          }
         }
       }
     }
