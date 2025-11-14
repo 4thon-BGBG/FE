@@ -5,7 +5,7 @@ import { Toast } from './Toast'
 import { ItemDetailModal } from './ItemDetailModal'
 import { ItemInputWithQuantity } from './ItemInputWithQuantity'
 import { ListManageModal } from './ListManageModal'
-import { Setting } from '@/assets'
+import { ListTitleWithSettings } from './ListTitleWithSettings'
 export const ItemList = ({
   items, 
   onAddItem, 
@@ -97,12 +97,10 @@ export const ItemList = ({
   return (
     <div className='itemList'>
       <div className='listHeader'>
-        <div className='listTitleSection'>
-          <p className='itemName'>{listName}</p>
-          <button className='settingsButton' onClick={() => setShowManageModal(true)}>
-            <img src={Setting} alt='설정' />
-          </button>
-        </div>
+        <ListTitleWithSettings 
+          listName={listName}
+          onSettingsClick={() => setShowManageModal(true)}
+        />
         <div className='sortToggle' data-active={sortType}>
           <button 
             className={`sortOption ${sortType === 'default' ? 'active' : ''}`}
