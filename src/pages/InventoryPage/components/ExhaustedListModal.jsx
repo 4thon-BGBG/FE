@@ -1,20 +1,48 @@
-import { inventoryData } from '@/data/inventoryMock';
 import styles from './ExhaustedListModal.module.scss';
 import { IoClose } from 'react-icons/io5';
 import { blankBubble, checkboxCheck } from '@/assets';
 import { Button } from '@/components/Button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  ownItemDeleteApi,
+  ownItemDepletedApi,
+} from '@/apis/inventory/inventory';
 
 export const ExhaustedListModal = ({ closeModal }) => {
+  const [itemData, setItemData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
 
-  // 체크박스(라디오버튼) 클릭 핸들러(현재는 이름으로 받아오지만 고유 id로 변경해야 함)
-  const handleCheckboxClick = (item) => {
-    if (selectedItems.includes(item)) {
-      const temp = selectedItems.filter((el) => el !== item);
+  // 체크박스(라디오버튼) 클릭 핸들러
+  const handleCheckboxClick = (id) => {
+    if (selectedItems.includes(id)) {
+      const temp = selectedItems.filter((el) => el !== id);
       setSelectedItems(temp);
     } else {
-      setSelectedItems((prev) => [...prev, item]);
+      setSelectedItems((prev) => [...prev, id]);
+    }
+  };
+
+  useEffect(() => {
+    const getItemData = async () => {
+      const { ok, data } = await ownItemDepletedApi();
+      if (ok) {
+        setItemData(data.data);
+      }
+    };
+    getItemData();
+  }, []);
+
+  const deleteItems = async () => {
+    const deletePromises = selectedItems.map((id) => {
+      return ownItemDeleteApi(id);
+    });
+
+    try {
+      await Promise.all(deletePromises);
+      console.log('소진된 품목 삭제 완료');
+      closeModal();
+    } catch (error) {
+      console.error('소진 품목 삭제 중 오류 발생:', error);
     }
   };
 
@@ -27,7 +55,7 @@ export const ExhaustedListModal = ({ closeModal }) => {
           <IoClose className={styles.closeIcon} onClick={closeModal} />
         </div>
         <div className={styles.listContainer}>
-          {inventoryData.length === 0 ? (
+          {itemData.length === 0 ? (
             <div className={styles.blankBox}>
               <img src={blankBubble} />
               <span>
@@ -37,21 +65,21 @@ export const ExhaustedListModal = ({ closeModal }) => {
             </div>
           ) : (
             <div className={styles.itemList}>
-              {inventoryData.map((item, index) => (
-                <div key={index} className={styles.itemRow}>
+              {itemData.map((item) => (
+                <div key={item.ownId} className={styles.itemRow}>
                   <div
                     className={styles.left}
-                    onClick={() => handleCheckboxClick(item)}
+                    onClick={() => handleCheckboxClick(item.ownId)}
                   >
-                    {selectedItems.includes(item) ? (
+                    {selectedItems.includes(item.ownId) ? (
                       <img src={checkboxCheck} />
                     ) : (
                       <div className={styles.checkButton}></div>
                     )}
-                    <span className={styles.itemName}>{item.name}</span>
+                    <span className={styles.itemName}>{item.ownName}</span>
                   </div>
                   <span className={styles.date}>
-                    소진일자 {item.expiryDate}
+                    소진일자 {item.purchaseDate}
                   </span>
                 </div>
               ))}
@@ -60,22 +88,12 @@ export const ExhaustedListModal = ({ closeModal }) => {
         </div>
         {selectedItems.length !== 0 && (
           <div className={styles.buttonContainer}>
-            <div className={styles.buttonContent}>
-              <Button
-                text="리스트에 추가하기"
-                isActive={true}
-                onClick={() => {}}
-                padding="11px 15px"
-              />
-            </div>
-            <div className={styles.buttonContent}>
-              <Button
-                text="삭제하기"
-                isActive={true}
-                onClick={() => {}}
-                padding="11px 15px"
-              />
-            </div>
+            <Button
+              text="소진품목 삭제하기"
+              isActive={true}
+              onClick={deleteItems}
+              padding="11px 15px"
+            />
           </div>
         )}
       </div>

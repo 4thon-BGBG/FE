@@ -1,16 +1,22 @@
 import { useRef, useState } from 'react';
 import styles from './ItemEditorModal.module.scss';
-import { categorys } from '@/data/category';
+import { categorys, LABEL_TO_KEY_MAP } from '@/data/category';
 import { buttonCancel, buttonCheck, penIcon } from '@/assets';
 import { LuPlus } from 'react-icons/lu';
 import { LuMinus } from 'react-icons/lu';
 import { IoIosWarning } from 'react-icons/io';
 import { FaCheckCircle } from 'react-icons/fa';
 import { ItemEditorToast } from './ItemEditorToast';
+import {
+  ownItemAddApi,
+  ownItemDeleteApi,
+  ownItemEditApi,
+} from '@/apis/inventory/inventory';
 
 const TOAST_DELAY = 2000;
 
 export const ItemEditorModal = ({
+  ownId = null,
   title = '보유품목 수동등록',
   placeholder = '추가할 품목 입력',
   initName = '',
@@ -25,6 +31,7 @@ export const ItemEditorModal = ({
   const [addDate, setAddDate] = useState(initAddDate);
   const [failToastOpen, setFailToastOpen] = useState(false);
   const [successToastOpen, setSuccessToastOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const dateInputRef = useRef(null);
 
@@ -34,18 +41,84 @@ export const ItemEditorModal = ({
     }
   };
 
-  const handleSaveClick = () => {
-    if (!itemName || !category || !addDate) {
+  const handleDeleteOwnItem = async () => {
+    const { ok } = await ownItemDeleteApi(ownId);
+    if (ok) {
+      setIsDeleteModalOpen(false);
+      closeModal();
+    }
+  };
+
+  const handleSaveClick = async () => {
+    if (!itemName || !category || category === '전체' || !addDate) {
       setFailToastOpen(true);
     } else {
-      setSuccessToastOpen(true);
-      setTimeout(() => closeModal(), TOAST_DELAY + 300);
+      if (!successToastOpen) {
+        const categoryKey = LABEL_TO_KEY_MAP[category];
+        // 수정인 경우
+        if (ownId) {
+          const { ok } = await ownItemEditApi(ownId, {
+            ownName: itemName,
+            ownCount: count,
+            ownCategory: categoryKey,
+          });
+          if (ok) {
+            setSuccessToastOpen(true);
+            setTimeout(() => closeModal(), TOAST_DELAY + 300);
+          }
+        }
+        // 수동 추가인 경우
+        else {
+          const { ok } = await ownItemAddApi({
+            ownName: itemName,
+            ownCount: count,
+            ownCategory: categoryKey,
+          });
+          if (ok) {
+            setSuccessToastOpen(true);
+            setTimeout(() => closeModal(), TOAST_DELAY + 300);
+          }
+        }
+      }
     }
   };
 
   return (
     <div className={styles.backdrop}>
-      <div className={styles.container}>
+      {/* 품목 삭제 모달 */}
+      {isDeleteModalOpen && (
+        <div className={styles.deleteModalContainer}>
+          <IoIosWarning
+            style={{ width: '35px', height: '35px', color: '#F56E00' }}
+          />
+          <div className={styles.deleteModalText}>
+            <h1 className={styles.deleteModalHeader}>{itemName}</h1>
+            <span className={styles.deleteModalCaption}>
+              이 품목을 보유 품목에서 <span>삭제</span>하시겠어요?
+            </span>
+          </div>
+          <div className={styles.deleteModalButtonContent}>
+            <div
+              className={styles.buttonCancel}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDeleteModalOpen(false);
+              }}
+            >
+              <img src={buttonCancel} />
+            </div>
+            <div className={styles.buttonCheck} onClick={handleDeleteOwnItem}>
+              <img src={buttonCheck} />
+            </div>
+          </div>
+        </div>
+      )}
+      <div
+        className={`${styles.container} ${
+          isDeleteModalOpen && styles.modalOpen
+        }`}
+      >
+        {/* 추가 실패 토스트 */}
         {failToastOpen && (
           <ItemEditorToast
             Img={
@@ -58,6 +131,7 @@ export const ItemEditorModal = ({
             delay={TOAST_DELAY}
           />
         )}
+        {/* 품목 수정/완료 토스트 */}
         {successToastOpen && (
           <ItemEditorToast
             Img={
@@ -106,17 +180,19 @@ export const ItemEditorModal = ({
           </div>
         </div>
         <div className={styles.categoryContainer}>
-          {categorys.map((c, index) => (
-            <div
-              key={index}
-              className={`${styles.category} ${
-                c === category && styles.active
-              }`}
-              onClick={() => setCategory(c)}
-            >
-              {c}
-            </div>
-          ))}
+          {categorys
+            .filter((c) => c !== '전체')
+            .map((c, index) => (
+              <div
+                key={index}
+                className={`${styles.category} ${
+                  c === category && styles.active
+                }`}
+                onClick={() => setCategory(c)}
+              >
+                {c}
+              </div>
+            ))}
         </div>
         <div className={styles.addDateContainer}>
           <span className={styles.dateTitle}>구매일자(등록일자)</span>
@@ -134,17 +210,29 @@ export const ItemEditorModal = ({
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <div
-            className={styles.buttonCancel}
-            onClick={(e) => {
-              e.stopPropagation();
-              closeModal();
-            }}
-          >
-            <img src={buttonCancel} />
-          </div>
-          <div className={styles.buttonCheck} onClick={handleSaveClick}>
-            <img src={buttonCheck} />
+          {ownId && (
+            <div
+              className={styles.buttonDelete}
+              onClick={() => {
+                setIsDeleteModalOpen(true);
+              }}
+            >
+              품목 삭제
+            </div>
+          )}
+          <div className={styles.buttonContent}>
+            <div
+              className={styles.buttonCancel}
+              onClick={(e) => {
+                e.stopPropagation();
+                closeModal();
+              }}
+            >
+              <img src={buttonCancel} />
+            </div>
+            <div className={styles.buttonCheck} onClick={handleSaveClick}>
+              <img src={buttonCheck} />
+            </div>
           </div>
         </div>
       </div>
