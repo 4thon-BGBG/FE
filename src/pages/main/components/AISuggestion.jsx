@@ -3,6 +3,7 @@ import './AISuggestion.scss'
 import { Icon, Character, Glasses } from '@/assets'
 import { CustomSelect } from './CustomSelect'
 import { Toast } from './Toast'
+import { getAIMenuRecommendation } from '@/apis/main/ai'
 
 export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
   const [step, setStep] = useState('initial'); // 'initial', 'loading', 'results', 'selectList'
@@ -14,20 +15,34 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
   // 추천 메뉴 태그들
   const recommendedTags = ['닭가슴살 샐러드', '카나페', '불닭볶이밥'];
 
-  // 더미 레시피 결과
-  const dummyRecipes = ['밥', '김치', '김', '햇반', '김'];
-
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!searchQuery.trim()) return;
     
     // 로딩 상태로 변경
     setStep('loading');
     
-    // 2초 후 결과 표시 (실제로는 API 호출)
-    setTimeout(() => {
-      setRecipes(dummyRecipes);
-      setStep('results');
-    }, 2000);
+    try {
+      const result = await getAIMenuRecommendation(searchQuery);
+      
+      if (result.ok && result.data) {
+        // API 응답을 recipes 형식으로 변환
+        setRecipes(result.data);
+        setStep('results');
+      } else {
+        setToast({
+          message: 'AI 추천을 불러오는데 실패했습니다.',
+          type: 'error'
+        });
+        setStep('initial');
+      }
+    } catch (error) {
+      console.error('AI 추천 실패:', error);
+      setToast({
+        message: 'AI 추천을 불러오는데 실패했습니다.',
+        type: 'error'
+      });
+      setStep('initial');
+    }
   };
 
   const handleConfirmAddToList = () => {
@@ -106,7 +121,7 @@ export const AISuggestion = ({ listNames = [], onAddRecipes }) => {
             {recipes.map((recipe, index) => (
               <div key={index} className='recipeItem'>
                 <span className='recipeNumber'>{index + 1}</span>
-                <span className='recipeName'>{recipe}</span>
+                <span className='recipeName'>{recipe.name}</span>
               </div>
             ))}
           </div>

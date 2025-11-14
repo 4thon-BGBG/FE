@@ -68,8 +68,6 @@ export const MainPage = () => {
   const [listNames, setListNames] = useState([]);
   const [listIds, setListIds] = useState([]);
   
-  // 로딩 상태
-  const [isLoading, setIsLoading] = useState(true);
 
   // API 아이템을 화면용 포맷으로 변환  
   const convertApiItemToDisplayItem = (apiItem) => {
@@ -115,9 +113,7 @@ export const MainPage = () => {
         setListIds([]);
       }
       
-      if (isMounted) {
-        setIsLoading(false);
-      }
+      
     };
     
     loadData();
@@ -307,27 +303,50 @@ export const MainPage = () => {
   };
 
   // AI 추천으로부터 재료 추가하는 함수
-  const handleAddAIRecipes = (listIndex, recipes) => {
-    const updatedLists = [...allLists];
-    // 각 레시피를 아이템으로 변환하여 추가
-    const newItems = recipes.map(recipe => ({
-      name: recipe,
-      count: 1,
-      categoryIndex: 9, // 기타 카테고리
-      isChecked: false
-    }));
-    updatedLists[listIndex] = [...updatedLists[listIndex], ...newItems];
-    setAllLists(updatedLists);
+  const handleAddAIRecipes = async (listIndex, recipes) => {
+    const shoppingListId = listIds[listIndex];
+    const newItems = [];
+    
+    // 각 레시피를 API를 통해 추가
+    for (const recipe of recipes) {
+      const requestBody = {
+        itemName: recipe.name,
+        itemCount: 1,
+        itemCategory: recipe.category,
+        memo: '',
+        shoppingListId
+      };
+      
+      const result = await addItemApi(requestBody);
+      
+      if (result.ok && result.data && result.data.data) {
+        // API 응답에서 생성된 아이템 ID 추출
+        const createdItem = result.data.data;
+        
+        // 화면에 추가할 아이템 생성
+        const newItemWithId = {
+          id: createdItem.itemId,
+          name: recipe.name,
+          count: 1,
+          categoryIndex: CATEGORY_MAP[recipe.category] ?? 9,
+          isChecked: false,
+          memo: '',
+          isImportant: false
+        };
+        
+        newItems.push(newItemWithId);
+      }
+    }
+    
+    // 모든 아이템을 한 번에 추가
+    if (newItems.length > 0) {
+      const updatedLists = [...allLists];
+      updatedLists[listIndex] = [...updatedLists[listIndex], ...newItems];
+      setAllLists(updatedLists);
+    }
   };
   
-  // 로딩 중이면 로딩 표시
-  if (isLoading) {
-    return (
-      <div className='mainPage'>
-        <logoWihte/>
-      </div>
-    );
-  }
+
 
   return (
     <div className='mainPage'>
