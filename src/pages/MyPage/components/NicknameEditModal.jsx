@@ -7,7 +7,7 @@ export const NicknameEditModal = ({ nickname, closeModal }) => {
   const [modifyNickname, setModifyNickname] = useState(nickname);
 
   const handleSaveClick = async () => {
-    const { ok } = nicknameEditApi(modifyNickname);
+    const { ok } = await nicknameEditApi(modifyNickname);
     if (ok) {
       closeModal();
     }
