@@ -19,10 +19,11 @@ export const LoginPage = () => {
   const onSubmit = async (loginData) => {
     try {
       const { ok, data } = await loginApi(loginData);
-      if (ok) {
-        console.log('로그인 데이터:', loginData);
-        console.log('로그인 데이터:', data);
+      if (ok && data.status === 200) {
+        localStorage.setItem('accessToken', data.data.token);
         nav('/main');
+      } else {
+        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
       }
     } catch (error) {
       console.log(error);

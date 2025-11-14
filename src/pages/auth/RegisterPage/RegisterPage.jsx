@@ -33,13 +33,12 @@ export const RegisterPage = () => {
   // 회원가입 제출
   const onSubmit = async (registerData) => {
     try {
-      console.log('회원가입 데이터:', registerData);
       const { ok, data } = await registerApi(registerData);
-      if (ok) {
-        console.log('회원가입 데이터:', registerData);
-        console.log(data);
-
+      if (ok && data.status === 201) {
+        alert('회원가입이 완료되었습니다!');
         nav('/login');
+      } else {
+        alert(data.message);
       }
     } catch (error) {
       console.log(error);
