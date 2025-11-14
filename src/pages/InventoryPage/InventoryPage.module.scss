@@ -109,9 +109,10 @@
       }
 
       .blankBox {
-        @include flex(column, $gap: 15px);
+        @include flex(column, $justify-content: flex-start, $gap: 15px);
         width: 100%;
         height: 100%;
+        padding-top: vh(189px);
         img {
         }
         span {
@@ -125,7 +126,7 @@
         @include flex(column, $justify-content: flex-start);
         width: 100%;
         overflow-y: auto;
-        padding-bottom: 188px;
+        padding-bottom: 260px;
         -ms-overflow-style: none;
         &::-webkit-scrollbar {
           display: none;
