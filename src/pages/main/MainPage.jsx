@@ -4,7 +4,7 @@ import { AddListButton } from './components/AddListButton'
 import { AddItems } from './components/AddItems'
 import { AISuggestion } from './components/AISuggestion'
 import { getAllListsWithItems, addListApi, deleteListApi, updateListNameApi } from '@/apis/main/main'
-import { addItemApi } from '@/apis/main/item'
+import { addItemApi, updateItemApi } from '@/apis/main/item'
 import { logoWihte } from '@/assets'
 import './MainPage.scss';
 
@@ -74,6 +74,7 @@ export const MainPage = () => {
   // API 아이템을 화면용 포맷으로 변환  
   const convertApiItemToDisplayItem = (apiItem) => {
     return {
+      id: apiItem.id,
       name: apiItem.itemName || '',
       count: apiItem.itemCount || 1,
       categoryIndex: CATEGORY_MAP[apiItem.category] ?? 9, // 기타로 기본값
@@ -141,10 +142,24 @@ export const MainPage = () => {
 
     const result = await addItemApi(requestBody);
     
-    if (result.ok) {
+    if (result.ok && result.data && result.data.data) {
+      // API 응답에서 생성된 아이템 데이터 추출
+      const createdItem = result.data.data;
+      
+      // API는 itemId만 반환하므로, 나머지는 입력한 데이터 사용
+      const newItemWithId = {
+        id: createdItem.itemId,
+        name: newItem.name,
+        count: newItem.count,
+        categoryIndex: newItem.categoryIndex,
+        isChecked: false,
+        memo: newItem.memo || '',
+        isImportant: false
+      };
+      
       // API 호출 성공 시 로컬 state 업데이트
       const updatedLists = [...allLists];
-      updatedLists[listIndex] = [...updatedLists[listIndex], newItem];
+      updatedLists[listIndex] = [...updatedLists[listIndex], newItemWithId];
       setAllLists(updatedLists);
     } else {
       console.error('품목 추가 실패');
@@ -169,10 +184,26 @@ export const MainPage = () => {
   };
 
   // 특정 리스트의 아이템 업데이트 함수
-  const handleUpdateItem = (listIndex, itemIndex, updatedItem) => {
-    const updatedLists = [...allLists];
-    updatedLists[listIndex][itemIndex] = updatedItem;
-    setAllLists(updatedLists);
+  const handleUpdateItem = async (listIndex, itemIndex, updatedItem) => {
+    // API request body 형식으로 변환
+    const requestBody = {
+      shoppingListId: listIds[listIndex],
+      itemId: updatedItem.id,
+      itemName: updatedItem.name,
+      itemCount: updatedItem.count,
+      category: INDEX_TO_CATEGORY[updatedItem.categoryIndex] || 'ETC'
+    };
+
+    const result = await updateItemApi(updatedItem.id, requestBody);
+    
+    if (result.ok) {
+      // API 호출 성공 시 로컬 state 업데이트
+      const updatedLists = [...allLists];
+      updatedLists[listIndex][itemIndex] = updatedItem;
+      setAllLists(updatedLists);
+    } else {
+      console.error('품목 수정 실패');
+    }
   };
 
   // 새 리스트 추가 함수
