@@ -6,7 +6,7 @@ import { Delete } from '@/assets'
 import { Memo } from '@/assets'
 import { Error } from '@/assets'
 import { ItemInputWithQuantity } from './ItemInputWithQuantity'
-export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
+export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete, onUpdateMemo, listId }) => {
   const [mode, setMode] = useState('detail'); // 'detail', 'edit', 'memo', 'delete'
   const [editedName, setEditedName] = useState(item.name);
   const [editedCount, setEditedCount] = useState(item.count);
@@ -33,6 +33,19 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
       isImportant,
       memo
     });
+    onClose();
+  };
+
+  const handleSaveMemo = async () => {
+    if (onUpdateMemo) {
+      await onUpdateMemo(item.id, memo);
+    } else {
+      // fallback: 전체 업데이트
+      onUpdate({
+        ...item,
+        memo
+      });
+    }
     onClose();
   };
 
@@ -163,7 +176,7 @@ export const ItemDetailModal = ({ item, onClose, onUpdate, onDelete }) => {
               <button className='cancelBtn' onClick={() => setMode('detail')}>
                 취소
               </button>
-              <button className='confirmBtn' onClick={handleSaveEdit}>
+              <button className='confirmBtn' onClick={handleSaveMemo}>
                 확인
               </button>
             </div>

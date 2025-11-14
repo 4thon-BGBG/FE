@@ -4,7 +4,7 @@ import { AddListButton } from './components/AddListButton'
 import { AddItems } from './components/AddItems'
 import { AISuggestion } from './components/AISuggestion'
 import { getAllListsWithItems, addListApi, deleteListApi, updateListNameApi } from '@/apis/main/main'
-import { addItemApi, updateItemApi } from '@/apis/main/item'
+import { addItemApi, updateItemApi, deleteItemApi, updateMemoApi } from '@/apis/main/item'
 import { logoWihte } from '@/assets'
 import './MainPage.scss';
 
@@ -74,7 +74,7 @@ export const MainPage = () => {
   // API 아이템을 화면용 포맷으로 변환  
   const convertApiItemToDisplayItem = (apiItem) => {
     return {
-      id: apiItem.id,
+      id: apiItem.id || apiItem.itemId,  // id 또는 itemId 사용
       name: apiItem.itemName || '',
       count: apiItem.itemCount || 1,
       categoryIndex: CATEGORY_MAP[apiItem.category] ?? 9, // 기타로 기본값
@@ -101,7 +101,7 @@ export const MainPage = () => {
           return items.map(item => convertApiItemToDisplayItem(item));
         });
         const names = result.data.map(list => list.listName);
-        const ids = result.data.map(list => list.id);
+        const ids = result.data.map(list => list.listId);
         
         setAllLists(lists);
         setListNames(names);
@@ -167,10 +167,22 @@ export const MainPage = () => {
   };
 
   // 특정 리스트의 아이템 삭제하는 함수
-  const handleDeleteItem = (listIndex, itemIndex) => {
-    const updatedLists = [...allLists];
-    updatedLists[listIndex] = updatedLists[listIndex].filter((_, index) => index !== itemIndex);
-    setAllLists(updatedLists);
+  const handleDeleteItem = async (listIndex, itemIndex) => {
+    const item = allLists[listIndex][itemIndex];
+    const itemId = item.id;
+    
+    const result = await deleteItemApi(itemId);
+  
+    
+    
+    if (result.ok) {
+      // API 호출 성공 시 로컬 state 업데이트
+      const updatedLists = [...allLists];
+      updatedLists[listIndex] = updatedLists[listIndex].filter((_, index) => index !== itemIndex);
+      setAllLists(updatedLists);
+    } else {
+      console.error('품목 삭제 실패');
+    }
   };
 
   // 특정 리스트의 아이템 체크 상태 토글 함수
@@ -203,6 +215,24 @@ export const MainPage = () => {
       setAllLists(updatedLists);
     } else {
       console.error('품목 수정 실패');
+    }
+  };
+
+  // 메모 업데이트 함수
+  const handleUpdateMemo = async (listIndex, itemIndex, itemId, memo) => {
+    const shoppingListId = listIds[listIndex];
+    const result = await updateMemoApi(shoppingListId, itemId, memo);
+    
+    if (result.ok) {
+      // API 호출 성공 시 로컬 state 업데이트
+      const updatedLists = [...allLists];
+      updatedLists[listIndex][itemIndex] = {
+        ...updatedLists[listIndex][itemIndex],
+        memo
+      };
+      setAllLists(updatedLists);
+    } else {
+      console.error('메모 작성 실패');
     }
   };
 
@@ -312,6 +342,7 @@ export const MainPage = () => {
             onDeleteItem={(itemIndex) => handleDeleteItem(index, itemIndex)}
             onToggleCheck={(itemIndex) => handleToggleCheck(index, itemIndex)}
             onUpdateItem={(itemIndex, updatedItem) => handleUpdateItem(index, itemIndex, updatedItem)}
+            onUpdateMemo={(itemIndex, itemId, memo) => handleUpdateMemo(index, itemIndex, itemId, memo)}
             onUpdateListName={(newName) => handleUpdateListName(index, newName)}
             onDeleteList={() => handleDeleteList(index)}
           />

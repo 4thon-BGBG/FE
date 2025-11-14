@@ -12,6 +12,7 @@ export const ItemList = ({
   onDeleteItem, 
   onToggleCheck, 
   onUpdateItem,
+  onUpdateMemo,
   listName = '장보기 리스트',
   onUpdateListName,
   onDeleteList,
@@ -221,8 +222,10 @@ export const ItemList = ({
       {selectedItemIndex !== null && (
         <ItemDetailModal
           item={items[selectedItemIndex]}
+          listId={listId}
           onClose={() => setSelectedItemIndex(null)}
           onUpdate={(updatedItem) => onUpdateItem(selectedItemIndex, updatedItem)}
+          onUpdateMemo={(itemId, memo) => onUpdateMemo(selectedItemIndex, itemId, memo)}
           onDelete={() => {
             onDeleteItem(selectedItemIndex);
             setSelectedItemIndex(null);
